@@ -3,9 +3,7 @@
     color: #5c5c5c;
 }
 
-.checkout-confirm{
-    background-color: #f5f5f5;
-}
+
 
 .checkout-confirm-tile{
     margin: 20px;
@@ -25,9 +23,4 @@
     font-size: 125%;
     display: block;
     text-align: right;
-}
-
-.btn-default{
-    background-color: #ccc;
-    border-color: #5c5c5c   
 }

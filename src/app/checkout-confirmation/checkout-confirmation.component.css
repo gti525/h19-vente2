@@ -1,0 +1,16 @@
+.confirmation-container{
+    margin-top: 5em;
+    margin-bottom: 5em;
+    margin-left: 5em;
+    font-size: 120%;
+}
+
+.confirmation-message{
+    color: #0069d9;
+    font-size: 150%;
+}
+
+.confirmation-number{
+    font-weight: bold;
+}
+    
