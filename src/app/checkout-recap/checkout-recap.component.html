@@ -1,3 +1,21 @@
-<p>
-  checkout-recap works!
-</p>
+<h1>Checkout recapitulation</h1>
+<table class="table">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Spectacle Name</th>
+        <th scope="col">Quantity</th>
+        <th scope="col">Unit Price</th>
+        <th scope="col">Total Price</th>
+      </tr>
+    </thead>
+    <tbody> 
+      <tr *ngFor="let spectacle of spectacles; let i = index">
+        <th scope="row">{{i + 1}}</th>
+        <td>{{spectacle.name}}</td>
+        <td>3</td>
+        <td>{{spectacle.price}}</td> 
+        <td>{{spectacle.price}}</td>
+      </tr>
+    </tbody>
+  </table>
