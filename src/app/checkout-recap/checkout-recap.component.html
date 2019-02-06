@@ -1,9 +1,10 @@
 <div class="checkout-confirm">
 
 
-  <h1>Checkout recapitulation</h1>
+<h1>Checkout recapitulative</h1>
 
 <div class="checkout-confirm-tile">
+  <h2>Review Cart</h2>
   <table class="table">
       <thead>
         <tr>
@@ -24,6 +25,9 @@
         </tr>
       </tbody>
     </table>
+
+    <span class="checkout-total">Total: {{ getTotal() }}</span>
+
   </div>
 
   <div class="checkout-confirm-tile">
@@ -33,8 +37,25 @@
       <span class="checkout-client-line">{{client.city}}, {{client.province}}  {{client.postalCode}}</span>
   </div>
 
+  <div class="checkout-confirm-tile">
+    <h2>Credit Card</h2>
+      <span class="checkout-client-line">{{creditCard.name}}</span>
+      <span class="checkout-client-line">{{creditCard.number}}</span>
+      <span class="checkout-client-line">{{creditCard.cvv}}</span>
+  </div>
 
 
-
-
+  <div class="row justify-content-md-center">
+    <div class="col col-lg-2">
+        <button type="button" class="btn btn-default">
+            Cancel  
+        </button>
+    </div>
+    <div class="col col-lg-2">
+        <button type="button" class="btn btn-primary">
+            Confirm  
+        </button>
+    </div>
+  </div>
+  
 </div>
