@@ -1,21 +1,40 @@
-<h1>Checkout recapitulation</h1>
-<table class="table">
-    <thead>
-      <tr>
-        <th scope="col">#</th>
-        <th scope="col">Spectacle Name</th>
-        <th scope="col">Quantity</th>
-        <th scope="col">Unit Price</th>
-        <th scope="col">Total Price</th>
-      </tr>
-    </thead>
-    <tbody> 
-      <tr *ngFor="let spectacle of spectacles; let i = index">
-        <th scope="row">{{i + 1}}</th>
-        <td>{{spectacle.name}}</td>
-        <td>3</td>
-        <td>{{spectacle.price}}</td> 
-        <td>{{spectacle.price}}</td>
-      </tr>
-    </tbody>
-  </table>
+<div class="checkout-confirm">
+
+
+  <h1>Checkout recapitulation</h1>
+
+<div class="checkout-confirm-tile">
+  <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Spectacle Name</th>
+          <th scope="col">Quantity</th>
+          <th scope="col">Unit Price</th>
+          <th scope="col">Total Price</th>
+        </tr>
+      </thead>
+      <tbody> 
+        <tr *ngFor="let spectacle of spectacles; let i = index">
+          <th scope="row">{{i + 1}}</th>
+          <td>{{spectacle.name}}</td>
+          <td>3</td>
+          <td>{{spectacle.price}}</td> 
+          <td>{{spectacle.price}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="checkout-confirm-tile">
+    <h2>Client</h2>
+      <span class="checkout-client-line">{{client.firstName}} {{client.name}}</span>
+      <span class="checkout-client-line">{{client.civicAddress}}</span>
+      <span class="checkout-client-line">{{client.city}}, {{client.province}}  {{client.postalCode}}</span>
+  </div>
+
+
+
+
+
+</div>
