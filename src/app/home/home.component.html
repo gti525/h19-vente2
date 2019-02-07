@@ -1,3 +1,14 @@
-<p>
-  home works!
-</p>
+<section class="container">
+	<div *ngIf="shows" class="row mt-4">
+		<div *ngFor="let show of shows" class="col-md-4">
+			<div class="card mb-4 show-box" (click)="onShowClick(show)">
+				<img class="card-img-top" src="{{show.image}}">
+				<div class="card-body">
+					<h5 class="card-title">{{show.title}}</h5>
+					<p class="card-text show-description">{{show.description}}</p>
+					<div class="text-right"><small class="text-muted">{{show.artist}} - {{show.date | date}}</small></div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>

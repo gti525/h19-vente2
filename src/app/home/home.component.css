@@ -1,0 +1,10 @@
+/* https://stackoverflow.com/questions/3922739/limit-text-length-to-n-lines-using-css */
+.show-description {
+	height: 50px;
+	overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.show-box {
+	cursor: pointer;
+}
