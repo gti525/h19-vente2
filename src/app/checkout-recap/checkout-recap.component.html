@@ -1,0 +1,56 @@
+
+
+<h1 class="page-title">Checkout recapitulative</h1>
+
+<div class="module-container">
+  <h2>Review Cart</h2>
+  <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Spectacle Name</th>
+          <th scope="col">Artist</th>
+          <th scope="col">Quantity</th>
+          <th scope="col">Unit Price</th>
+          <th scope="col">Total Price</th>
+        </tr>
+      </thead>
+      <tbody> 
+        <tr *ngFor="let spectacle of spectacles; let i = index">
+          <th scope="row">{{i + 1}}</th>
+          <td>{{spectacle.name}}</td>
+          <td>{{spectacle.artist}}</td>
+          <td>3</td>
+          <td>{{spectacle.price}}</td> 
+          <td>{{spectacle.price}}</td>
+        </tr>
+      </tbody>
+    </table>
+    <span class="checkout-total">Total: {{ getTotal() }}</span>
+</div>
+
+<div class="module-container">
+  <h2>Client</h2>
+    <span class="checkout-client-line">{{client.firstName}} {{client.name}}</span>
+    <span class="checkout-client-line">{{client.civicAddress}}</span>
+    <span class="checkout-client-line">{{client.city}}, {{client.province}}  {{client.postalCode}}</span>
+</div>
+
+<div class="module-container">
+  <h2>Credit Card</h2>
+    <span class="checkout-client-line">{{creditCard.name}}</span>
+    <span class="checkout-client-line">{{creditCard.number}}</span>
+    <span class="checkout-client-line">{{creditCard.cvv}}</span>
+</div>
+
+<div class="row justify-content-md-center">
+  <div class="col col-lg-2">
+    <button type="button" class="btn btn-default">Cancel</button>
+  </div>
+  <div class="col col-lg-2">
+    <a routerLink="/checkout-confirmation">
+      <button type="button" class="btn btn-primary">Confirm</button>
+    </a>
+  </div>
+</div>
+
