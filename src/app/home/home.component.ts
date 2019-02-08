@@ -21,7 +21,7 @@ export class HomeComponent implements OnInit {
   }
 
   onShowClick(show: Show) {
-  	console.log("test");
+  	console.log(show.id);
   }
 
 }
