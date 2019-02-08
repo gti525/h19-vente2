@@ -8,6 +8,7 @@ import { HomeComponent } from './home/home.component';
 import { ShowCardComponent } from './show-card/show-card.component';
 import { CheckoutRecapComponent } from './checkout-recap/checkout-recap.component';
 import { CheckoutConfirmationComponent } from './checkout-confirmation/checkout-confirmation.component';
+import { CartComponent } from './cart/cart.component';
 
 @NgModule({
   declarations: [
@@ -16,7 +17,8 @@ import { CheckoutConfirmationComponent } from './checkout-confirmation/checkout-
     HomeComponent,
     ShowCardComponent,
     CheckoutRecapComponent,
-    CheckoutConfirmationComponent
+    CheckoutConfirmationComponent,
+    CartComponent
   ],
   imports: [
     BrowserModule,
