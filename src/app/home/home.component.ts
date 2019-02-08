@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Show } from '../types/show';
 import { ShowsService } from '../shows.service';
+import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -10,10 +11,13 @@ import { ShowsService } from '../shows.service';
 export class HomeComponent implements OnInit {
 	shows: Show[];
 
-  constructor(private showsService: ShowsService) { }
+  constructor(
+    private showsService: ShowsService,
+    private router : Router
+  ) { }
 
   ngOnInit() {
-  	this.getShows();
+    this.getShows();
   }
 
   getShows() {
@@ -21,7 +25,8 @@ export class HomeComponent implements OnInit {
   }
 
   onShowClick(show: Show) {
-  	console.log("test");
+    //console.log(show.id);
+    this.router.navigate(['/show',show.id]);
   }
 
 }

@@ -11,6 +11,9 @@ import { CheckoutConfirmationComponent } from './checkout-confirmation/checkout-
 import { CartComponent } from './cart/cart.component';
 import { CheckoutClientInformationComponent } from './checkout-client-information/checkout-client-information.component';
 
+import { ShowDetailComponent } from './show-detail/show-detail.component';
+
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -20,7 +23,8 @@ import { CheckoutClientInformationComponent } from './checkout-client-informatio
     CheckoutRecapComponent,
     CheckoutConfirmationComponent,
     CartComponent,
-    CheckoutClientInformationComponent
+    CheckoutClientInformationComponent,
+    ShowDetailComponent
   ],
   imports: [
     BrowserModule,
