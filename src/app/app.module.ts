@@ -9,6 +9,7 @@ import { ShowCardComponent } from './show-card/show-card.component';
 import { CheckoutRecapComponent } from './checkout-recap/checkout-recap.component';
 import { CheckoutConfirmationComponent } from './checkout-confirmation/checkout-confirmation.component';
 import { CartComponent } from './cart/cart.component';
+import { ShowDetailComponent } from './show-detail/show-detail.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { CartComponent } from './cart/cart.component';
     ShowCardComponent,
     CheckoutRecapComponent,
     CheckoutConfirmationComponent,
-    CartComponent
+    CartComponent,
+    ShowDetailComponent
   ],
   imports: [
     BrowserModule,
