@@ -7,9 +7,26 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CheckoutClientInformationComponent implements OnInit {
 
-  constructor() { }
+  nom_de_famille = 'Saisir nom de famille';
+  prenom = 'Saisir prénom';
+  adresses_civique = 'Saisir adresse civique';
+  ville = 'Saisir ville de résidence';
+  province = 'Saisir province de résidence';
+  code_postal = 'Saisir code postal';
+  lastUpdate = new Date();
+  constructor() {
+    
+   }
+
+   onSoumettre() {
+     console.log('On soumet le formulaire');
+   }
 
   ngOnInit() {
+  }
+
+  getStatus() {
+    return this.nom_de_famille;
   }
 
 }

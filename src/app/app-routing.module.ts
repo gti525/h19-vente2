@@ -5,6 +5,7 @@ import { CheckoutRecapComponent } from './checkout-recap/checkout-recap.componen
 import { CheckoutConfirmationComponent } from './checkout-confirmation/checkout-confirmation.component';
 import { CartComponent } from './cart/cart.component';
 import { ShowDetailComponent } from './show-detail/show-detail.component';
+import { CheckoutClientInformationComponent } from './checkout-client-information/checkout-client-information.component';
 
 const routes: Routes = [
 	{ path: "", redirectTo: "home", pathMatch: "full" },
@@ -12,6 +13,7 @@ const routes: Routes = [
   { path: 'checkout-recap', component: CheckoutRecapComponent },
   { path: 'checkout-confirmation', component: CheckoutConfirmationComponent },
   { path: "cart", component: CartComponent },
+  {path: 'checkout-client-information', component: CheckoutClientInformationComponent},
   { path: "show/:id", component: ShowDetailComponent }
 ];
 

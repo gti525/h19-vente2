@@ -1,3 +1,42 @@
-<p>
-  checkout-client-information works!
-</p>
+<p> Mis à jour: {{ lastUpdate | date}} </p>
+
+<li class="list-group-item">
+
+  <h4> Nom : <input type="text" class="form-control" [(ngModel)]='nom_de_famille'> </h4>  
+  
+
+  <h4> Prénom : {{ prenom }}</h4>
+  <input type="text" class="form-control" [(ngModel)]='prenom'>
+
+  <h4> Adresse : {{ adresses_civique }}</h4>
+  <input type="text" class="form-control" [(ngModel)]='adresses_civique'>
+
+  <h4> Ville : {{ ville }}</h4>
+  <input type="text" class="form-control" [(ngModel)]='ville'>
+
+  <h4> Province : {{ province }}</h4>
+  <input type="text" class="form-control" [(ngModel)]='province'>
+
+  <h4> Code postal : {{ code_postal }}</h4>
+  <input type="text" class="form-control" [(ngModel)]='code_postal'> 
+  
+</li>
+
+<br/><br/><br/><br/>
+
+<div class="container">
+  <div class="row">
+    <div class="col-xs-12">
+      <h2> Vos informations </h2>
+      <ul class="list-group">
+        <app-checkout-client-information></app-checkout-client-information>
+      </ul>
+      &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      <button class="btn btn-success" 
+        [disabled]="!isAuth" 
+        (click)="onSoumettre"> Soumettre </button>
+    </div>
+  </div> 
+</div>
