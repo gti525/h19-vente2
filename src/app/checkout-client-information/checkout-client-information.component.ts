@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Client } from '../classes/client';
 
 @Component({
   selector: 'app-checkout-client-information',
@@ -6,13 +7,17 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./checkout-client-information.component.css']
 })
 export class CheckoutClientInformationComponent implements OnInit {
-
-  nom_de_famille = 'Saisir nom de famille';
-  prenom = 'Saisir prénom';
-  adresses_civique = 'Saisir adresse civique';
-  ville = 'Saisir ville de résidence';
-  province = 'Saisir province de résidence';
-  code_postal = 'Saisir code postal';
+  
+  client : Client = {
+    id: 12,
+    name: 'Leboeuf',
+    firstName: 'Marcel',
+    civicAddress: '22 Chemin Macdonald',
+    city: 'Montréal',
+    province: 'QC',
+    postalCode: 'H3C 6A3'  
+};
+  
   lastUpdate = new Date();
   constructor() {
     
@@ -26,7 +31,7 @@ export class CheckoutClientInformationComponent implements OnInit {
   }
 
   getStatus() {
-    return this.nom_de_famille;
+    return this.client.name;
   }
 
 }

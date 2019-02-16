@@ -2,11 +2,11 @@
 
 <li class="list-group-item">
 
-  <h4> Nom : <input type="text" class="form-control" [(ngModel)]='nom_de_famille'> </h4>  
+  <h4> Nom : {{ client.name }} <input type="text" class="form-control" [(ngModel)]='nom_de_famille'> </h4>  
   
 
-  <h4> Prénom : {{ prenom }}</h4>
-  <input type="text" class="form-control" [(ngModel)]='prenom'>
+  <h4> Prénom : {{ client.firstName }}</h4>
+  <input type="text" class="form-control" placeholder="Saisir prénom" [(ngModel)]='prenom'>
 
   <h4> Adresse : {{ adresses_civique }}</h4>
   <input type="text" class="form-control" [(ngModel)]='adresses_civique'>
