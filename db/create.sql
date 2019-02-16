@@ -1,5 +1,9 @@
 -- Utilisation du pluriel à cause de plusieurs keyword réservés
 
+-- Pour facilement delete toutes les tables:
+-- DROP SCHEMA public CASCADE;
+-- CREATE SCHEMA public;
+
 CREATE TABLE Venues (
 	id BIGSERIAL PRIMARY KEY,
 	name TEXT NOT NULL,
@@ -31,7 +35,8 @@ CHECK (
 CREATE TABLE Tickets (
 	id BIGSERIAL PRIMARY KEY,
 	idEvent BIGINT REFERENCES Events(id) NOT NULL,
-	guid TEXT UNIQUE NOT NULL -- TODO: Change or verify if correct data type
+	guid TEXT UNIQUE NOT NULL, -- TODO: Change or verify if correct data type
+	price NUMERIC(8, 2) NOT NULL
 );
 
 CREATE TABLE Users (
