@@ -1,9 +1,18 @@
 //Install express server
 const express = require('express');
 const path = require('path');
- 
+const { Pool } = require('pg');
 const app = express();
- 
+const dotenv = require('dotenv');
+
+
+
+const pool = new Pool({
+  connectionString: process.env.DATABASE_URL,
+  ssl: true
+});
+
+var config = dotenv.config();
 var port = process.env.PORT || 8080;
 
 
