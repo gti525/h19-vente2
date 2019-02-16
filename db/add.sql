@@ -29,19 +29,19 @@ INSERT INTO Events(idVenue, title, description, organisation, artist, dateEvent,
 	(13, 'Danse sous l''eau', 'La danse des méduses, une expérience unique.', 'Ocean', 'Les méduses', CURRENT_TIMESTAMP + interval '1 day' * random() * 50, 'https://photos.lci.fr/images/613/344/meduse-1-22e63f-2@1x.jpeg'),
 	(1, 'Sacrifice de la chèvre', 'Comme à chaque année, nous allons sacrifier une chèvre sur la pierre sacrée.', 'Église de la Place Saint-Paul', 'Soeur Marie', CURRENT_TIMESTAMP + interval '1 day' * random() * 50, 'http://blogs.pjstar.com/eye/files/2013/10/Eidal-Adha11.jpg');
 
-INSERT INTO Tickets(idEvent, guid, price) VALUES
-	(1, 'asdkfj-jk3fkasjdf-oiasdjfi839', 15),
-	(1, 'asdkfj-jk3fkasjdf-oiasdjfi838', 15),
-	(1, 'asdkfj-jk3fkasjdf-oiasdjfi837', 15),
-	(1, 'asdkfj-jk3fkasjdf-oiasdjfi836', 15),
-	(1, 'asdkfj-jk3fkasjdf-oiasdjfi835', 15),
-	(1, 'asdkfj-jk3fkasjdf-oiasdjfi834', 15),
-	(1, 'asdkfj-jk3fkasjdf-oiasdjfi833', 15),
-	(1, 'asdkfj-jk3fkasjdf-oiasdjfi832', 15),
-	(1, 'asdkfj-jk3fkasjdf-oiasdjfi831', 15),
-	(1, 'asdkfj-jk3fkasjdf-oiasdjfi830', 15),
-	(1, 'asdkfj-jk3fkasjdf-oiasdjfi829', 15),
-	(1, 'asdkfj-jk3fkasjdf-oiasdjfi828', 15);
+INSERT INTO Tickets(idEvent, idTransaction, guid, price) VALUES
+	(1, 1, 'asdkfj-jk3fkasjdf-oiasdjfi839', 15),
+	(1, 1, 'asdkfj-jk3fkasjdf-oiasdjfi838', 15),
+	(1, 1, 'asdkfj-jk3fkasjdf-oiasdjfi837', 15),
+	(1, 1, 'asdkfj-jk3fkasjdf-oiasdjfi836', 15),
+	(1, 1, 'asdkfj-jk3fkasjdf-oiasdjfi835', 15),
+	(1, NULL, 'asdkfj-jk3fkasjdf-oiasdjfi834', 15),
+	(1, NULL, 'asdkfj-jk3fkasjdf-oiasdjfi833', 15),
+	(1, NULL, 'asdkfj-jk3fkasjdf-oiasdjfi832', 15),
+	(1, NULL, 'asdkfj-jk3fkasjdf-oiasdjfi831', 15),
+	(1, NULL, 'asdkfj-jk3fkasjdf-oiasdjfi830', 15),
+	(1, NULL, 'asdkfj-jk3fkasjdf-oiasdjfi829', 15),
+	(1, NULL, 'asdkfj-jk3fkasjdf-oiasdjfi828', 15);
 
 INSERT INTO Users(name, surname, socialLink) VALUES
 	('Michael', 'Leclerc', NULL),
@@ -62,10 +62,3 @@ INSERT INTO Users(name, surname, socialLink) VALUES
 
 INSERT INTO Transactions(idUser, transactionNumber) VALUES
 	(15, 'UNIDPOURPASSERELLE');
-
-INSERT INTO TransactionsTickets VALUES
-	(1, 1),
-	(1, 2),
-	(1, 3),
-	(1, 4),
-	(1, 5);

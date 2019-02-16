@@ -32,13 +32,6 @@ CHECK (
 	) >= 1
 );
 
-CREATE TABLE Tickets (
-	id BIGSERIAL PRIMARY KEY,
-	idEvent BIGINT REFERENCES Events(id) NOT NULL,
-	guid TEXT UNIQUE NOT NULL, -- TODO: Change or verify if correct data type
-	price NUMERIC(8, 2) NOT NULL
-);
-
 CREATE TABLE Users (
 	id BIGSERIAL PRIMARY KEY,
 	name TEXT NOT NULL,
@@ -53,8 +46,10 @@ CREATE TABLE Transactions (
 	transactionNumber TEXT UNIQUE NOT NULL -- TODO: Change or verify if correct data type
 );
 
-CREATE TABLE TransactionsTickets (
+CREATE TABLE Tickets (
+	id BIGSERIAL PRIMARY KEY,
+	idEvent BIGINT REFERENCES Events(id) NOT NULL,
 	idTransaction BIGINT REFERENCES Transactions(id),
-	idTicket BIGINT REFERENCES Tickets(id),
-	PRIMARY KEY (idTransaction, idTicket)
+	guid TEXT UNIQUE NOT NULL, -- TODO: Change or verify if correct data type
+	price NUMERIC(8, 2) NOT NULL
 );
