@@ -13,7 +13,7 @@ const routes: Routes = [
   { path: 'checkout-recap', component: CheckoutRecapComponent },
   { path: 'checkout-confirmation', component: CheckoutConfirmationComponent },
   { path: "cart", component: CartComponent },
-  {path: 'checkout-client-information', component: CheckoutClientInformationComponent},
+  { path: 'checkout-client-information', component: CheckoutClientInformationComponent },
   { path: "show/:id", component: ShowDetailComponent }
 ];
 

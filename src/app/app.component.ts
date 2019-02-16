@@ -7,11 +7,6 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'vente2';
-  isAuth = false;
  }
 
-setTimeout(
-  () => {
-    this.isAuth = true;
-  }, 4000
-);
+
