@@ -14,11 +14,10 @@ import { CheckoutClientInformationComponent } from './checkout-client-informatio
 
 import { ShowDetailComponent } from './show-detail/show-detail.component';
 import { Routes, RouterModule } from '@angular/router';
+import { CheckoutCreditComponent } from './checkout-credit/checkout-credit.component';
+import { from } from 'rxjs';
 
 const appRoutes : Routes = [
-  {path: 'checkout-client-information', component: CheckoutClientInformationComponent},
-  {path: 'home', component: HomeComponent},
-  {path: '', component: CheckoutClientInformationComponent}
 ];
 
 @NgModule({
@@ -31,7 +30,8 @@ const appRoutes : Routes = [
     CheckoutConfirmationComponent,
     CartComponent,
     CheckoutClientInformationComponent,
-    ShowDetailComponent
+    ShowDetailComponent,
+    CheckoutCreditComponent
   ],
   imports: [
     BrowserModule,
