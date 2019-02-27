@@ -1,4 +1,4 @@
-import {Entity, Column, PrimaryGeneratedColumn, OneToOne, JoinColumn} from "typeorm";
+import {Entity, Column, PrimaryGeneratedColumn, ManyToOne, JoinColumn} from "typeorm";
 import {Venue} from "./Venue";
 
 @Entity()
@@ -30,7 +30,7 @@ export class Event {
     @Column()
     saleStatue: number;
 
-    @OneToOne(type => Venue)
+    @ManyToOne(type => Venue)
     @JoinColumn()
     venue: Venue;
 }

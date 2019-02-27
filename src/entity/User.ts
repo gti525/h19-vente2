@@ -1,4 +1,4 @@
-import {Entity, Column, PrimaryGeneratedColumn, Unique} from "typeorm";
+import { Entity, Column, PrimaryGeneratedColumn, Unique } from "typeorm";
 
 @Entity()
 export class User {
@@ -12,8 +12,7 @@ export class User {
     @Column()
     surname: string;
 
-    @Column()
-    @Unique()
+    @Column({unique: true, nullable: true})
     socialLink: string;
 
 }
