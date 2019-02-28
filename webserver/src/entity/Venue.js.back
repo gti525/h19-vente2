@@ -1,0 +1,23 @@
+
+const EntitySchema = require("typeorm").EntitySchema;
+
+module.exports = new EntitySchema({
+    name: "Venue",
+    target: Venue,
+    columns: {
+        id: {
+            primary: true,
+            type: "int",
+            generated: true
+        },
+        name: {
+            type: "varchar"
+        },
+        address: {
+            type: "varchar"
+        },
+        capacity: {
+            type: "number"
+        }
+    }
+});
