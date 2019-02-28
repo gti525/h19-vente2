@@ -33,11 +33,30 @@ createConnection(<ConnectionOptions>{
 
   const app: express.Application = express();
   var cors = require('cors')
-  app.use(cors()) // Use this after the variable declaration
+  //app.use(cors()) // Use this after the variable declaration
   app.use(bodyParser.json());
   var router = express.Router();
   var path = require('path');
 
+  // Add headers
+  app.use(function (req, res, next) {
+
+    // Website you wish to allow to connect
+    res.setHeader('Access-Control-Allow-Origin', '*');
+
+    // Request methods you wish to allow
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+
+    // Request headers you wish to allow
+    res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
+
+    // Set to true if you need the website to include cookies in the requests sent
+    // to the API (e.g. in case you use sessions)
+    res.setHeader('Access-Control-Allow-Credentials', true);
+
+    // Pass to next layer of middleware
+    next();
+  });
 
   // --------------------
   // ROUTES D'API
@@ -63,25 +82,7 @@ createConnection(<ConnectionOptions>{
   //lier router à la route /api
   app.use('/api', router);
 
-  // Add headers
-  router.use(function (req, res, next) {
-
-    // Website you wish to allow to connect
-    res.setHeader('Access-Control-Allow-Origin', '*');
-
-    // Request methods you wish to allow
-    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
-
-    // Request headers you wish to allow
-    res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
-
-    // Set to true if you need the website to include cookies in the requests sent
-    // to the API (e.g. in case you use sessions)
-    res.setHeader('Access-Control-Allow-Credentials', true);
-
-    // Pass to next layer of middleware
-    next();
-  });
+  
 
   // distribue l'application Angular par défaut.
   app.use(express.static(__dirname + '/dist/vente2'));
