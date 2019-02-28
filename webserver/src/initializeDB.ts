@@ -1,10 +1,10 @@
 import "reflect-metadata";
 import { createConnection, ConnectionOptions } from "typeorm";
-import { Venue } from "./server/entity/Venue"
-import { Event } from "./src/entity/Event"
-import { User } from "./src/entity/User"
-import { Transaction } from "./src/entity/Transaction"
-import { Ticket } from "./src/entity/Ticket"
+import { Venue } from "./entity/Venue"
+import { Event } from "./entity/Event"
+import { User } from "./entity/User"
+import { Transaction } from "./entity/Transaction"
+import { Ticket } from "./entity/Ticket"
 
 //https://github.com/typeorm/typeorm/issues/571
 
