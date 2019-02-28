@@ -5,7 +5,7 @@ import * as bodyParser from "body-parser";
 import { createConnection, ConnectionOptions } from "typeorm";
 import { Venue } from "./webserver/src/entity/Venue";
 
-const PORT = 8080;
+var port = process.env.PORT || 8080;
 
 // Create a new express application instance
 
@@ -26,6 +26,8 @@ createConnection(<ConnectionOptions>{
   subscribers: [],
   synchronize: true,
 }).then(async connection => {
+  
+  console.log("Opened connection to database.");
 
   const app: express.Application = express();
   app.use(bodyParser.json());
@@ -53,21 +55,14 @@ createConnection(<ConnectionOptions>{
   // FIN DES ROUTES API
   app.use('/api', router);
 
-
-  app.get('/api/', function (req, res) {
-    res.send('Hello World!');
-  });
-
   app.use(express.static(__dirname + '/dist/vente2'));
-
 
   app.get('*', function (req, res) {
     res.sendFile(path.join(__dirname, '/dist/vente2/index.html'));
   });
 
-
-  app.listen(PORT, function () {
-    console.log("Listening on port : ", PORT );
-  });
+  app.listen(port);
+  console.log("Listening on port : ", port );
+  
 
 }).catch(error => console.log("TypeORM connection error: ", error));
