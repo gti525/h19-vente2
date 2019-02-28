@@ -12,8 +12,18 @@ export const AppRoutes = [
         action: eventController.getAllEvents
     },
     {
+        path: "/event/:id",
+        method: "get",
+        action: eventController.getEventById
+    },
+    {
         path: "/venues",
         method: "get",
         action: venueController.getAllVenues
+    },
+    {
+        path: "/venue/:id",
+        method: "get",
+        action: venueController.getVenueById
     }
 ];

@@ -3,16 +3,38 @@ import {getManager} from "typeorm";
 import {Event} from "../entity/Event";
 
 /**
- * Loads all posts from the database.
+ * Loads all events from the database.
  */
 export async function getAllEvents(request: Request, response: Response) {
 
-    // get a post repository to perform operations with post
-    const postRepository = getManager().getRepository(Event);
+    // get a event repository to perform operations with event
+    const eventRepository = getManager().getRepository(Event);
 
-    // load a post by a given post id
-    const events = await postRepository.find();
+    // load a event by a given event id
+    const events = await eventRepository.find();
 
-    // return loaded posts
+    // return loaded events
     response.send(events);
+}
+
+/**
+ * Loads one event from the database
+ */
+export async function getEventById(request: Request, response: Response) {
+
+     // get a event repository to perform operations with event
+     const eventRepository = getManager().getRepository(Event);
+
+     // load a event by a given event id
+     const event = await eventRepository.findOne(request.params.id);
+ 
+     // if event was not found return 404 to the client
+     if (!event) {
+         response.status(404);
+         response.end();
+         return;
+     }
+ 
+     // return loaded event
+     response.send(event);
 }
