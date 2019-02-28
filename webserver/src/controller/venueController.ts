@@ -1,6 +1,6 @@
-import {Request, Response} from "express";
-import {getManager} from "typeorm";
-import {Venue} from "../entity/Venue";
+import { Request, Response } from "express";
+import { getManager } from "typeorm";
+import { Venue } from "../entity/Venue";
 
 /**
  * Loads all venues from the database.

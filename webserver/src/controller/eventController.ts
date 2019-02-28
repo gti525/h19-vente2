@@ -1,6 +1,6 @@
-import {Request, Response} from "express";
-import {getManager} from "typeorm";
-import {Event} from "../entity/Event";
+import { Request, Response } from "express";
+import { getManager } from "typeorm";
+import { Event } from "../entity/Event";
 
 /**
  * Loads all events from the database.
@@ -22,19 +22,18 @@ export async function getAllEvents(request: Request, response: Response) {
  */
 export async function getEventById(request: Request, response: Response) {
 
-     // get a event repository to perform operations with event
-     const eventRepository = getManager().getRepository(Event);
+    // get a event repository to perform operations with event
+    const eventRepository = getManager().getRepository(Event);
 
-     // load a event by a given event id
-     const event = await eventRepository.findOne(request.params.id);
- 
-     // if event was not found return 404 to the client
-     if (!event) {
-         response.status(404);
-         response.end();
-         return;
-     }
- 
-     // return loaded event
-     response.send(event);
+    // load a event by a given event id
+    const event = await eventRepository.findOne(request.params.id);
+    // if event was not found return 404 to the client
+    if (!event) {
+        response.status(404);
+        response.end();
+        return;
+    }
+
+    // return loaded event
+    response.send(event);
 }
