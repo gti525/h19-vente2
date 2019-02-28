@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "node server.js",
+    "start": "ts-node app.ts",
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
@@ -27,12 +27,13 @@
     "dotenv": "^6.2.0",
     "express": "^4.16.4",
     "pg": "^7.8.1",
+    "reflect-metadata": "^0.1.10",
     "rxjs": "~6.3.3",
+    "tls": "0.0.1",
     "tslib": "^1.9.0",
-    "typescript": "~3.2.2",
-    "zone.js": "~0.8.26",
     "typeorm": "0.2.14",
-    "reflect-metadata": "^0.1.10"
+    "typescript": "~3.2.2",
+    "zone.js": "~0.8.26"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "~0.12.0",

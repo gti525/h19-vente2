@@ -1,6 +1,6 @@
 import "reflect-metadata";
 import { createConnection, ConnectionOptions } from "typeorm";
-import { Venue } from "./src/entity/Venue"
+import { Venue } from "./server/entity/Venue"
 import { Event } from "./src/entity/Event"
 import { User } from "./src/entity/User"
 import { Transaction } from "./src/entity/Transaction"
