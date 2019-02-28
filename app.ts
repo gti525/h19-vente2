@@ -4,6 +4,7 @@ import "reflect-metadata";
 import * as bodyParser from "body-parser";
 import { createConnection, ConnectionOptions } from "typeorm";
 import { Venue } from "./webserver/src/entity/Venue";
+import { AppRoutes } from "./webserver/src/routes";
 
 var port = process.env.PORT || 8080;
 
@@ -26,7 +27,7 @@ createConnection(<ConnectionOptions>{
   subscribers: [],
   synchronize: true,
 }).then(async connection => {
-  
+
   console.log("Opened connection to database.");
 
   const app: express.Application = express();
@@ -43,26 +44,32 @@ createConnection(<ConnectionOptions>{
     res.json({ message: 'Bienvenue sur l\'API de vente2 GTI525' });
   });
 
-  router.get('/venues', async (req, res, next) => {
-    console.log('testdb');
-    var venueRepo = connection.manager.getRepository(Venue);
-    const venues = await venueRepo.find();
-    console.log(venues);
-    return res.send(venues);
+  // register all application routes
+  AppRoutes.forEach(route => {
+    console.log(route);
+    router[route.method](route.path, (request: Request, response: Response, next: Function) => {
+        route.action(request, response)
+            .then(() => next)
+            .catch(err => next(err));
+    });
   });
 
 
   // FIN DES ROUTES API
+  //lier router à la route /api
   app.use('/api', router);
 
+  // distribue l'application Angular par défaut.
   app.use(express.static(__dirname + '/dist/vente2'));
 
+  // * permet de refresh une page à partir du même url. example /show/1 retournera toujours la même page.
   app.get('*', function (req, res) {
     res.sendFile(path.join(__dirname, '/dist/vente2/index.html'));
   });
 
+  // on écoute sur process.env.port pour heroku et 8080 localement.
   app.listen(port);
   console.log("Listening on port : ", port );
   
-
+//en cas d'erreur de connection à la DB 
 }).catch(error => console.log("TypeORM connection error: ", error));
