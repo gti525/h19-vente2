@@ -30,7 +30,6 @@ export class Event {
     @Column()
     saleStatue: number;
 
-    @ManyToOne(type => Venue)
-    @JoinColumn()
+    @ManyToOne(type => Venue, venue => venue.events)
     venue: Venue;
 }

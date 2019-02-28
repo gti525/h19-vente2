@@ -1,4 +1,5 @@
-import {Entity, Column, PrimaryGeneratedColumn} from "typeorm";
+import {Entity, Column, PrimaryGeneratedColumn, OneToMany} from "typeorm";
+import {Event} from "./Event";
 
 @Entity()
 export class Venue {
@@ -16,5 +17,8 @@ export class Venue {
 
     @Column()
     capacity: number;
+
+    @OneToMany(type => Event, event => event.venue)
+    events: Event[];
 
 }

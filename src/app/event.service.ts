@@ -12,7 +12,7 @@ export class EventService {
   constructor(private httpClient: HttpClient) {}
   
   public getEventById(id: number){
-    return this.httpClient.get(`${this.apiURL}/events/${id}`);
+    return this.httpClient.get(`${this.apiURL}/event/${id}`);
   }
 
   public getEvents(){

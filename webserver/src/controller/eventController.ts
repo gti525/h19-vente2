@@ -25,8 +25,14 @@ export async function getEventById(request: Request, response: Response) {
     // get a event repository to perform operations with event
     const eventRepository = getManager().getRepository(Event);
 
-    // load a event by a given event id
-    const event = await eventRepository.findOne(request.params.id);
+    // load a event by a given event id and its associated venues
+    let event = await eventRepository
+        .createQueryBuilder("event")
+        .innerJoinAndSelect("event.venue", "venue")
+        .where('event.id = :myid', {myid: request.params.id })
+        .getOne();
+
+
     // if event was not found return 404 to the client
     if (!event) {
         response.status(404);
