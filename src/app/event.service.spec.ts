@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 
-import { ShowsService } from './shows.service';
+import { ShowsService } from './event.service';
 
 describe('ShowsService', () => {
   beforeEach(() => TestBed.configureTestingModule({}));

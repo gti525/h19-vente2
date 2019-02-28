@@ -15,7 +15,7 @@ import { CheckoutClientInformationComponent } from './checkout-client-informatio
 import { ShowDetailComponent } from './show-detail/show-detail.component';
 import { Routes, RouterModule } from '@angular/router';
 import { CheckoutCreditComponent } from './checkout-credit/checkout-credit.component';
-import { from } from 'rxjs';
+import { HttpClientModule } from '@angular/common/http';
 
 const appRoutes : Routes = [
 ];
@@ -37,6 +37,7 @@ const appRoutes : Routes = [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
+    HttpClientModule,
     RouterModule.forRoot(appRoutes)
   ],
   providers: [],

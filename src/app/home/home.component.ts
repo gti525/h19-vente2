@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { Show } from '../types/show';
-import { ShowsService } from '../shows.service';
-import { Router, ActivatedRoute, ParamMap } from '@angular/router';
+import { Event } from '../models/event';
+import { EventService } from '../event.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -9,10 +9,11 @@ import { Router, ActivatedRoute, ParamMap } from '@angular/router';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
-	shows: Show[];
+
+	public events: Event[] = [];
 
   constructor(
-    private showsService: ShowsService,
+    private eventService: EventService,
     private router : Router
   ) { }
 
@@ -21,12 +22,14 @@ export class HomeComponent implements OnInit {
   }
 
   getShows() {
-  	this.shows = this.showsService.getShows();
+  	this.eventService.getEvents().subscribe((res : Event[])=>{
+      this.events = res;     
+    });
   }
 
-  onShowClick(show: Show) {
+  onShowClick(event: Event) {
     //console.log(show.id);
-    this.router.navigate(['/show',show.id]);
+    this.router.navigate(['/show',event.id]);
   }
 
 }
