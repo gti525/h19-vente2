@@ -1,8 +1,14 @@
+import { Venue } from './venue';
+
 export class Event{
+    
     id: number;
-    firstName: string;
-    lastName: string;
-    email: string;
-    phone: string;
-    city: string;
+    title: string;
+    description: string;
+    organisation: string;
+    artist: string;
+    dateEvent: Date;
+    image: string;
+    saleStatue: number;
+    venue: Venue;
 }
