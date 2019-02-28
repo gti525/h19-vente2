@@ -32,7 +32,7 @@ createConnection(<ConnectionOptions>{
   console.log("Opened connection to database.");
 
   const app: express.Application = express();
-  var cors = require('cors')
+  //var cors = require('cors')
   //app.use(cors()) // Use this after the variable declaration
   app.use(bodyParser.json());
   var router = express.Router();
