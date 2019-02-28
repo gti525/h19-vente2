@@ -23,8 +23,6 @@ export class ShowDetailComponent implements OnInit {
   ngOnInit() {
     this.sub = this.route.params.subscribe(params => {
       this.id = +params['id']; // (+) converts string 'id' to a number
-      this.event = this.getSingleEventById(this.id);
-      this.show = SHOWS.find(x => x.id == this.id)
    });
   }
 
@@ -34,14 +32,7 @@ export class ShowDetailComponent implements OnInit {
 
   getSingleEventById(id:number) {
   	this.eventService.getEventById(id).subscribe((res : Event)=>{
-      return res;     
-    });
-  }
-
-  getVenueSingleVenue(id:number) {
-    return {description: "nice venue mate"};
-  	this.eventService.getEventById(id).subscribe((res : Event)=>{
-      return res;     
+      this.event = res;     
     });
   }
 }
