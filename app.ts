@@ -8,6 +8,7 @@ import { AppRoutes } from "./webserver/src/routes";
 
 var port = process.env.PORT || 8080;
 
+
 // Create a new express application instance
 
 createConnection(<ConnectionOptions>{
@@ -31,9 +32,12 @@ createConnection(<ConnectionOptions>{
   console.log("Opened connection to database.");
 
   const app: express.Application = express();
+  var cors = require('cors')
+  app.use(cors()) // Use this after the variable declaration
   app.use(bodyParser.json());
   var router = express.Router();
   var path = require('path');
+
 
   // --------------------
   // ROUTES D'API
