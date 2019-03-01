@@ -8,3 +8,7 @@
 .show-box {
 	cursor: pointer;
 }
+
+.show-image {
+	height: 200px;
+}

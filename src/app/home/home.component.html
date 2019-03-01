@@ -2,7 +2,7 @@
 	<div *ngIf="events" class="row mt-4">
 		<div *ngFor="let event of events" class="col-md-4">
 			<div class="card mb-4 show-box" (click)="onShowClick(event)">
-				<img class="card-img-top" src="{{event.image}}">
+				<img class="card-img-top show-image" src="{{event.image}}">
 				<div class="card-body">
 					<h5 class="card-title">{{event.title}}</h5>
 					<p class="card-text show-description">{{event.description}}</p>
