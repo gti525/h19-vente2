@@ -5,14 +5,16 @@ import * as bodyParser from "body-parser";
 import { createConnection, ConnectionOptions } from "typeorm";
 import { Venue } from "./webserver/src/entity/Venue";
 import { AppRoutes } from "./webserver/src/routes";
+import * as PostgressConnectionStringParser from 'pg-connection-string';
 
-var port = process.env.PORT || 8080;
+const port = process.env.PORT || 8080;
+console.log('NODE_ENV: ', process.env.NODE_ENV);
 
-
-// Create a new express application instance
+// Create a new express application instancenpm 
+console.log('DATABASE_URL: ', process.env.DATABASE_URL)
 
 createConnection(<ConnectionOptions>{
-  type: "postgres",
+  type: 'postgres',
 
   // We need add the extra SSL to use heroku on localhost
   extra: {

@@ -8,7 +8,8 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "postinstall": "ng build --prod"
+    "postinstall": "ng build --prod",
+    "dev": "set NODE_ENV=development&& ts-node app.ts"
   },
   "private": true,
   "dependencies": {
@@ -27,6 +28,7 @@
     "dotenv": "^6.2.0",
     "express": "^4.16.4",
     "pg": "^7.8.1",
+    "pg-connection-string": "^2.0.0",
     "reflect-metadata": "^0.1.10",
     "rxjs": "~6.3.3",
     "tls": "0.0.1",
