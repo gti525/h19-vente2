@@ -1,4 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import {Router, NavigationExtras} from "@angular/router";
+import { CheckoutPassService } from "../services/checkout-pass.service"
+import { CreditCard } from "../models/credit-card";
+import { FormGroup, FormBuilder, FormControl} from '@angular/forms';
 
 @Component({
   selector: 'app-checkout-credit',
@@ -7,9 +11,26 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CheckoutCreditComponent implements OnInit {
 
-  constructor() { }
+  creditCardFormGroup: FormGroup;
+  creditCard: CreditCard;
+
+  constructor(
+    public checkoutPassService: CheckoutPassService,
+    private router: Router,
+    private fb: FormBuilder) { 
+      this.creditCardFormGroup = this.fb.group({
+        name: new FormControl(''),
+        number: new FormControl(''),
+        cvv: new FormControl(''),
+        expiration: new FormControl('')
+      });
+    }
 
   ngOnInit() {
   }
 
+  public onSubmit(){
+    this.checkoutPassService.creditCard = new CreditCard(this.creditCardFormGroup.value);
+    this.router.navigate(["checkout-recap"]);
+  }
 }

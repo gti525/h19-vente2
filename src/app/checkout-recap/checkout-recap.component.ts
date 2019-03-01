@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { SPECTACLES } from '../mock/mock-spectacles';
 import { CLIENT1 } from '../mock/mock-client';
-import { CREDITCARD } from '../mock/mock-credit-card';
+
+import { CheckoutPassService } from "../services/checkout-pass.service"
+import { CreditCard } from "../models/credit-card";
 
 @Component({
   selector: 'app-checkout-recap',
@@ -13,10 +15,14 @@ export class CheckoutRecapComponent implements OnInit {
 
   spectacles = SPECTACLES;
   client = CLIENT1;
-  creditCard = CREDITCARD;
-  constructor() { }
+  creditCard: CreditCard;
+
+  constructor(
+    public checkoutPassService: CheckoutPassService,
+  ) { }
 
   ngOnInit() {
+    this.creditCard = this.checkoutPassService.creditCard;
   }
 
   getTotal(){
