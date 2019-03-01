@@ -94,18 +94,26 @@ export async function addEvent(request: Request, response: Response) {
     venue.address = request.body.venue.address;
     venue.capacity = request.body.venue.capacity;
     const venueRepository = getManager().getRepository(Venue);
-    console.log(venueRepository.create(venue));
+    await venueRepository.insert(venue);
     const eventRepository = getManager().getRepository(Event);
     event.title = request.body.title;
     event.description = request.body.description;
     event.artist = request.body.artist;
-    // TODO: correct date
-    event.dateEvent = new Date();
-    console.log(eventRepository.create(event));
-
+    event.venue = venue; // TODO: doesn't seem to be inserted with at the same time as the event.
+    event.organisation = "whatever"; // TODO: what is that field again?
+    // TODO: Image URL should be able to be null or do we set as empty ?;
+    event.image = "https://upload.wikimedia.org/wikipedia/commons/0/08/South_Shetland-2016-Deception_Island%E2%80%93Chinstrap_penguin_%28Pygoscelis_antarctica%29_04.jpg";
+    event.dateEvent = new Date(); // TODO: correct date
+    event.saleStatue = 0; // TODO: to describe (in entity probbly)
+    const dbResponse = await eventRepository.insert(event);
+    const eventId = dbResponse.identifiers.pop().id;
     // TODO: Tickets
 
+    response.set("Location", "/events/" + eventId);
     response.status(201);
+    response.json({
+        id: eventId
+    });
     response.end();
     return;
 }
