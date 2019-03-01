@@ -26,7 +26,7 @@ export async function getVenueById(request: Request, response: Response) {
     const venueRepository = getManager().getRepository(Venue);
 
     // load a venue by a given venue id
-    const venue = await venueRepository.findOne(request.params.id);
+    const venue = await venueRepository.findOne(request.params.venueId);
 
     // if venue was not found return 404 to the client
     if (!venue) {

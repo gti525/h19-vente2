@@ -33,12 +33,12 @@ createConnection(<ConnectionOptions>{
 
   console.log("Opened connection to database.");
 
-  const app: express.Application = express();
+  var app: express.Application = express();
   //var cors = require('cors')
   //app.use(cors()) // Use this after the variable declaration
   app.use(bodyParser.json());
-  var router = express.Router();
-  var path = require('path');
+  const router = express.Router();
+  var path = require("path");
 
   // Add headers
   app.use(function (req, res, next) {
@@ -74,8 +74,10 @@ createConnection(<ConnectionOptions>{
     console.log(route);
     router[route.method](route.path, (request: Request, response: Response, next: Function) => {
         route.action(request, response)
-            .then(() => next)
-            .catch(err => next(err));
+            .then(() => next);
+            // The routes sometime need to handle their errors (such as JSON issues).
+            // TODO: I don't know how to do that without deactivating the next line.
+            // .catch(err => next(err));
     });
   });
 
@@ -84,7 +86,7 @@ createConnection(<ConnectionOptions>{
   //lier router à la route /api
   app.use('/api', router);
 
-  
+
 
   // distribue l'application Angular par défaut.
   app.use(express.static(__dirname + '/dist/vente2'));
