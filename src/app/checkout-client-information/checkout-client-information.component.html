@@ -1,35 +1,26 @@
-<p> Mis à jour: {{ lastUpdate | date}} </p>
-
-<h2> Vos informations </h2>
+<h2> Saisissez vos informations </h2>
 
 <li class="list-group-item">
+  <form [formGroup]="userFormGroup" (ngSubmit)="onSoumettre()">
 
-  <h4> Nom : {{ client.name }} <input type="text" class="form-control" > </h4>  
-  
-  <h4> Prénom : {{ client.firstName }}</h4>
-  <input type="text" class="form-control" placeholder="Saisir prénom" >
+    <h4> Nom : </h4>
+    <input type="Nom" class="form-control" formControlName="name" placeholder="Votre nom de famille">
 
-  <h4> Adresse : </h4>
-  <input type="text" class="form-control">
+    <h4> Prénom : </h4>
+    <input type="text" class="form-control" formControlName="firstName" placeholder="Votre prénom">
 
-  <h4> Ville : </h4>
-  <input type="text" class="form-control">
+    <h4> Adresse : </h4>
+    <input type="text" class="form-control" formControlName="civicAddress" placeholder="Votre adresse civique">
 
-  <h4> Province : </h4>
-  <input type="text" class="form-control">
+    <h4> Ville : </h4>
+    <input type="text" class="form-control" formControlName="city" placeholder="Votre ville">
 
-  <h4> Code postal : </h4>
-  <input type="text" class="form-control"> 
-  
+    <h4> Province : </h4>
+    <input type="text" class="form-control" formControlName="province" placeholder="Votre province">
+
+    <h4> Code postale : </h4>
+    <input type="text" class="form-control" formControlName="postalCode" placeholder="Votre code postale">
+
+    <input type="submit" class="btn btn-success" value="Soumettre">
+  </form>
 </li>
-
-<div class="container">
-  <div class="row">
-    <div class="col-xs-12">
-  
-      <button class="btn btn-success" 
-        routerLink="/checkout-credit"
-        (click)="onSoumettre"> Suivant </button>
-    </div>
-  </div> 
-</div>

@@ -1,9 +1,9 @@
 
 
-<h1 class="page-title">Checkout recapitulative</h1>
+<h1 class="page-title">Récapitulatif</h1>
 
 <div class="module-container">
-  <h2>Review Cart</h2>
+  <h2>Panier d'achats</h2>
   <table class="table">
       <thead>
         <tr>
@@ -30,14 +30,14 @@
 </div>
 
 <div class="module-container">
-  <h2>Client</h2>
-    <span class="checkout-client-line">{{client.firstName}} {{client.name}}</span>
-    <span class="checkout-client-line">{{client.civicAddress}}</span>
-    <span class="checkout-client-line">{{client.city}}, {{client.province}}  {{client.postalCode}}</span>
+  <h2>Utilisateur</h2>
+    <span class="checkout-client-line">{{user.firstName}} {{user.name}}</span>
+    <span class="checkout-client-line">{{user.civicAddress}}</span>
+    <span class="checkout-client-line">{{user.city}}, {{user.province}}, {{user.postalCode}}</span>
 </div>
 
 <div class="module-container">
-  <h2>Credit Card</h2>
+  <h2>Carte de Crédit</h2>
     <span class="checkout-client-line">{{creditCard.name}}</span>
     <span class="checkout-client-line">{{creditCard.number}}</span>
     <span class="checkout-client-line">{{creditCard.cvv}}</span>
@@ -50,7 +50,7 @@
   </div>
   <div class="col col-lg-2">
     <a routerLink="/checkout-confirmation">
-      <button type="button" class="btn btn-primary">Confirm</button>
+      <button type="button" class="btn btn-primary">Confirmer</button>
     </a>
   </div>
 </div>
