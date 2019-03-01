@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { SPECTACLES } from '../mock/mock-spectacles';
-import { CLIENT1 } from '../mock/mock-client';
 
 import { CheckoutPassService } from "../services/checkout-pass.service"
 import { CreditCard } from "../models/credit-card";
@@ -15,7 +14,6 @@ export class CheckoutRecapComponent implements OnInit {
 
 
   spectacles = SPECTACLES;
-  client = CLIENT1;
   user: User;
   creditCard: CreditCard;
 
