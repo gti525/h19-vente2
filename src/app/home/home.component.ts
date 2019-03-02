@@ -32,4 +32,21 @@ export class HomeComponent implements OnInit {
     this.router.navigate(['/show',event.id]);
   }
 
+  getLogin() {
+    return JSON.parse(localStorage.getItem('user')).login;
+  }
+
+  login() {
+    console.log('Tentative de connexion');
+    this.router.navigate(['/login']);
+  }
+
+  
+  logout() {
+    console.log('Tentative de déconnexion');
+  
+    localStorage.removeItem('user');
+    this.router.navigate(['/login']);
+  }
+
 }

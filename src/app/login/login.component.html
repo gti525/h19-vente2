@@ -1,0 +1,19 @@
+<div style="text-align:right"><font color="red"><a (click)="logout()" style="font-size:15px">Se déconnecter</a></font></div>
+<div class="col-md-6 col-md-offset-3">
+    <div class="login-wrapper">
+      <h2>Page de connexion</h2>
+      <form name="form" (ngSubmit)="f.form.valid && login()" #f="ngForm" novalidate>
+        <div class="form-group" [ngClass]="{ 'has-error': f.submitted && !username.valid }">
+          <label for="username">Identifiant</label>
+          <input type="text" class="form-control" name="username" id="username" [(ngModel)]="model.username" #username="ngModel" placeholder='Saisissez votre identifiant' required />
+        </div>
+        <div class="form-group" [ngClass]="{ 'has-error': f.submitted && !password.valid }">
+          <label for="password">Mot de passe</label>
+          <input type="password" class="form-control" name="password" id="password" [(ngModel)]="model.password" #password="ngModel" placeholder='Saisissez votre mot de passe' required />
+        </div>
+        <div class="form-group">
+          <button class="btn btn-primary pull-right" [disabled]="!f.form.valid">Connexion</button>
+        </div>
+      </form>
+    </div>
+  </div>

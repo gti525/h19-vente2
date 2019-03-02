@@ -15,6 +15,8 @@ import { ShowDetailComponent } from './show-detail/show-detail.component';
 import { Routes, RouterModule } from '@angular/router';
 import { CheckoutCreditComponent } from './checkout-credit/checkout-credit.component';
 import { HttpClientModule } from '@angular/common/http';
+import { LoginComponent } from './login/login.component';
+import { GestionImagesComponent } from './gestion-images/gestion-images.component';
 
 const appRoutes : Routes = [
 ];
@@ -29,7 +31,9 @@ const appRoutes : Routes = [
     CartComponent,
     CheckoutClientInformationComponent,
     ShowDetailComponent,
-    CheckoutCreditComponent
+    CheckoutCreditComponent,
+    LoginComponent,
+    GestionImagesComponent
   ],
   imports: [
     BrowserModule,
