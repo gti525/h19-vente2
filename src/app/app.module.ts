@@ -17,6 +17,7 @@ import { CheckoutCreditComponent } from './checkout-credit/checkout-credit.compo
 import { HttpClientModule } from '@angular/common/http';
 import { LoginComponent } from './login/login.component';
 import { GestionImagesComponent } from './gestion-images/gestion-images.component';
+import { PageAdminComponent } from './page-admin/page-admin.component';
 
 const appRoutes : Routes = [
 ];
@@ -33,7 +34,8 @@ const appRoutes : Routes = [
     ShowDetailComponent,
     CheckoutCreditComponent,
     LoginComponent,
-    GestionImagesComponent
+    GestionImagesComponent,
+    PageAdminComponent
   ],
   imports: [
     BrowserModule,

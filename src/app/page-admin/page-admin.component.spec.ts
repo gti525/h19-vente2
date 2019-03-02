@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { GestionImagesComponent } from './gestion-images.component';
+import { PageAdminComponent } from './page-admin.component';
 
-describe('GestionImagesComponent', () => {
-  let component: GestionImagesComponent;
-  let fixture: ComponentFixture<GestionImagesComponent>;
+describe('PageAdminComponent', () => {
+  let component: PageAdminComponent;
+  let fixture: ComponentFixture<PageAdminComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ GestionImagesComponent ]
+      declarations: [ PageAdminComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(GestionImagesComponent);
+    fixture = TestBed.createComponent(PageAdminComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

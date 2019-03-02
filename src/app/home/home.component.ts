@@ -41,12 +41,4 @@ export class HomeComponent implements OnInit {
     this.router.navigate(['/login']);
   }
 
-  
-  logout() {
-    console.log('Tentative de déconnexion');
-  
-    localStorage.removeItem('user');
-    this.router.navigate(['/login']);
-  }
-
 }
