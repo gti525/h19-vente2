@@ -10,6 +10,7 @@ import { CheckoutRecapComponent } from './checkout-recap/checkout-recap.componen
 import { CheckoutConfirmationComponent } from './checkout-confirmation/checkout-confirmation.component';
 import { CartComponent } from './cart/cart.component';
 import { CheckoutClientInformationComponent } from './checkout-client-information/checkout-client-information.component';
+import { IonicApp, IonicModule } from 'ionic-angular';
 
 import { ShowDetailComponent } from './show-detail/show-detail.component';
 import { Routes, RouterModule } from '@angular/router';
@@ -37,6 +38,7 @@ const appRoutes : Routes = [
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
+    IonicModule.forRoot(AppComponent),
     RouterModule.forRoot(appRoutes)
   ],
   providers: [],

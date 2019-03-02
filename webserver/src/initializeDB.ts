@@ -60,22 +60,23 @@ var Users: any = [
 ];
 
 var Transactions: any = [
-    { 15, 'UNIDPOURPASSERELLE'}
+    { user: 15, transactionConfirmation:'UNIDPOURPASSERELLE', dateTransaction:null}
 ];
-// var Tickets: any = [
-//     { 1, 1, 'asdkfj-jk3fkasjdf-oiasdjfi839', 15},
-//     { 1, 1, 'asdkfj-jk3fkasjdf-oiasdjfi838', 15},
-//     { 1, 1, 'asdkfj-jk3fkasjdf-oiasdjfi837', 15},
-//     { 1, 1, 'asdkfj-jk3fkasjdf-oiasdjfi836', 15},
-//     { 1, 1, 'asdkfj-jk3fkasjdf-oiasdjfi835', 15},
-//     { 1, null, 'asdkfj-jk3fkasjdf-oiasdjfi834', 15},
-//     { 1, null, 'asdkfj-jk3fkasjdf-oiasdjfi833', 15},
-//     { 1, null, 'asdkfj-jk3fkasjdf-oiasdjfi832', 15},
-//     { 1, null, 'asdkfj-jk3fkasjdf-oiasdjfi831', 15},
-//     { 1, null, 'asdkfj-jk3fkasjdf-oiasdjfi830', 15},
-//     { 1, null, 'asdkfj-jk3fkasjdf-oiasdjfi829', 15},
-//     { 1, null, 'asdkfj-jk3fkasjdf-oiasdjfi828', 15}
-// ];
+
+var Tickets: any = [
+    { event: 45, transaction: 1,  guid:'asdkfj-jk3fkasjdf-oiasdjfi839', price: 3.33},
+    { event: 45, transaction: 1,  guid:'asdkfj-jk3fkasjdf-oiasdjfi838', price: 14.12},
+    { event: 45, transaction: 1,  guid:'asdkfj-jk3fkasjdf-oiasdjfi837', price: 15.2},
+    { event: 45, transaction: 1,  guid:'asdkfj-jk3fkasjdf-oiasdjfi836', price: 18.3},
+    { event: 45, transaction: 1,  guid:'asdkfj-jk3fkasjdf-oiasdjfi835', price: 5.55},
+    { event: 45, transaction:null,  guid:'asdkfj-jk3fkasjdf-oiasdjfi834', price: 4.43},
+    { event: 45, transaction:null,  guid:'asdkfj-jk3fkasjdf-oiasdjfi833', price: 4.36},
+    { event: 45, transaction:null,  guid:'asdkfj-jk3fkasjdf-oiasdjfi832', price: 5.36},
+    { event: 45, transaction:null,  guid:'asdkfj-jk3fkasjdf-oiasdjfi831', price: 7.85},
+    { event: 45, transaction:null,  guid:'asdkfj-jk3fkasjdf-oiasdjfi830', price: 99.99},
+    { event: 45, transaction:null,  guid:'asdkfj-jk3fkasjdf-oiasdjfi829', price: 15.23},
+    { event: 45, transaction:null,  guid:'asdkfj-jk3fkasjdf-oiasdjfi828', price: 16.24}
+];
 
 createConnection(<ConnectionOptions>{
     type: "postgres",
@@ -89,7 +90,7 @@ createConnection(<ConnectionOptions>{
     url: "postgres://xuamcueiltwsar:35ad6253deb74e6f8aa19a178e9b3240744c30ca4a9f5719933ca168592e262c@ec2-54-243-228-140.compute-1.amazonaws.com:5432/dktnp0dql1q5k",
 
     entities: [
-        __dirname + "/src/entity/*.ts"
+        __dirname + "/entity/*.ts"
     ],
     subscribers: [],
     synchronize: true,
@@ -98,49 +99,82 @@ createConnection(<ConnectionOptions>{
 
 
 
-    Venues.forEach(element => {
-        let venue = new Venue();
-        console.log(element);
-        console.log(element.name);
-        venue.name = element.name;
-        venue.address = element.address;
-        venue.capacity = element.capacity;
-        connection.manager.save(venue);
-        console.log("Venue has been saved");
-    });
+    // Venues.forEach(element => {
+    //     let venue = new Venue();
+    //     console.log(element);
+    //     console.log(element.name);
+    //     venue.name = element.name;
+    //     venue.address = element.address;
+    //     venue.capacity = element.capacity;
+    //     connection.manager.save(venue);
+    //     console.log("Venue has been saved");
+    // });
 
-    var i = 40
-    Events.forEach(async element => {
-        let event = new Event();
-        console.log(element);
-        event.title = element.title;
-        event.description = element.description;
-        event.artist = element.artist;
-        event.organisation = element.organisation;
-        event.image = element.image;
-        var date = new Date();
-        date.setDate(date.getDate() + Math.floor(Math.random() * 50) + 1)  
-        event.dateEvent = date;
-        event.saleStatue = 0;
-        const venue =  await connection.manager.getRepository(Venue).findOne(i);
-        event.venue = venue
-        connection.manager.save(event);
-        i = i + 1;
-        if (i > 52){
-            i = 40;
-        }
-        console.log("Event has been saved");
-    });
+    // var i = 40
+    // Events.forEach(async element => {
+    //     let event = new Event();
+    //     console.log(element);
+    //     event.title = element.title;
+    //     event.description = element.description;
+    //     event.artist = element.artist;
+    //     event.organisation = element.organisation;
+    //     event.image = element.image;
+    //     var date = new Date();
+    //     date.setDate(date.getDate() + Math.floor(Math.random() * 50) + 1)  
+    //     event.dateEvent = date;
+    //     event.saleStatue = 0;
+    //     const venue =  await connection.manager.getRepository(Venue).findOne(i);
+    //     event.venue = venue
+    //     connection.manager.save(event);
+    //     i = i + 1;
+    //     if (i > 52){
+    //         i = 40;
+    //     }
+    //     console.log("Event has been saved");
+    // });
 
     
-    Users.forEach(async element => {
-        let user = new User();
+    // Users.forEach(async element => {
+    //     let user = new User();
+    //     console.log(element);
+    //     user.name = element.name;
+    //     user.surname = element.surname;
+    //     user.socialLink = element.socialLink;
+    //     connection.manager.save(user);
+    //     console.log("User has been saved");
+    // });
+
+    Transactions.forEach(async element => {
+        let transaction = new Transaction();
         console.log(element);
-        user.name = element.name;
-        user.surname = element.surname;
-        user.socialLink = element.socialLink;
-        connection.manager.save(user);
-        console.log("User has been saved");
+        transaction.transactionConfirmation = element.transactionConfirmation;
+        
+        var date = new Date();
+        date.setDate(date.getDate() + Math.floor(Math.random() * 50) + 1)  
+        transaction.dateTransaction = date;
+
+        const user =  await connection.manager.getRepository(User).findOne(transaction.user);
+        transaction.user = user;
+
+        connection.manager.save(transaction);
+        console.log("Transacation has been saved");
+    });
+
+    Tickets.forEach(async element => {
+        let ticket = new Ticket();
+        console.log(element);
+        ticket.transaction = element.transaction;
+        
+        var date = new Date();
+        date.setDate(date.getDate() + Math.floor(Math.random() * 50) + 1)  
+        const event =  await connection.manager.getRepository(Event).findOne(element.event);
+        ticket.event = event;
+        ticket.price = element.price;
+        const transaction =  await connection.manager.getRepository(Transaction).findOne(element.transaction);
+        ticket.transaction = transaction;
+
+        connection.manager.save(transaction);
+        console.log("Transacation has been saved");
     });
 
 }).catch(error => console.log(error));
