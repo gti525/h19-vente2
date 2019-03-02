@@ -1,20 +1,20 @@
 
-<h1 class="page-title">Sale Confirmation</h1>
+<h1 class="page-title">Confirmation de vente</h1>
 
 <div class="global">
   <div class="module-container">
       <div class="confirmation-container">
       <p class="confirmation-message">
-        Thank you for shopping on GTI525-vente2. The best online ticket retailer.
+        Merci d'avoir magasiner sur GTI525-vente2, le meilleur vendeur de billet en ligne.
       </p>
 
       <p>
-        Your confirmation number is : <span class="confirmation-number">{{confirmation.number}}</span>
+        Votre numéro de confirmation : <span class="confirmation-number">{{confirmation.number}}</span>
       </p>
 
       <div *ngIf="social; then thenBlock else elseBlock"></div>
-      <ng-template #thenBlock>Your ticket will be available on the mobile application and on the website.</ng-template>
-      <ng-template #elseBlock>You will be able to retrieve the ticket the night of the show.</ng-template>
+      <ng-template #thenBlock> Votre billet est disponible sur l'application mobile et sur le site web</ng-template>
+      <ng-template #elseBlock> Vous pourrez récupérer votre billet le soir de l'événement à la porte.</ng-template>
     </div>
 
   </div>

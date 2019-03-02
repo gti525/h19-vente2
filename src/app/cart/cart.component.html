@@ -1,3 +1,26 @@
-<p>
-  cart works!
-</p>
+<div class="module-container">
+    <h2>Panier d'achats</h2>
+    <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Spectacle Name</th>
+            <th scope="col">Artist</th>
+            <th scope="col">Quantity</th>
+            <th scope="col">Unit Price</th>
+            <th scope="col">Total Price</th>
+          </tr>
+        </thead>
+        <tbody> 
+          <tr *ngFor="let spectacle of spectacles; let i = index">
+            <th scope="row">{{i + 1}}</th>
+            <td>{{spectacle.name}}</td>
+            <td>{{spectacle.artist}}</td>
+            <td>3</td>
+            <td>{{spectacle.price}}</td> 
+            <td>{{spectacle.price}}</td>
+          </tr>
+        </tbody>
+      </table>
+      <span class="checkout-total">Total: {{ getTotal() }}</span>
+  </div>
