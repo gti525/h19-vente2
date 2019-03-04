@@ -1,4 +1,6 @@
-﻿<h1>Page d'administration</h1>
+﻿<h1>Page d'administration
+    <a [routerLink]="['/login']">Déconnexion</a>
+</h1>
 <p>Page dédiée à la gestion des vignettes de spectacles.</p>
 <div>
     Utilisateurs autorisés du point d'accès à l'API sécurisé:
@@ -6,4 +8,28 @@
         <li *ngFor="let user of users">{{user.firstName}} {{user.lastName}}</li>
     </ul>
 </div>
-<p><a [routerLink]="['/login']">Déconnexion</a></p>
+
+<div class="module-container">
+    <h2>Liste des images de spectacles</h2>
+    <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Aperçu vignette</th>
+            <th scope="col">Titre spectacle</th>
+            <th scope="col">Url</th>
+            <th scope="col">Option</th>
+          </tr>
+        </thead>
+        <tbody> 
+          <tr *ngFor="let spectacle of spectacles; let i = index">
+            <th scope="row">{{i + 1}}</th>
+            <td>{{spectacle.name}}</td>
+            <td>{{spectacle.artist}}</td>
+            <td>3</td>
+            <td>{{spectacle.price}}</td> 
+            <td>{{spectacle.price}}</td>
+          </tr>
+        </tbody>
+      </table>
+  </div>
