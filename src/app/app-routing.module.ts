@@ -14,7 +14,7 @@ import { AuthGuard } from './gestion-admin/_guards';
 const routes: Routes = [
   { path: 'home', component: HomeComponent },
   { path: 'login',component: LoginComponent },
-  { path: '', component: AdminComponent, canActivate: [AuthGuard] },
+  { path: 'admin', component: AdminComponent, canActivate: [AuthGuard] },
   { path: 'checkout-recap', component: CheckoutRecapComponent },
   { path: 'checkout-confirmation', component: CheckoutConfirmationComponent },
   { path: "cart", component: CartComponent },
