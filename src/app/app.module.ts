@@ -6,6 +6,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
 import { HomeComponent } from './home/home.component';
+import { AdminComponent } from './gestion-admin/page-admin/page-admin.component';
 import { CheckoutRecapComponent } from './checkout-recap/checkout-recap.component';
 import { CheckoutConfirmationComponent } from './checkout-confirmation/checkout-confirmation.component';
 import { CartComponent } from './cart/cart.component';
@@ -14,10 +15,12 @@ import { CheckoutClientInformationComponent } from './checkout-client-informatio
 import { ShowDetailComponent } from './show-detail/show-detail.component';
 import { Routes, RouterModule } from '@angular/router';
 import { CheckoutCreditComponent } from './checkout-credit/checkout-credit.component';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { LoginComponent } from './login/login.component';
-import { GestionImagesComponent } from './gestion-images/gestion-images.component';
-import { PageAdminComponent } from './page-admin/page-admin.component';
+
+// used to create fake backend
+import { fakeBackendProvider } from './gestion-admin/_helpers';
+import { BasicAuthInterceptor, ErrorInterceptor } from './gestion-admin/_helpers';
 
 const appRoutes : Routes = [
 ];
@@ -27,15 +30,14 @@ const appRoutes : Routes = [
     AppComponent,
     HeaderComponent,
     HomeComponent,
+    AdminComponent,
     CheckoutRecapComponent,
     CheckoutConfirmationComponent,
     CartComponent,
     CheckoutClientInformationComponent,
     ShowDetailComponent,
     CheckoutCreditComponent,
-    LoginComponent,
-    GestionImagesComponent,
-    PageAdminComponent
+    LoginComponent
   ],
   imports: [
     BrowserModule,
@@ -45,7 +47,13 @@ const appRoutes : Routes = [
     HttpClientModule,
     RouterModule.forRoot(appRoutes)
   ],
-  providers: [],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: BasicAuthInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
+
+    // provider used to create fake backend
+    fakeBackendProvider
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

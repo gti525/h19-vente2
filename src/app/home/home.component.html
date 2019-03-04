@@ -1,5 +1,9 @@
-<div style="text-align:right"><font color="red"><a (click)="login()" style="font-size:15px">Se connecter</a></font></div>
 <section class="container">
+
+	<p style="text-align:right">
+		<font color="red"><a (click)="login()" style="font-size:20px">Se connecter</a></font>	
+	</p>	
+
 	<div *ngIf="events" class="row mt-4">
 		<div *ngFor="let event of events" class="col-md-4">
 			<div class="card mb-4 show-box" (click)="onShowClick(event)">
