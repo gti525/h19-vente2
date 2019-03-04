@@ -1,5 +1,5 @@
-import { Event } from "./Event";
-import { Transaction } from "./Transaction";
+import { Event } from "./event";
+import { Transaction } from "./transaction";
 
 export class Ticket {
 
