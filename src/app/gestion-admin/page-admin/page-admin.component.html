@@ -1,4 +1,4 @@
-﻿<h1>Page d'administration
+﻿<h1>Page d'administration -
     <a [routerLink]="['/login']">Déconnexion</a>
 </h1>
 <p>Page dédiée à la gestion des vignettes de spectacles.</p>
@@ -10,7 +10,7 @@
 </div>
 
 <div class="module-container">
-    <h2>Liste des images de spectacles</h2>
+    <h2 style="text-align:center">Liste des images de spectacles</h2>
     <table class="table">
         <thead>
           <tr>
@@ -21,12 +21,11 @@
             <th scope="col">Option</th>
           </tr>
         </thead>
-        <tbody> 
-          <tr *ngFor="let spectacle of spectacles; let i = index">
+        <tbody>
+          <tr *ngFor="let spectacle of events; let i = index">
             <th scope="row">{{i + 1}}</th>
-            <td>{{spectacle.name}}</td>
-            <td>{{spectacle.artist}}</td>
-            <td>3</td>
+            <td>{{spectacle.image}}</td>
+            <td>{{spectacle.title}}</td>
             <td>{{spectacle.price}}</td> 
             <td>{{spectacle.price}}</td>
           </tr>
