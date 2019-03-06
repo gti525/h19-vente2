@@ -50,6 +50,9 @@ export class Event {
 
   @Column()
   saleStatue: number;
+  // Typo
+  // 0 = Not on sale (Newly uploaded event)
+  // 1 = Currently on sale and shown on website (needs valid tickets)
 
   @ManyToOne(type => Venue, venue => venue.events)
   venue: Venue;
