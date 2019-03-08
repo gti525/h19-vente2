@@ -1,21 +1,79 @@
-<h2> Saisissez vos informations de crédit </h2>
+<h2> Informations sur la carte de crédit </h2>
 
 <li class="list-group-item">
 
   <form [formGroup]="creditCardFormGroup" (ngSubmit)="onSubmit()">
 
-    <h4> Nom : </h4>
-    <input type="Nom" class="form-control" formControlName="name" placeholder="Nom figurant sur la carte">
+    
+	<div class="form-group">
+		<label for="username">Nom complet (sur la carte)</label>
+		<div class="input-group">
+			<div class="input-group-prepend">
+				<span class="input-group-text"><i class="fa fa-user"></i></span>
+			</div>
+			<input type="text" class="form-control" name="username" placeholder="" required="">
+		</div> <!-- input-group.// -->
+		</div> <!-- form-group.// -->
+		
+		<div class="form-group">
+		<label for="cardNumber">Numéro de carte</label>
+		<div class="input-group">
+			<div class="input-group-prepend">
+				<span class="input-group-text"><i class="fa fa-credit-card"></i></span>
+			</div>
+			<input type="text" class="form-control" name="cardNumber" placeholder="">
+		</div> <!-- input-group.// -->
+		</div> <!-- form-group.// -->
+		
+		<div class="row">
+			<div class="col-sm-8">
+				<div class="form-group">
+					<label><span class="hidden-xs">Expiration</span> </label>
+					<div class="form-inline">
+						<select class="form-control" style="width:45%">
+						  <option>MM</option>
+						  <option>01 - Janvier</option>
+						  <option>02 - Février</option>
+						  <option>03 - Mars</option>
+						  <option>04 - Avril</option>
+						  <option>05 - Mai</option>
+						  <option>06 - Juin</option>
+						  <option>07 - Juillet</option>
+						  <option>08 - Août</option>
+						  <option>09 - Septembre</option>
+						  <option>10 - Octobre</option>
+						  <option>11 - Novembre</option>
+						  <option>12 - Décembre</option>
+						</select>
+						<span style="width:10%; text-align: center"> / </span>
+						<select class="form-control" style="width:45%">
+						  <option>YY</option>
+						  <option>2019</option>
+						  <option>2020</option>
+						  <option>2021</option>
+						  <option>2022</option>
+						  <option>2023</option>
+						  <option>2024</option>
+						  <option>2025</option>
+						  <option>2026</option>
+						  <option>2027</option>
+						  <option>2028</option>
+						  <option>2029</option>
+						  <option>2030</option>
+						</select>
+					</div>
+				</div>
+			</div>
+			<div class="col-sm-4">
+				<div class="form-group">
+					<label data-toggle="tooltip" title="" data-original-title="3 digits code on back side of the card">CVV <i class="fa fa-question-circle"></i></label>
+					<input class="form-control" required="" type="text">
+				</div> <!-- form-group.// -->
+			</div>
+		</div> <!-- row.// -->
+		<button class="subscribe btn btn-primary btn-block" type="button"> Confirmer  </button>
+		
 
-    <h4> Numéro de carte de crédit : </h4>
-    <input type="text" class="form-control" formControlName="number" placeholder="Saisir numéro carte de crédit">
 
-    <h4> CVV : </h4>
-    <input type="text" class="form-control" formControlName="cvv" placeholder="CVV">
-
-    <h4> Expiration : </h4>
-    <input type="text" class="form-control" formControlName="expiration" placeholder="Date d'expiration mm/yy">
-
-    <input type="submit" class="btn btn-success" value="Soumettre">
   </form>
 </li>
