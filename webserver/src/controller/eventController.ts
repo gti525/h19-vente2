@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import { getManager } from "typeorm";
 import { Event } from "../entity/Event";
 import { Venue } from "../entity/Venue";
-import { isNumber, isString } from 'util';
+import { isNumber, isString } from "util";
 
 /**
  * Loads all events from the database.
@@ -99,12 +99,11 @@ export async function addEvent(request: Request, response: Response) {
     event.title = request.body.title;
     event.description = request.body.description;
     event.artist = request.body.artist;
-    event.venue = venue; // TODO: doesn't seem to be inserted with at the same time as the event.
-    event.organisation = "whatever"; // TODO: what is that field again?
-    // TODO: Image URL should be able to be null or do we set as empty ?;
-    event.image = "https://upload.wikimedia.org/wikipedia/commons/0/08/South_Shetland-2016-Deception_Island%E2%80%93Chinstrap_penguin_%28Pygoscelis_antarctica%29_04.jpg";
-    event.dateEvent = new Date(); // TODO: correct date
-    event.saleStatue = 0; // TODO: to describe (in entity probbly)
+    event.venue = venue;
+    event.organisation = "Placeholder"; // TODO: what is that field again?
+    event.image = "https://vente2-gti525.herokuapp.com/assets/images/placeholder-image-icon-21.jpg"; // Placeholder image
+    event.dateEvent = new Date(); // TODO: correct date from JSON
+    event.saleStatue = 0; // See Event Entity for meaning.
     const dbResponse = await eventRepository.insert(event);
     const eventId = dbResponse.identifiers.pop().id;
     // TODO: Tickets
@@ -112,7 +111,8 @@ export async function addEvent(request: Request, response: Response) {
     response.set("Location", "/events/" + eventId);
     response.status(201);
     response.json({
-        id: eventId
+        id: eventId,
+        message: "TODO"
     });
     response.end();
     return;
