@@ -29,7 +29,7 @@ export class AdminComponent implements OnInit {
 
     getSpec() {
         this.eventService.getEvents().subscribe((res : Event[])=>{
-        this.events = res;     
+        this.events = res;
       });
     }
 }

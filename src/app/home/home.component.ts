@@ -23,7 +23,7 @@ export class HomeComponent implements OnInit {
 
   getShows() {
   	this.eventService.getEvents().subscribe((res : Event[])=>{
-      this.events = res;     
+      this.events = res;
     });
   }
 
