@@ -24,7 +24,9 @@ import { BasicAuthInterceptor, ErrorInterceptor } from './gestion-admin/_helpers
 import { BilletsComponent } from './billets/billets.component';
 import { LoginSocialComponent } from './login-social/login-social.component';
 
+//material design from google angular
 import { MaterialModule } from './material.module';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 const appRoutes : Routes = [
 ];
@@ -51,6 +53,7 @@ const appRoutes : Routes = [
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
+    BrowserAnimationsModule,
     MaterialModule,
     RouterModule.forRoot(appRoutes)
   ],
@@ -61,6 +64,7 @@ const appRoutes : Routes = [
     // provider used to create fake backend
     fakeBackendProvider
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  entryComponents: [LoginSocialComponent]
 })
 export class AppModule { }
