@@ -23,9 +23,9 @@ const routes: Routes = [
   { path: 'checkout-credit', component: CheckoutCreditComponent  },
   { path: "show/:id", component: ShowDetailComponent },
   { path: "docs/api", component: DocsApiComponent },
-  
+
   // otherwise redirect to home
-  { path: '**', redirectTo: '' }
+  { path: "**", redirectTo: "/home" }
 ];
 
 @NgModule({
