@@ -11,7 +11,6 @@ import { CheckoutCreditComponent } from './checkout-credit/checkout-credit.compo
 import { LoginComponent } from './login/login.component';
 import { AuthGuard } from './gestion-admin/_guards';
 import { BilletsComponent } from './billets/billets.component';
-import { DocsApiComponent } from "./docs-api/docs-api.component";
 
 const routes: Routes = [
   { path: 'home', component: HomeComponent },
@@ -24,10 +23,9 @@ const routes: Routes = [
   { path: 'checkout-credit', component: CheckoutCreditComponent  },
   { path: "show/:id", component: ShowDetailComponent },
   { path: "billets", component: BilletsComponent },
-  { path: "docs/api", component: DocsApiComponent },
-
+  
   // otherwise redirect to home
-  { path: "**", redirectTo: "/home" }
+  { path: '**', redirectTo: '' }
 ];
 
 @NgModule({

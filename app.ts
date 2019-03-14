@@ -8,30 +8,21 @@ import { AppRoutes } from "./webserver/src/routes";
 import * as PostgressConnectionStringParser from 'pg-connection-string';
 
 const port = process.env.PORT || 8080;
-let LOCALHOST_SSL = true;
-if (process.env.NODE_ENV !== "production") {
-  require("dotenv").load();
-  LOCALHOST_SSL = (process.env.LOCALHOST_SSL === "true");
-}
-// console.log("LOCALHOST_SSL: " + LOCALHOST_SSL);
+console.log('NODE_ENV: ', process.env.NODE_ENV);
 
-let DATABASE_URL = process.env.DATABASE_URL;
-if ( !DATABASE_URL ){
-  DATABASE_URL = "postgres://" + "xuamcueiltwsar" + ":" + "35ad6253deb74e6f8aa19a178e9b3240744c30ca4a9f5719933ca168592e262c" + "@" +
-                 "ec2-54-243-228-140.compute-1.amazonaws.com" + ":" + "5432" + "/" + "dktnp0dql1q5k";
-}
-// console.log("DATABASE_URL: " + DATABASE_URL);
+// Create a new express application instancenpm 
+console.log('DATABASE_URL: ', process.env.DATABASE_URL)
 
-// Create a new express application instancenpm
 createConnection(<ConnectionOptions>{
-  type: "postgres",
+  type: 'postgres',
 
   // We need add the extra SSL to use heroku on localhost
   extra: {
-    ssl: LOCALHOST_SSL,
+    ssl: true,
   },
 
-  url: DATABASE_URL,
+  // Change the next line to use the Heroku postgresql from other environment like localhost, remenber that heroku changes this data periodically for security reasons
+  url: "postgres://xuamcueiltwsar:35ad6253deb74e6f8aa19a178e9b3240744c30ca4a9f5719933ca168592e262c@ec2-54-243-228-140.compute-1.amazonaws.com:5432/dktnp0dql1q5k",
 
   entities: [
     __dirname + "/webserver/src/entity/*.ts"
@@ -59,7 +50,7 @@ createConnection(<ConnectionOptions>{
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
 
     // Request headers you wish to allow
-    res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type, authorization');
+    res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
 
     // Set to true if you need the website to include cookies in the requests sent
     // to the API (e.g. in case you use sessions)
@@ -83,7 +74,7 @@ createConnection(<ConnectionOptions>{
   // example of a typescript TypeORM express https://github.com/typeorm/typescript-express-example
 
   AppRoutes.forEach(route => {
-    // console.log(route);
+    console.log(route);
     router[route.method](route.path, (request: Request, response: Response, next: Function) => {
         route.action(request, response)
             .then(() => next);

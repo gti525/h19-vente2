@@ -9,6 +9,6 @@ export class Event{
     artist: string;
     dateEvent: Date;
     image: string;
-    saleStatus: number;
+    saleStatue: number;
     venue: Venue;
 }
