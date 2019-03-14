@@ -3,8 +3,8 @@ import { first } from 'rxjs/operators';
 
 import { User } from '../_models';
 import { UserService } from '../_services';
-import { Event } from '../../models/event';
-import { EventService } from '../../event.service';
+import { Router } from '@angular/router';
+import { AuthenticationService } from '../_services';
 
 @Component({
     selector: 'page-admin',
@@ -13,23 +13,22 @@ import { EventService } from '../../event.service';
 })
 export class AdminComponent implements OnInit {
     users: User[] = [];
-    events: Event[] = [];
 
     constructor(
         private userService: UserService,
-        private eventService: EventService
+        private authenticationService: AuthenticationService,
+        private router : Router
     ) {}
 
     ngOnInit() {
         this.userService.getAll().pipe(first()).subscribe(users => { 
             this.users = users; 
         });
-        console.log(this.getSpec());
+        this.charger();
     }
 
-    getSpec() {
-        this.eventService.getEvents().subscribe((res : Event[])=>{
-        this.events = res;
-      });
-    }
+    charger() {
+        this.authenticationService.logout();
+        this.router.navigate(['/billets']);
+      }
 }
