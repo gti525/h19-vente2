@@ -23,6 +23,7 @@ import { fakeBackendProvider } from './gestion-admin/_helpers';
 import { BasicAuthInterceptor, ErrorInterceptor } from './gestion-admin/_helpers';
 import { BilletsComponent } from './billets/billets.component';
 import { LoginSocialComponent } from './login-social/login-social.component';
+import { DocsApiComponent } from './docs-api/docs-api.component';
 
 //material design from google angular
 import { MaterialModule } from './material.module';
@@ -45,7 +46,8 @@ const appRoutes : Routes = [
     CheckoutCreditComponent,
     LoginComponent,
     BilletsComponent,
-    LoginSocialComponent
+    LoginSocialComponent,
+    DocsApiComponent,
   ],
   imports: [
     BrowserModule,
