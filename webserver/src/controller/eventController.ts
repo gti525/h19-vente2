@@ -103,7 +103,7 @@ export async function addEvent(request: Request, response: Response) {
     event.organisation = "Placeholder"; // TODO: what is that field again?
     event.image = "https://vente2-gti525.herokuapp.com/assets/images/placeholder-image-icon-21.jpg"; // Placeholder image
     event.dateEvent = new Date(); // TODO: correct date from JSON
-    event.saleStatue = 0; // See Event Entity for meaning.
+    event.saleStatus = 0; // See Event Entity for meaning.
     const dbResponse = await eventRepository.insert(event);
     const eventId = dbResponse.identifiers.pop().id;
     // TODO: Tickets

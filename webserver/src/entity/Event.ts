@@ -49,7 +49,7 @@ export class Event {
   image: string;
 
   @Column()
-  saleStatue: number;
+  saleStatus: number;
   // Typo
   // 0 = Not on sale (Newly uploaded event)
   // 1 = Currently on sale and shown on website (needs valid tickets)
