@@ -22,6 +22,9 @@ import { LoginComponent } from './login/login.component';
 import { fakeBackendProvider } from './gestion-admin/_helpers';
 import { BasicAuthInterceptor, ErrorInterceptor } from './gestion-admin/_helpers';
 import { BilletsComponent } from './billets/billets.component';
+import { LoginSocialComponent } from './login-social/login-social.component';
+
+import { MaterialModule } from './material.module';
 
 const appRoutes : Routes = [
 ];
@@ -39,7 +42,8 @@ const appRoutes : Routes = [
     ShowDetailComponent,
     CheckoutCreditComponent,
     LoginComponent,
-    BilletsComponent
+    BilletsComponent,
+    LoginSocialComponent
   ],
   imports: [
     BrowserModule,
@@ -47,6 +51,7 @@ const appRoutes : Routes = [
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
+    MaterialModule,
     RouterModule.forRoot(appRoutes)
   ],
   providers: [
