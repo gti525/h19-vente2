@@ -72,7 +72,20 @@ export async function addEvent(request: Request, response: Response) {
             response.end();
             return;
         }
-    // Catch JSON errors such as missing properties from the previos IF or other malformations.
+
+        if (true) {
+            console.log(request.body.tickets);
+
+            response.status(400);
+            response.json({
+                message: "La syntaxe du corps de la requête ne respecte pas ce qui est attendu.",
+                example: Event.example
+            });
+            response.end();
+            return;
+        }
+
+    // Catch JSON errors such as missing properties from the previous IF or other malformations.
     } catch (err) {
         response.status(400);
         response.json({

@@ -1,5 +1,6 @@
-import {Entity, Column, PrimaryGeneratedColumn, ManyToOne, JoinColumn} from "typeorm";
+import {Entity, Column, PrimaryGeneratedColumn, ManyToOne, JoinColumn, OneToMany} from "typeorm";
 import {Venue} from "./Venue";
+import { Ticket } from "./Ticket";
 
 @Entity()
 export class Event {
@@ -56,4 +57,7 @@ export class Event {
 
   @ManyToOne(type => Venue, venue => venue.events)
   venue: Venue;
+
+  @OneToMany(type => Ticket, ticket => ticket.event)
+  tickets: Ticket;
 }
