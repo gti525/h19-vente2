@@ -21,6 +21,7 @@ import { LoginComponent } from './login/login.component';
 // used to create fake backend
 import { fakeBackendProvider } from './gestion-admin/_helpers';
 import { BasicAuthInterceptor, ErrorInterceptor } from './gestion-admin/_helpers';
+import { DocsApiComponent } from './docs-api/docs-api.component';
 
 const appRoutes : Routes = [
 ];
@@ -37,7 +38,8 @@ const appRoutes : Routes = [
     CheckoutClientInformationComponent,
     ShowDetailComponent,
     CheckoutCreditComponent,
-    LoginComponent
+    LoginComponent,
+    DocsApiComponent
   ],
   imports: [
     BrowserModule,
