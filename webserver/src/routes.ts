@@ -1,7 +1,6 @@
 import * as eventController from "./controller/eventController";
 import * as venueController from "./controller/venueController";
-
-
+import * as socialController from "./controller/socialController";
 /**
  * All application routes.
  */
@@ -65,5 +64,10 @@ export const AppRoutes = [
         path: "/venue/:venueId",
         method: "get",
         action: venueController.getVenueById
+    },
+    {
+        path: "/client/login",
+        method: "post",
+        action: socialController.login
     }
 ];

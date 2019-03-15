@@ -4,9 +4,10 @@ import { FormGroup, FormBuilder, FormControl } from '@angular/forms';
 import { CheckoutPassService } from "../services/checkout-pass.service"
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { LoginSocialComponent } from '../login-social/login-social.component'
+import { LoginSocialService } from '../services/login-social.service';
 
 import { User } from "../models/user";
-
+import { LoginSocial } from '../models/login-social';
 
 @Component({
   selector: 'app-checkout-client-information',
@@ -17,11 +18,15 @@ export class CheckoutClientInformationComponent implements OnInit {
 
   user: User;
   userFormGroup: FormGroup;
-  animal: string;
-  name: string;
+  loginSocial : LoginSocial = {
+    email : "test",
+    password : "hoe"
+  }
+
 
   constructor(
     public checkoutPassService: CheckoutPassService,
+    private loginSocialService: LoginSocialService,
     private router: Router,
     private fb: FormBuilder,
     public dialog: MatDialog) {
@@ -38,11 +43,11 @@ export class CheckoutClientInformationComponent implements OnInit {
   openDialog(): void {
     const dialogRef = this.dialog.open(LoginSocialComponent, {
       width: '600px',
-      data: {name: this.name, animal: this.animal}
+      data: {}
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      this.animal = result;
+    
     });
   }
 
