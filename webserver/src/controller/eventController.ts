@@ -93,6 +93,9 @@ export async function addEvent(request: Request, response: Response) {
         event.title = request.body.title;
         event.description = request.body.description;
         event.artist = request.body.artist;
+        if (request.body.organisation && isString(request.body.organisation)) {
+            event.organisation = request.body.organisation;
+        }
         event.venue = venue;
         if (request.body.imageURL) {
             if (isUrl(request.body.imageURL)) {

@@ -1,0 +1,79 @@
+{
+    "title": "Baptème de Georges",
+    "description": "Un baptème très symbolique. Venez voir le nouveau né Georges se faire baptiser! Cérémonie palpitante.",
+    "artist": "Prêtre Jean-Jacques",
+    "organisation": "Église de la Place Saint-Paul",
+    "date": "2019-06-15T20:30:00.001Z",
+    "imageUrl": "http://paroissescathedraletoulouse.fr/wp-content/uploads/2016/09/BAPTEME-2-.jpg",
+    "venue": {
+      "name": "Place Saint-Paul",
+      "address": "2983 Chemin Lacroix",
+      "capacity": 2000
+    },
+    "tickets": [
+      {
+        "uuid": "42631a09-d236-4453-87b7-7b7aefd7c058",
+        "price": 10.0
+      },
+      {
+        "uuid": "f1bbd972-f726-441d-a417-71b345cac059",
+        "price": 15.0
+      }
+    ]
+  }
+
+  {
+    "title": "Combat de Coq 2019",
+    "description": "Venez parier sur le meilleur coq. Les males de cette année sont exceptionnels. En bonus, ponte en direct de poules géantes.",
+    "artist": " ",
+    "organisation": "Team Ricardo",
+    "date": "2019-06-15T20:30:00.001Z",
+    "imageUrl": "https://st3.idealista.com/cms/archivos/styles/idcms_social_tablet/public/2018-07/news/festival%20de%20jazz%20vitoria-gasteiz.jpg?fv=btThqvaw&itok=iSZFcOpT",
+    "venue": {
+      "name": "Chez Ricardo",
+      "address": "333 Rue Dominique",
+      "capacity": 500
+    },
+    "tickets": [
+      {
+        "uuid": "868a7fc7-763b-464f-9105-bad92bab5701",
+        "price": 10.0
+      },
+      {
+        "uuid": "5887b875-22da-4fe3-b3b5-2c468838f716",
+        "price": 15.0
+      },
+      {
+        "uuid": "570d2a45-1457-4390-8943-0886233c1c67",
+        "price": 15.0
+      }
+    ]
+  }
+
+  {
+    "title": "Take A Moment",
+    "description": "Le meilleur événement pour prendre un café et écouter des morceaux Jazz. Un groupe d\'étudiants en musique vous offre une soirée inoubliable",
+    "artist": "Take A Moment Jazz Group",
+    "organisation": "",
+    "date": "2019-06-15T20:30:00.001Z",
+    "imageUrl": "https://st3.idealista.com/cms/archivos/styles/idcms_social_tablet/public/2018-07/news/festival%20de%20jazz%20vitoria-gasteiz.jpg?fv=btThqvaw&itok=iSZFcOpT",
+    "venue": {
+      "name": "BigBang Café",
+      "address": "345 Place Bonaventure",
+      "capacity": 300
+    },
+    "tickets": [
+      {
+        "uuid": "16e2040b-e03b-425c-a063-bb3e85f35271",
+        "price": 10.0
+      },
+      {
+        "uuid": "7b21af78-9cf9-4c74-a185-273b14f63188",
+        "price": 15.0
+      },
+      {
+        "uuid": "6825b704-fbca-4ddc-9c33-f678e60df9d2",
+        "price": 15.0
+      }
+    ]
+  }
