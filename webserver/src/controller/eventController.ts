@@ -2,7 +2,11 @@ import { Request, Response } from "express";
 import { getManager } from "typeorm";
 import { Event } from "../entity/Event";
 import { Venue } from "../entity/Venue";
-import { isNumber, isString } from 'util';
+import { isNumber, isString, isArray, isNullOrUndefined } from "util";
+import { Ticket } from "../entity/Ticket";
+import { anyNonNil } from "is-uuid";
+import { checkDuplicateInObject } from "../lib/tools";
+import isUrl = require("is-url");
 
 /**
  * Loads all events from the database.
@@ -28,7 +32,7 @@ export async function getEventById(request: Request, response: Response) {
     const eventRepository = getManager().getRepository(Event);
 
     // load a event by a given event id and its associated venues
-    let event = await eventRepository
+    const event = await eventRepository
         .createQueryBuilder("event")
         .innerJoinAndSelect("event.venue", "venue")
         .where("event.id = :myid", {myid: request.params.eventId })
@@ -51,9 +55,15 @@ export async function getEventById(request: Request, response: Response) {
  */
 export async function addEvent(request: Request, response: Response) {
 
+    // Assign entity variables
+    const venue = new Venue();
+    const event = new Event();
+    const tickets = new Array<Ticket>();
+
     // TODO: 401 UNAUTHORIZE
 
     // START OF 400 BAD REQUEST (Before making DB connections)
+
     try {
         // Check for existance and type basic first.
         if (!request.body.title && !(isString(request.body.title)) &&
@@ -72,12 +82,78 @@ export async function addEvent(request: Request, response: Response) {
             response.end();
             return;
         }
-    // Catch JSON errors such as missing properties from the previos IF or other malformations.
+
+        // Create Venue
+        venue.name = request.body.venue.name;
+        venue.address = request.body.venue.address;
+        venue.capacity = request.body.venue.capacity;
+
+        // Create Event
+        event.title = request.body.title;
+        event.description = request.body.description;
+        event.artist = request.body.artist;
+        if (request.body.organisation && isString(request.body.organisation)) {
+            event.organisation = request.body.organisation;
+        }
+        event.venue = venue;
+        if (request.body.imageUrl) {
+            if (isUrl(request.body.imageUrl)) {
+                event.image = request.body.imageUrl;
+            } else {
+                event.image = "https://vente2-gti525.herokuapp.com/assets/images/placeholder-image-icon-21.jpg"; // Placeholder image
+            }
+        }
+        event.dateEvent = new Date(request.body.date);
+        event.saleStatus = 0; // Not one sale
+
+        // If the tickets are included
+        if (request.body.tickets) {
+
+            if (!(isArray(request.body.tickets))) {
+                response.status(400);
+                response.json({
+                    message: "La syntaxe du corps de la requête ne respecte pas ce qui est attendu.",
+                    example: Event.exampleWithTickets
+                });
+                response.end();
+                return;
+            }
+            request.body.tickets.forEach(element => {
+                // console.log("Price: " + element.price + ", isNumber: " + isNumber(element.price));
+                // console.log("UUID: " + element.uuid + ", isUUID: " + anyNonNil(element.uuid));
+                if ( !(isNumber(element.price)) && !(anyNonNil(element.uuid)) ) {
+                    response.status(400);
+                    response.json({
+                        message: "La syntaxe du corps de la requête ne respecte pas ce qui est attendu.",
+                        example: Event.exampleWithTickets
+                    });
+                    response.end();
+                    return;
+                }
+                let ticket = new Ticket();
+                ticket.uuid = element.uuid;
+                ticket.price = element.price;
+                ticket.event = event;
+                tickets.push(ticket);
+            });
+            if (checkDuplicateInObject("uuid", tickets)) {
+                response.status(409);
+                    response.json({
+                        message: "Les billets soumis ne sont pas uniques (uuid).",
+                    });
+                    response.end();
+                    return;
+            }
+            // console.log(tickets.length);
+        }
+
+    // Catch JSON errors such as missing properties from the previous checks or other syntax errors.
     } catch (err) {
+        // throw(err);
         response.status(400);
         response.json({
             message: "La syntaxe du corps de la requête ne respecte pas ce qui est attendu.",
-            example: Event.example
+            example: Event.exampleWithTickets
         });
         response.end();
         return;
@@ -87,32 +163,26 @@ export async function addEvent(request: Request, response: Response) {
 
     // TODO: Check that the JSON properties retrieved respect a specific format (maybe?)
 
-    // 201 CREATED
-    const venue = new Venue();
-    const event = new Event();
-    venue.name = request.body.venue.name;
-    venue.address = request.body.venue.address;
-    venue.capacity = request.body.venue.capacity;
+    // DB insertions
+    // Venue first since Event (Many) has a Venue (One) as a foreign key.
     const venueRepository = getManager().getRepository(Venue);
-    await venueRepository.insert(venue);
+    await venueRepository.save(venue);
+
+    // It will automatically add the Venue foreign key, since it is part of the entity.
     const eventRepository = getManager().getRepository(Event);
-    event.title = request.body.title;
-    event.description = request.body.description;
-    event.artist = request.body.artist;
-    event.venue = venue; // TODO: doesn't seem to be inserted with at the same time as the event.
-    event.organisation = "whatever"; // TODO: what is that field again?
-    // TODO: Image URL should be able to be null or do we set as empty ?;
-    event.image = "https://upload.wikimedia.org/wikipedia/commons/0/08/South_Shetland-2016-Deception_Island%E2%80%93Chinstrap_penguin_%28Pygoscelis_antarctica%29_04.jpg";
-    event.dateEvent = new Date(); // TODO: correct date
-    event.saleStatue = 0; // TODO: to describe (in entity probbly)
     const dbResponse = await eventRepository.insert(event);
     const eventId = dbResponse.identifiers.pop().id;
-    // TODO: Tickets
+
+    // Ticket (Many) last, since it contains Event (One) as a foreign key.
+    const ticketRepository = getManager().getRepository(Ticket);
+    await ticketRepository.save(tickets, {chunk: tickets.length / 500});
+
 
     response.set("Location", "/events/" + eventId);
     response.status(201);
     response.json({
-        id: eventId
+        id: eventId,
+        message: "TODO"
     });
     response.end();
     return;
@@ -121,8 +191,126 @@ export async function addEvent(request: Request, response: Response) {
 /**
  * Delete an event from the database
  */
-export async function deleteEvent(request: Request, response: Response) {
+export async function deleteEventById(request: Request, response: Response) {
 
     // get a event repository to perform operations with event
     const eventRepository = getManager().getRepository(Event);
+
+
+    // if event was not found return 404 to the client
+    if (true) {
+        response.status(501);
+        response.json({
+            message: "Service n'est pas encore implémenté.",
+        });
+        response.end();
+        return;
+    }
+}
+/**
+ * Replace an event from the database
+ */
+export async function replaceEventById(request: Request, response: Response) {
+
+    // get a event repository to perform operations with event
+    const eventRepository = getManager().getRepository(Event);
+
+    if (true) {
+        response.status(501);
+        response.json({
+            message: "Service n'est pas encore implémenté.",
+        });
+        response.end();
+        return;
+    }
+}
+
+/**
+ * Publish an event (make it viewable online and sellable)
+ */
+export async function publishEventById(request: Request, response: Response) {
+
+    // get a event repository to perform operations with event
+    const eventRepository = getManager().getRepository(Event);
+
+    if (true) {
+        response.status(501);
+        response.json({
+            message: "Service n'est pas encore implémenté.",
+        });
+        response.end();
+        return;
+    }
+}
+
+/**
+ * Termine the sell of an event and return all tickets
+ */
+export async function terminateEventById(request: Request, response: Response) {
+
+    // get a event repository to perform operations with event
+    const eventRepository = getManager().getRepository(Event);
+
+    if (true) {
+        response.status(501);
+        response.json({
+            message: "Service n'est pas encore implémenté.",
+        });
+        response.end();
+        return;
+    }
+}
+
+/**
+ * Return all tickets from an event by its Id
+ */
+export async function getTicketsFromEventById(request: Request, response: Response) {
+
+    // get a event repository to perform operations with event
+    const eventRepository = getManager().getRepository(Event);
+
+    if (true) {
+        response.status(501);
+        response.json({
+            message: "Service n'est pas encore implémenté.",
+        });
+        response.end();
+        return;
+    }
+}
+
+/**
+ * Replace all tickets from an event by its Id
+ */
+export async function replaceTicketsFromEventById(request: Request, response: Response) {
+
+    // get a event repository to perform operations with event
+    const eventRepository = getManager().getRepository(Event);
+
+    if (true) {
+        response.status(501);
+        response.json({
+            message: "Service n'est pas encore implémenté.",
+        });
+        response.end();
+        return;
+    }
+}
+
+/**
+ * Delete all tickets from an event by its Id
+ */
+export async function deleteTicketsFromEventById(request: Request, response: Response) {
+
+    // get a event repository to perform operations with event
+    const eventRepository = getManager().getRepository(Event);
+
+    if (true) {
+        response.status(501);
+        response.json({
+            message: "Service n'est pas encore implémenté.",
+        });
+        response.end();
+        return;
+    }
 }

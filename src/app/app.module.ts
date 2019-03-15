@@ -6,6 +6,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
 import { HomeComponent } from './home/home.component';
+import { AdminComponent } from './gestion-admin/page-admin/page-admin.component';
 import { CheckoutRecapComponent } from './checkout-recap/checkout-recap.component';
 import { CheckoutConfirmationComponent } from './checkout-confirmation/checkout-confirmation.component';
 import { CartComponent } from './cart/cart.component';
@@ -14,7 +15,19 @@ import { CheckoutClientInformationComponent } from './checkout-client-informatio
 import { ShowDetailComponent } from './show-detail/show-detail.component';
 import { Routes, RouterModule } from '@angular/router';
 import { CheckoutCreditComponent } from './checkout-credit/checkout-credit.component';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { LoginComponent } from './login/login.component';
+
+// used to create fake backend
+import { fakeBackendProvider } from './gestion-admin/_helpers';
+import { BasicAuthInterceptor, ErrorInterceptor } from './gestion-admin/_helpers';
+import { BilletsComponent } from './billets/billets.component';
+import { LoginSocialComponent } from './login-social/login-social.component';
+import { DocsApiComponent } from './docs-api/docs-api.component';
+
+//material design from google angular
+import { MaterialModule } from './material.module';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 const appRoutes : Routes = [
 ];
@@ -24,12 +37,17 @@ const appRoutes : Routes = [
     AppComponent,
     HeaderComponent,
     HomeComponent,
+    AdminComponent,
     CheckoutRecapComponent,
     CheckoutConfirmationComponent,
     CartComponent,
     CheckoutClientInformationComponent,
     ShowDetailComponent,
-    CheckoutCreditComponent
+    CheckoutCreditComponent,
+    LoginComponent,
+    BilletsComponent,
+    LoginSocialComponent,
+    DocsApiComponent,
   ],
   imports: [
     BrowserModule,
@@ -37,9 +55,18 @@ const appRoutes : Routes = [
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
+    BrowserAnimationsModule,
+    MaterialModule,
     RouterModule.forRoot(appRoutes)
   ],
-  providers: [],
-  bootstrap: [AppComponent]
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: BasicAuthInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
+
+    // provider used to create fake backend
+    fakeBackendProvider
+  ],
+  bootstrap: [AppComponent],
+  entryComponents: [LoginSocialComponent]
 })
 export class AppModule { }

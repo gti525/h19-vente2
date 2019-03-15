@@ -2,9 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from "@angular/router";
 import { FormGroup, FormBuilder, FormControl } from '@angular/forms';
 import { CheckoutPassService } from "../services/checkout-pass.service"
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import { LoginSocialComponent } from '../login-social/login-social.component'
 
 import { User } from "../models/user";
-
+import { LoginSocial } from '../models/login-social';
 
 @Component({
   selector: 'app-checkout-client-information',
@@ -15,11 +17,14 @@ export class CheckoutClientInformationComponent implements OnInit {
 
   user: User;
   userFormGroup: FormGroup;
+  userSocial: any;
+
 
   constructor(
     public checkoutPassService: CheckoutPassService,
     private router: Router,
-    private fb: FormBuilder) {
+    private fb: FormBuilder,
+    public dialog: MatDialog) {
     this.userFormGroup = this.fb.group({
       name: new FormControl(''),
       firstName: new FormControl(''),
@@ -30,8 +35,26 @@ export class CheckoutClientInformationComponent implements OnInit {
     });
   }
 
+  openDialog(): void {
+    const dialogRef = this.dialog.open(LoginSocialComponent, {
+      width: '600px',
+      data: {}
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result){
+        console.log("from client-information : ", result);
+        this.checkoutPassService.setUserSocial(result) ;
+        this.router.navigate(["checkout-credit"]);
+      }
+    });
+  }
+
   onSoumettre() {
+    
+    
     this.checkoutPassService.user = new User(this.userFormGroup.value);
+    
     this.router.navigate(["checkout-credit"]);
   }
 

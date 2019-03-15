@@ -23,13 +23,17 @@ export class HomeComponent implements OnInit {
 
   getShows() {
   	this.eventService.getEvents().subscribe((res : Event[])=>{
-      this.events = res;     
+      this.events = res;
     });
   }
 
   onShowClick(event: Event) {
     //console.log(show.id);
     this.router.navigate(['/show',event.id]);
+  }
+
+  login() {
+    this.router.navigate(['/login']);
   }
 
 }
