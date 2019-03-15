@@ -14,6 +14,7 @@ import { BilletsComponent } from './billets/billets.component';
 import { DocsApiComponent } from "./docs-api/docs-api.component";
 
 const routes: Routes = [
+  { path: '', redirectTo: 'home' , pathMatch:'full'},
   { path: 'home', component: HomeComponent },
   { path: 'login',component: LoginComponent },
   { path: 'admin', component: AdminComponent, canActivate: [AuthGuard] },
@@ -27,7 +28,7 @@ const routes: Routes = [
   { path: "docs/api", component: DocsApiComponent },
 
   // otherwise redirect to home
-  { path: "**", redirectTo: "/home" }
+  
 ];
 
 @NgModule({
