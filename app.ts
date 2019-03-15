@@ -9,7 +9,7 @@ import * as PostgressConnectionStringParser from 'pg-connection-string';
 
 const port = process.env.PORT || 8080;
 let LOCALHOST_SSL = true;
-let DATABASE_URL: string;
+let DATABASE_URL;
 if (process.env.NODE_ENV !== "production") {
   require("dotenv").load();
   if(process.env.LOCALHOST_SSL){
@@ -17,12 +17,11 @@ if (process.env.NODE_ENV !== "production") {
   }
   if (process.env.DATABASE_URL){
     DATABASE_URL = process.env.DATABASE_URL;
+  } else {
+    DATABASE_URL = "postgres://xuamcueiltwsar:35ad6253deb74e6f8aa19a178e9b3240744c30ca4a9f5719933ca168592e262c@ec2-54-243-228-140.compute-1.amazonaws.com:5432/dktnp0dql1q5k";
   }
 }
 
-if ( !process.env.DATABASE_URL ){
-  DATABASE_URL = "postgres://xuamcueiltwsar:35ad6253deb74e6f8aa19a178e9b3240744c30ca4a9f5719933ca168592e262c@ec2-54-243-228-140.compute-1.amazonaws.com:5432/dktnp0dql1q5k";
-}
 console.log("DATABASE_URL: " + DATABASE_URL);
 console.log("LOCALHOST_SSL: " + LOCALHOST_SSL);
 // Create a new express application instancenpm
