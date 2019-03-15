@@ -15,8 +15,8 @@ import { AxiosInstance } from "axios";
 export class LoginSocialService {
   //apiURL = 'https://core-api-525.herokuapp.com/api/client/login'
   // apiURL = 'https://core-api-525.herokuapp.com/api';
-  //apiURL = 'https://vente2-gti525.herokuapp.com/api';
-  apiURL = 'http://localhost:8080/api';
+  apiURL = 'https://vente2-gti525.herokuapp.com/api';
+  //apiURL = 'http://localhost:8080/api';
 
   private axiosClient: AxiosInstance;
 
@@ -56,14 +56,14 @@ export class LoginSocialService {
       password: 'fakePass'
     })
       .then(res => {
-        console.log("res: " ,  res);
+        // console.log("res: " ,  res);
         result = res;
       })
       .catch(err => {
-        console.log(err.response.data.status);
-        console.log(err.response);
-        console.log(err.response.status);
-        console.log("catched the error");
+        // console.log(err.response.data.status);
+        // console.log(err.response);
+        // console.log(err.response.status);
+        // console.log("catched the error");
         result = err;
       });
 
