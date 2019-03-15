@@ -15,11 +15,12 @@ if (process.env.NODE_ENV !== "production") {
   if(process.env.LOCALHOST_SSL){
     LOCALHOST_SSL = (process.env.LOCALHOST_SSL === "true");
   }
-  if (process.env.DATABASE_URL){
-    DATABASE_URL = process.env.DATABASE_URL;
-  } else {
-    DATABASE_URL = "postgres://xuamcueiltwsar:35ad6253deb74e6f8aa19a178e9b3240744c30ca4a9f5719933ca168592e262c@ec2-54-243-228-140.compute-1.amazonaws.com:5432/dktnp0dql1q5k";
-  }
+}
+
+if (process.env.DATABASE_URL){
+  DATABASE_URL = process.env.DATABASE_URL;
+} else {
+  DATABASE_URL = "postgres://xuamcueiltwsar:35ad6253deb74e6f8aa19a178e9b3240744c30ca4a9f5719933ca168592e262c@ec2-54-243-228-140.compute-1.amazonaws.com:5432/dktnp0dql1q5k";
 }
 
 console.log("DATABASE_URL: " + DATABASE_URL);
