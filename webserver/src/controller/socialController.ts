@@ -16,33 +16,27 @@ export async function login(request: Request, response: Response) {
         }
     });
 
-   
     await request;
 
     var loginInfo = {
         email: request.body.email,
         password: request.body.password
     }
-    //console.log("request : ", request);
-    //console.log("request body : ", request.body);
-    
+
     axiosClient.post(apiURL + '/client/login', loginInfo)
         .then(res => {
-            //console.log("into res");
-            //console.log(loginInfo);
-            //console.log(res);
-            //result = res;
-            response.send(res);
+
+            response.status(200);
+            response.json(res.data);
+            response.send();
             
         })
         .catch(err => {
-            //console.log("into err");
-            //console.log(loginInfo);
-            //console.log(err);
-            //console.log(err.response.status);
-            //result = err;
-            response.send(err.response.data);
-            //response.status(err.response.status);
+
+            response.status(err.response.data.status);
+            response.json(err.response.data);
+            response.send();
+           
         });
 
     //response.send(result);

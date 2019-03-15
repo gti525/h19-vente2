@@ -1,16 +1,10 @@
 
 import { Component, OnInit, Inject } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { LoginSocialService } from '../services/login-social.service';
 import { LoginSocial } from '../models/login-social';
 import { Router } from '@angular/router';
-import { catchError } from 'rxjs/operators';
-//import { Observable } from 'rxjs/Observable';
 
-import {
-   HttpErrorResponse
-} from "@angular/common/http";
-import { HttpClient } from 'selenium-webdriver/http';
 
 
 //import { DialogData } from '../DialogData';
@@ -25,42 +19,52 @@ import { HttpClient } from 'selenium-webdriver/http';
 })
 export class LoginSocialComponent implements OnInit {
 
-  //public loginSocial: LoginSocial;
-  response : any;
-  error : any = "not dead";
+  public loginSocial: LoginSocial = {
+    email: "",
+    password: ""
+  };  // used to connect to social
+  errorMessage;
+  user: any; //returned user from social
 
   constructor(
-    public dialogRef: MatDialogRef<LoginSocialComponent>, 
+    public dialogRef: MatDialogRef<LoginSocialComponent>,
     private loginSocialService: LoginSocialService,
-    private router : Router,
-    @Inject(MAT_DIALOG_DATA) public  loginSocial:  LoginSocial ) { 
+    private router: Router,
+    @Inject(MAT_DIALOG_DATA) public data: any) {
   }
-  
+
   onNoClick(): void {
     this.dialogRef.close();
   }
 
   onConnect(): void {
+    console.log("onconnect : ", this.loginSocial);
+    this.loginSocialService.postLogin(this.loginSocial)
+      .then(res => {
+        console.log("res.data : ", res);
 
-     console.log(this.loginSocial);
-     this.loginSocialService.postLogin(this.loginSocial);
-    // .subscribe(
-    //   res  => {
-    //     console.log(res);
-    //         //this.dialogRef.close();
-    //         //this.router.navigate(['/checkout-credit']);
 
-    //   }, error => {
-    //     console.log(error.response);
-    //     if(error == "Not Found"){
-    //       console.log("hello");
-    //     }
-    //   },
-    //   () => {
+        console.log("data :  ", res.data);
+        this.user = res.data;
 
-    //   }
-    // );
+        //this.dialogRef.close(this.user);
+      })
+      .catch(err => {
 
+
+        this.errorMessage = '';
+        console.log("error :  ", err);
+
+        if (err.data.status == 404) {
+          this.errorMessage = " Error : Email and/or Password combination not found";
+        }
+        else {
+          this.errorMessage = " Error : " + err.data.title;
+        }
+        console.log(" this.errorMessage", this.errorMessage);
+        //window.alert(this.errorMessage );
+        //if its a throwed error we can catch it here.
+      });
   }
 
 
