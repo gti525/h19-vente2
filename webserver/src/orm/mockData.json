@@ -1,4 +1,5 @@
-{
+[
+    {
     "title": "Baptème de Georges",
     "description": "Un baptème très symbolique. Venez voir le nouveau né Georges se faire baptiser! Cérémonie palpitante.",
     "artist": "Prêtre Jean-Jacques",
@@ -20,8 +21,7 @@
         "price": 15.0
       }
     ]
-  }
-
+  },
   {
     "title": "Combat de Coq 2019",
     "description": "Venez parier sur le meilleur coq. Les males de cette année sont exceptionnels. En bonus, ponte en direct de poules géantes.",
@@ -48,11 +48,11 @@
         "price": 15.0
       }
     ]
-  }
+  },
 
   {
     "title": "Take A Moment",
-    "description": "Le meilleur événement pour prendre un café et écouter des morceaux Jazz. Un groupe d\'étudiants en musique vous offre une soirée inoubliable",
+    "description": "Le meilleur événement pour prendre un café et écouter des morceaux Jazz. Un groupe d'étudiants en musique vous offre une soirée inoubliable",
     "artist": "Take A Moment Jazz Group",
     "organisation": "",
     "date": "2019-06-15T20:30:00.001Z",
@@ -77,3 +77,4 @@
       }
     ]
   }
+]

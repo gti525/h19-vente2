@@ -6,7 +6,6 @@ import { isNumber, isString, isArray, isNullOrUndefined } from "util";
 import { Ticket } from "../entity/Ticket";
 import { anyNonNil } from "is-uuid";
 import { checkDuplicateInObject } from "../lib/tools";
-import "is-url";
 import isUrl = require("is-url");
 
 /**
