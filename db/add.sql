@@ -49,7 +49,7 @@ INSERT INTO Users(name, surname, socialLink) VALUES
 INSERT INTO Transactions(idUser, transactionNumber) VALUES
 	(15, 'UNIDPOURPASSERELLE');
 
-INSERT INTO Tickets(idEvent, idTransaction, guid, price) VALUES
+INSERT INTO Tickets(idEvent, idTransaction, uuid, price) VALUES
 	(1, 1, 'asdkfj-jk3fkasjdf-oiasdjfi839', 15),
 	(1, 1, 'asdkfj-jk3fkasjdf-oiasdjfi838', 15),
 	(1, 1, 'asdkfj-jk3fkasjdf-oiasdjfi837', 15),

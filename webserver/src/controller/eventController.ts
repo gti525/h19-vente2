@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import { getManager } from "typeorm";
 import { Event } from "../entity/Event";
 import { Venue } from "../entity/Venue";
-import { isNumber, isString } from "util";
+import { isNumber, isString, isArray } from "util";
 
 /**
  * Loads all events from the database.
@@ -28,7 +28,7 @@ export async function getEventById(request: Request, response: Response) {
     const eventRepository = getManager().getRepository(Event);
 
     // load a event by a given event id and its associated venues
-    let event = await eventRepository
+    const event = await eventRepository
         .createQueryBuilder("event")
         .innerJoinAndSelect("event.venue", "venue")
         .where("event.id = :myid", {myid: request.params.eventId })
@@ -73,24 +73,24 @@ export async function addEvent(request: Request, response: Response) {
             return;
         }
 
-        if (true) {
-            console.log(request.body.tickets);
+        if (request.body.tickets) {
+
 
             response.status(400);
             response.json({
-                message: "La syntaxe du corps de la requête ne respecte pas ce qui est attendu.",
+                message: "TEST",
                 example: Event.example
             });
             response.end();
             return;
         }
 
-    // Catch JSON errors such as missing properties from the previous IF or other malformations.
+    // Catch JSON errors such as missing properties from the previous checks or other syntax errors.
     } catch (err) {
         response.status(400);
         response.json({
             message: "La syntaxe du corps de la requête ne respecte pas ce qui est attendu.",
-            example: Event.example
+            example: Event.exampleWithTickets
         });
         response.end();
         return;
@@ -102,21 +102,21 @@ export async function addEvent(request: Request, response: Response) {
 
     // 201 CREATED
     const venue = new Venue();
-    const event = new Event();
     venue.name = request.body.venue.name;
     venue.address = request.body.venue.address;
     venue.capacity = request.body.venue.capacity;
     const venueRepository = getManager().getRepository(Venue);
     await venueRepository.insert(venue);
+
+    const event = new Event();
     const eventRepository = getManager().getRepository(Event);
     event.title = request.body.title;
     event.description = request.body.description;
     event.artist = request.body.artist;
     event.venue = venue;
-    event.organisation = "Placeholder"; // TODO: what is that field again?
     event.image = "https://vente2-gti525.herokuapp.com/assets/images/placeholder-image-icon-21.jpg"; // Placeholder image
-    event.dateEvent = new Date(); // TODO: correct date from JSON
-    event.saleStatus = 0; // See Event Entity for meaning.
+    event.dateEvent = new Date(request.body.date);
+    event.saleStatus = 1; // See Event Entity for meaning.
     const dbResponse = await eventRepository.insert(event);
     const eventId = dbResponse.identifiers.pop().id;
     // TODO: Tickets

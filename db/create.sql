@@ -50,6 +50,6 @@ CREATE TABLE Tickets (
 	id BIGSERIAL PRIMARY KEY,
 	idEvent BIGINT REFERENCES Events(id) NOT NULL,
 	idTransaction BIGINT REFERENCES Transactions(id),
-	guid TEXT UNIQUE NOT NULL, -- TODO: Change or verify if correct data type
+	uuid TEXT UNIQUE NOT NULL, -- TODO: Change or verify if correct data type
 	price NUMERIC(8, 2) NOT NULL
 );

@@ -1,19 +1,41 @@
-import {Entity, Column, PrimaryGeneratedColumn, OneToOne, JoinColumn} from "typeorm";
-import {User} from "./User"
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  JoinColumn,
+  ManyToOne,
+  OneToMany
+} from "typeorm";
+import { User } from "./User";
+import { Ticket } from "./Ticket";
 
 @Entity()
 export class Transaction {
+  @PrimaryGeneratedColumn({
+    type: "integer",
+    name: "id"
+  })
+  id: number;
 
-    @PrimaryGeneratedColumn()
-    id: number;
+  @ManyToOne(type => User, user => user.transactions)
+  @JoinColumn({ name: "userId" })
+  user: User;
 
-    @Column()
-    transactionConfirmation: string;
+  @OneToMany(type => Ticket, ticket => ticket.transaction)
+  tickets: Ticket[];
 
-    @Column({type:'date'})
-    dateTransaction: Date;
+  @Column({
+    type: "character varying",
+    nullable: false,
+    length: 255,
+    name: "transactionConfirmation"
+  })
+  transactionConfirmation: string;
 
-    @OneToOne(type => User)
-    @JoinColumn({name: "userId"})
-    user: User;
+  @Column({
+    type: "date",
+    nullable: false,
+    name: "dateTransaction"
+  })
+  dateTransaction: Date;
 }
