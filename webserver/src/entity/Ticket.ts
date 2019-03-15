@@ -15,6 +15,12 @@ export class Ticket {
     price: 32.5
   };
 
+  constructor(uuid: string, price: number, event: Event){
+    this.uuid = uuid;
+    this.price = price;
+    this.event = event;
+  }
+
   @PrimaryGeneratedColumn({
     type: "integer",
     name: "id"

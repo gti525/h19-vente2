@@ -3,6 +3,9 @@ import { getManager } from "typeorm";
 import { Event } from "../entity/Event";
 import { Venue } from "../entity/Venue";
 import { isNumber, isString, isArray } from "util";
+import { Ticket } from "../entity/Ticket";
+import { anyNonNil } from "is-uuid";
+import { tick } from "@angular/core/src/render3";
 
 /**
  * Loads all events from the database.
@@ -51,9 +54,15 @@ export async function getEventById(request: Request, response: Response) {
  */
 export async function addEvent(request: Request, response: Response) {
 
+    // Assign entity variables
+    const venue = new Venue();
+    const event = new Event();
+    const tickets = new Array<Ticket>();
+
     // TODO: 401 UNAUTHORIZE
 
     // START OF 400 BAD REQUEST (Before making DB connections)
+
     try {
         // Check for existance and type basic first.
         if (!request.body.title && !(isString(request.body.title)) &&
@@ -73,16 +82,45 @@ export async function addEvent(request: Request, response: Response) {
             return;
         }
 
+        // Create Venue
+        venue.name = request.body.venue.name;
+        venue.address = request.body.venue.address;
+        venue.capacity = request.body.venue.capacity;
+
+        // Create Event
+        event.title = request.body.title;
+        event.description = request.body.description;
+        event.artist = request.body.artist;
+        event.venue = venue;
+        event.image = "https://vente2-gti525.herokuapp.com/assets/images/placeholder-image-icon-21.jpg"; // Placeholder image
+        event.dateEvent = new Date(request.body.date);
+        event.saleStatus = 0; // Not one sale
+
+        // If the tickets are included
         if (request.body.tickets) {
 
+            if (!(isArray(request.body.tickets))) {
+                response.status(400);
+                response.json({
+                    message: "La syntaxe du corps de la requête ne respecte pas ce qui est attendu.",
+                    example: Event.exampleWithTickets
+                });
+                response.end();
+                return;
+            }
 
-            response.status(400);
-            response.json({
-                message: "TEST",
-                example: Event.example
+            request.body.tickets.array.forEach(element => {
+                if (!(isNumber(element.price)) && !(anyNonNil(element.uuid))) {
+                    response.status(400);
+                    response.json({
+                        message: "La syntaxe du corps de la requête ne respecte pas ce qui est attendu.",
+                        example: Event.exampleWithTickets
+                    });
+                    response.end();
+                    return;
+                }
+                tickets.push(new Ticket(element.uuid, element.price, event));
             });
-            response.end();
-            return;
         }
 
     // Catch JSON errors such as missing properties from the previous checks or other syntax errors.
@@ -101,25 +139,12 @@ export async function addEvent(request: Request, response: Response) {
     // TODO: Check that the JSON properties retrieved respect a specific format (maybe?)
 
     // 201 CREATED
-    const venue = new Venue();
-    venue.name = request.body.venue.name;
-    venue.address = request.body.venue.address;
-    venue.capacity = request.body.venue.capacity;
+
     const venueRepository = getManager().getRepository(Venue);
     await venueRepository.insert(venue);
-
-    const event = new Event();
     const eventRepository = getManager().getRepository(Event);
-    event.title = request.body.title;
-    event.description = request.body.description;
-    event.artist = request.body.artist;
-    event.venue = venue;
-    event.image = "https://vente2-gti525.herokuapp.com/assets/images/placeholder-image-icon-21.jpg"; // Placeholder image
-    event.dateEvent = new Date(request.body.date);
-    event.saleStatus = 1; // See Event Entity for meaning.
     const dbResponse = await eventRepository.insert(event);
     const eventId = dbResponse.identifiers.pop().id;
-    // TODO: Tickets
 
     response.set("Location", "/events/" + eventId);
     response.status(201);
