@@ -22,10 +22,12 @@ export class CartComponent implements OnInit {
   }
 
   getCart() {
-  	/*this.cartService.getCart().subscribe((cart: Cart) => {
-      this.cart = cart;
-      this.calculateTotal();
-    });*/
+  	this.cartService.getCart().subscribe(data => {
+  		if (!data.error) {
+	      this.cart = data;
+	      this.calculateTotal();
+	    }
+    });
   }
 
   calculateTotal() {
@@ -39,20 +41,20 @@ export class CartComponent implements OnInit {
 
   onAddClick(ticket: CartTicket) {
   	/*ticket.count += 1;
-  	this.cartService.editTicket(ticket).subscribe(() => {
-
+  	this.cartService.editTicket(ticket).subscribe(data => {
+			
   	})*/
   }
 
   onSubClick(ticket: CartTicket) {
   	/*ticket.count -= 1;
-  	this.cartService.editTicket(ticket).subscribe(() => {
+  	this.cartService.editTicket(ticket).subscribe(data => {
   		
   	})*/
   }
 
   onRemoveClick(ticket: CartTicket) {
-  	/*this.cartService.removeTicket(ticket).subscribe(() => {
+  	/*this.cartService.removeTicket(ticket).subscribe(data => {
   		
   	})*/
   }
