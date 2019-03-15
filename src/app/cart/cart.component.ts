@@ -23,10 +23,10 @@ export class CartComponent implements OnInit {
 
   getCart() {
   	this.cartService.getCart().subscribe(data => {
-  		/* if (!data.error) {
-	      this.cart = data;
+  		if (!("error" in data)) {
+	      this.cart = data as Cart;
 	      this.calculateTotal();
-	    } */
+	    }
     });
   }
 
