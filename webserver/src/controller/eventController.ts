@@ -96,9 +96,9 @@ export async function addEvent(request: Request, response: Response) {
             event.organisation = request.body.organisation;
         }
         event.venue = venue;
-        if (request.body.imageURL) {
-            if (isUrl(request.body.imageURL)) {
-                event.image = request.body.imageURL;
+        if (request.body.imageUrl) {
+            if (isUrl(request.body.imageUrl)) {
+                event.image = request.body.imageUrl;
             } else {
                 event.image = "https://vente2-gti525.herokuapp.com/assets/images/placeholder-image-icon-21.jpg"; // Placeholder image
             }
@@ -130,7 +130,11 @@ export async function addEvent(request: Request, response: Response) {
                     response.end();
                     return;
                 }
-                tickets.push(new Ticket(element.uuid, element.price, event));
+                let ticket = new Ticket();
+                ticket.uuid = element.uuid;
+                ticket.price = element.price;
+                ticket.event = event;
+                tickets.push(ticket);
             });
             if (checkDuplicateInObject("uuid", tickets)) {
                 response.status(409);

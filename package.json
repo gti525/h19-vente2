@@ -9,7 +9,8 @@
     "lint": "ng lint",
     "e2e": "ng e2e",
     "postinstall": "ng build --prod",
-    "dev": "set NODE_ENV=development&& ts-node app.ts"
+    "dev": "set NODE_ENV=development&& ts-node app.ts",
+    "prod": "set NODE_ENV=production&& ts-node app.ts"
   },
   "private": true,
   "dependencies": {
