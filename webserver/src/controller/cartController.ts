@@ -44,7 +44,7 @@ export async function getCart(request: Request, response: Response) {
 }
 
 export async function addTicket(request: Request, response: Response) {
-	let ticket = new Ticket();
+	let ticket: Ticket;
 	let event = new Event();
 	let cart: Cart;
 	let totalCount = 0;
@@ -58,11 +58,9 @@ export async function addTicket(request: Request, response: Response) {
 	event.saleStatus = request.body.saleStatus;
 	event.venue = null;
 
+	ticket = new Ticket("random-temp", 50, event);
 	ticket.id = Math.random() * 1_000_000_000_000;
 	ticket.transaction = null;
-	ticket.event = event;
-	ticket.uuid = "random-temp";
-	ticket.price = 50;
 
 	if (carts.has(request.ip)) {
 		cart = carts.get(request.ip);

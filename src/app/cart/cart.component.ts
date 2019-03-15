@@ -22,10 +22,10 @@ export class CartComponent implements OnInit {
   }
 
   getCart() {
-  	this.cartService.getCart().subscribe((cart: Cart) => {
+  	/*this.cartService.getCart().subscribe((cart: Cart) => {
       this.cart = cart;
       this.calculateTotal();
-    });
+    });*/
   }
 
   calculateTotal() {
