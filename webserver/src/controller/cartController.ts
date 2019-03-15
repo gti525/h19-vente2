@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 //import { getManager } from "typeorm";
 import { Ticket } from "../entity/Ticket";
 import { Event } from "../entity/Event";
+import uuid = require("uuid");
 
 class CartTicket {
 	ticket: Ticket;
@@ -58,7 +59,10 @@ export async function addTicket(request: Request, response: Response) {
 	event.saleStatus = request.body.saleStatus;
 	event.venue = null;
 
-	ticket = new Ticket("random-temp", 50, event);
+	ticket = new Ticket();
+	ticket.uuid = uuid.v4();
+	ticket.price = 50.50;
+	ticket.event = event;
 	ticket.id = Math.random() * 1_000_000_000_000;
 	ticket.transaction = null;
 
