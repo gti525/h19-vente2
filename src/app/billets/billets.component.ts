@@ -20,4 +20,14 @@ export class BilletsComponent implements OnInit {
             this.events = res;
           });
     }
+
+    modifier(idBillet: any)
+    {
+        alert(idBillet);
+    }
+
+    supprimer()
+    {
+
+    }
 }
