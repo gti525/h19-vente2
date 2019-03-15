@@ -2,10 +2,11 @@ import { Request, Response } from "express";
 import { getManager } from "typeorm";
 import { Event } from "../entity/Event";
 import { Venue } from "../entity/Venue";
-import { isNumber, isString, isArray } from "util";
+import { isNumber, isString, isArray, isNullOrUndefined } from "util";
 import { Ticket } from "../entity/Ticket";
 import { anyNonNil } from "is-uuid";
-import { tick } from "@angular/core/src/render3";
+import { checkDuplicateInObject } from "../lib/tools";
+import isUrl = require("is-url");
 
 /**
  * Loads all events from the database.
@@ -91,8 +92,17 @@ export async function addEvent(request: Request, response: Response) {
         event.title = request.body.title;
         event.description = request.body.description;
         event.artist = request.body.artist;
+        if (request.body.organisation && isString(request.body.organisation)) {
+            event.organisation = request.body.organisation;
+        }
         event.venue = venue;
-        event.image = "https://vente2-gti525.herokuapp.com/assets/images/placeholder-image-icon-21.jpg"; // Placeholder image
+        if (request.body.imageURL) {
+            if (isUrl(request.body.imageURL)) {
+                event.image = request.body.imageURL;
+            } else {
+                event.image = "https://vente2-gti525.herokuapp.com/assets/images/placeholder-image-icon-21.jpg"; // Placeholder image
+            }
+        }
         event.dateEvent = new Date(request.body.date);
         event.saleStatus = 0; // Not one sale
 
@@ -108,9 +118,10 @@ export async function addEvent(request: Request, response: Response) {
                 response.end();
                 return;
             }
-
-            request.body.tickets.array.forEach(element => {
-                if (!(isNumber(element.price)) && !(anyNonNil(element.uuid))) {
+            request.body.tickets.forEach(element => {
+                // console.log("Price: " + element.price + ", isNumber: " + isNumber(element.price));
+                // console.log("UUID: " + element.uuid + ", isUUID: " + anyNonNil(element.uuid));
+                if ( !(isNumber(element.price)) && !(anyNonNil(element.uuid)) ) {
                     response.status(400);
                     response.json({
                         message: "La syntaxe du corps de la requête ne respecte pas ce qui est attendu.",
@@ -121,10 +132,20 @@ export async function addEvent(request: Request, response: Response) {
                 }
                 tickets.push(new Ticket(element.uuid, element.price, event));
             });
+            if (checkDuplicateInObject("uuid", tickets)) {
+                response.status(409);
+                    response.json({
+                        message: "Les billets soumis ne sont pas uniques (uuid).",
+                    });
+                    response.end();
+                    return;
+            }
+            // console.log(tickets.length);
         }
 
     // Catch JSON errors such as missing properties from the previous checks or other syntax errors.
     } catch (err) {
+        // throw(err);
         response.status(400);
         response.json({
             message: "La syntaxe du corps de la requête ne respecte pas ce qui est attendu.",
@@ -138,13 +159,20 @@ export async function addEvent(request: Request, response: Response) {
 
     // TODO: Check that the JSON properties retrieved respect a specific format (maybe?)
 
-    // 201 CREATED
-
+    // DB insertions
+    // Venue first since Event (Many) has a Venue (One) as a foreign key.
     const venueRepository = getManager().getRepository(Venue);
-    await venueRepository.insert(venue);
+    await venueRepository.save(venue);
+
+    // It will automatically add the Venue foreign key, since it is part of the entity.
     const eventRepository = getManager().getRepository(Event);
     const dbResponse = await eventRepository.insert(event);
     const eventId = dbResponse.identifiers.pop().id;
+
+    // Ticket (Many) last, since it contains Event (One) as a foreign key.
+    const ticketRepository = getManager().getRepository(Ticket);
+    await ticketRepository.save(tickets, {chunk: tickets.length / 500});
+
 
     response.set("Location", "/events/" + eventId);
     response.status(201);
@@ -159,8 +187,126 @@ export async function addEvent(request: Request, response: Response) {
 /**
  * Delete an event from the database
  */
-export async function deleteEvent(request: Request, response: Response) {
+export async function deleteEventById(request: Request, response: Response) {
 
     // get a event repository to perform operations with event
     const eventRepository = getManager().getRepository(Event);
+
+
+    // if event was not found return 404 to the client
+    if (true) {
+        response.status(501);
+        response.json({
+            message: "Service n'est pas encore implémenté.",
+        });
+        response.end();
+        return;
+    }
+}
+/**
+ * Replace an event from the database
+ */
+export async function replaceEventById(request: Request, response: Response) {
+
+    // get a event repository to perform operations with event
+    const eventRepository = getManager().getRepository(Event);
+
+    if (true) {
+        response.status(501);
+        response.json({
+            message: "Service n'est pas encore implémenté.",
+        });
+        response.end();
+        return;
+    }
+}
+
+/**
+ * Publish an event (make it viewable online and sellable)
+ */
+export async function publishEventById(request: Request, response: Response) {
+
+    // get a event repository to perform operations with event
+    const eventRepository = getManager().getRepository(Event);
+
+    if (true) {
+        response.status(501);
+        response.json({
+            message: "Service n'est pas encore implémenté.",
+        });
+        response.end();
+        return;
+    }
+}
+
+/**
+ * Termine the sell of an event and return all tickets
+ */
+export async function terminateEventById(request: Request, response: Response) {
+
+    // get a event repository to perform operations with event
+    const eventRepository = getManager().getRepository(Event);
+
+    if (true) {
+        response.status(501);
+        response.json({
+            message: "Service n'est pas encore implémenté.",
+        });
+        response.end();
+        return;
+    }
+}
+
+/**
+ * Return all tickets from an event by its Id
+ */
+export async function getTicketsFromEventById(request: Request, response: Response) {
+
+    // get a event repository to perform operations with event
+    const eventRepository = getManager().getRepository(Event);
+
+    if (true) {
+        response.status(501);
+        response.json({
+            message: "Service n'est pas encore implémenté.",
+        });
+        response.end();
+        return;
+    }
+}
+
+/**
+ * Replace all tickets from an event by its Id
+ */
+export async function replaceTicketsFromEventById(request: Request, response: Response) {
+
+    // get a event repository to perform operations with event
+    const eventRepository = getManager().getRepository(Event);
+
+    if (true) {
+        response.status(501);
+        response.json({
+            message: "Service n'est pas encore implémenté.",
+        });
+        response.end();
+        return;
+    }
+}
+
+/**
+ * Delete all tickets from an event by its Id
+ */
+export async function deleteTicketsFromEventById(request: Request, response: Response) {
+
+    // get a event repository to perform operations with event
+    const eventRepository = getManager().getRepository(Event);
+
+    if (true) {
+        response.status(501);
+        response.json({
+            message: "Service n'est pas encore implémenté.",
+        });
+        response.end();
+        return;
+    }
 }

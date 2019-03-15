@@ -25,37 +25,37 @@ export const AppRoutes = [
     {
         path: "/events/:eventId",
         method: "delete",
-        action: eventController.deleteEvent
+        action: eventController.deleteEventById
     },
     {
         path: "/events/:eventId",
         method: "put",
-        action: eventController.getEventById
+        action: eventController.replaceEventById
     },
     {
         path: "/events/:eventId/tickets",
         method: "get",
-        action: eventController.getEventById
+        action: eventController.getTicketsFromEventById
     },
     {
         path: "/events/:eventId/tickets",
         method: "put",
-        action: eventController.getEventById
+        action: eventController.replaceTicketsFromEventById
     },
     {
         path: "/events/:eventId/tickets",
         method: "delete",
-        action: eventController.getEventById
+        action: eventController.deleteTicketsFromEventById
     },
     {
         path: "/events/:eventId/_publish",
         method: "post",
-        action: eventController.getEventById
+        action: eventController.publishEventById
     },
     {
         path: "/events/:eventId/_terminate",
         method: "post",
-        action: eventController.getEventById
+        action: eventController.terminateEventById
     },
     // VENUES
     {
