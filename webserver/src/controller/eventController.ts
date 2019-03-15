@@ -2,10 +2,12 @@ import { Request, Response } from "express";
 import { getManager } from "typeorm";
 import { Event } from "../entity/Event";
 import { Venue } from "../entity/Venue";
-import { isNumber, isString, isArray } from "util";
+import { isNumber, isString, isArray, isNullOrUndefined } from "util";
 import { Ticket } from "../entity/Ticket";
-import { anyNonNil, nil } from "is-uuid";
+import { anyNonNil } from "is-uuid";
 import { checkDuplicateInObject } from "../lib/tools";
+import "is-url";
+import isUrl = require("is-url");
 
 /**
  * Loads all events from the database.
@@ -92,7 +94,13 @@ export async function addEvent(request: Request, response: Response) {
         event.description = request.body.description;
         event.artist = request.body.artist;
         event.venue = venue;
-        event.image = "https://vente2-gti525.herokuapp.com/assets/images/placeholder-image-icon-21.jpg"; // Placeholder image
+        if (request.body.imageURL) {
+            if (isUrl(request.body.imageURL)) {
+                event.image = request.body.imageURL;
+            } else {
+                event.image = "https://vente2-gti525.herokuapp.com/assets/images/placeholder-image-icon-21.jpg"; // Placeholder image
+            }
+        }
         event.dateEvent = new Date(request.body.date);
         event.saleStatus = 0; // Not one sale
 
