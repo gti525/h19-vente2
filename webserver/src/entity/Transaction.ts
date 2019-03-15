@@ -14,6 +14,6 @@ export class Transaction {
     dateTransaction: Date;
 
     @OneToOne(type => User)
-    @JoinColumn({name: "userId"})
+    @JoinColumn()
     user: User;
 }
