@@ -26,7 +26,7 @@ class Cart {
 
 let carts = new Map();
 
-/*let exampleTicket = <Ticket>({id: 3, guid: "asdf", price: 50, transaction: null, event: null})
+let exampleTicket = <Ticket>({id: 3, uuid: "asdf", price: 50, transaction: null, event: null})
 let exampleCartTicket = new CartTicket(exampleTicket, 3);
 let exampleCart = new Cart([exampleCartTicket], new Date());
 
@@ -34,15 +34,15 @@ carts.set("test", exampleCart);
 
 export async function getCart(request: Request, response: Response) {
 	response.send(carts.get("test"));
-}*/
+}
 
-export async function getCart(request: Request, response: Response) {
+/*export async function getCart(request: Request, response: Response) {
 	if (carts.has(request.ip)) {
 		response.send(carts.get(request.ip));
 	} else {
 		response.json({"error": 0, "description": "cart is empty"})
 	}
-}
+}*/
 
 export async function addTicket(request: Request, response: Response) {
 	let ticket: Ticket;
