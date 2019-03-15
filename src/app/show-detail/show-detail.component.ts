@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Event } from '../models/event';
 import { EventService } from '../event.service';
+import { CartService } from '../cart.service';
 
 @Component({
   selector: 'app-show-detail',
@@ -16,7 +17,8 @@ export class ShowDetailComponent implements OnInit {
   private sub : any;
 
   constructor(
-    private eventService: EventService, 
+    private eventService: EventService,
+    private cartService: CartService, 
     private route: ActivatedRoute
   ) { }
 
@@ -34,7 +36,13 @@ export class ShowDetailComponent implements OnInit {
 
   getSingleEventById(id:number) {
   	this.eventService.getEventById(id).subscribe((res : Event)=>{
-      this.event = res;     
+      this.event = res;
+    });
+  }
+
+  onAddClick() {
+    this.cartService.addTicket(this.event).subscribe(() => {
+
     });
   }
 }

@@ -1,11 +1,12 @@
 import * as eventController from "./controller/eventController";
 import * as venueController from "./controller/venueController";
-
+import * as cartController from "./controller/cartController";
 
 /**
  * All application routes.
  */
 export const AppRoutes = [
+    // EVENTS
     {
         path: "/events",
         method: "get",
@@ -56,6 +57,7 @@ export const AppRoutes = [
         method: "post",
         action: eventController.getEventById
     },
+    // VENUES
     {
         path: "/venues",
         method: "get",
@@ -65,5 +67,26 @@ export const AppRoutes = [
         path: "/venue/:venueId",
         method: "get",
         action: venueController.getVenueById
-    }
+    },
+    // CART
+    {
+        path: "/cart",
+        method: "get",
+        action: cartController.getCart
+    },
+    {
+        path: "/cart",
+        method: "post",
+        action: cartController.addTicket
+    },
+    {
+        path: "/cart",
+        method: "put",
+        action: cartController.editTicket
+    },
+    {
+        path: "/cart",
+        method: "delete",
+        action: cartController.removeTicket
+    },
 ];
