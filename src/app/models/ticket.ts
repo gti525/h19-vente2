@@ -4,7 +4,7 @@ import { Transaction } from "./transaction";
 export class Ticket {
 
     id: number;
-    guid: string;
+    uuid: string;
     price: number;
     transaction: Transaction;
     event: Event;

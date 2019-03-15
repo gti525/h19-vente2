@@ -1,18 +1,38 @@
-import { Entity, Column, PrimaryGeneratedColumn, Unique } from "typeorm";
+import { Entity, Column, PrimaryGeneratedColumn, Unique, OneToMany } from "typeorm";
+import { Transaction } from "./Transaction";
 
 @Entity()
 export class User {
+  @PrimaryGeneratedColumn({
+    type: "integer",
+    name: "id"
+  })
+  id: number;
 
-    @PrimaryGeneratedColumn()
-    id: number;
+  @OneToMany(type => Transaction, transaction => transaction.user)
+  transactions: Transaction[];
 
-    @Column()
-    name: string;
+  @Column({
+    type: "character varying",
+    nullable: false,
+    length: 255,
+    name: "name"
+  })
+  name: string;
 
-    @Column()
-    surname: string;
+  @Column({
+    type: "character varying",
+    nullable: false,
+    length: 255,
+    name: "surname"
+  })
+  surname: string;
 
-    @Column({unique: true, nullable: true})
-    socialLink: string;
-
+  @Column({
+    type: "character varying",
+    nullable: true,
+    unique: true,
+    name: "socialLink"
+  })
+  socialLink: string | null;
 }
