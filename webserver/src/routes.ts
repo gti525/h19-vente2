@@ -66,7 +66,7 @@ export const AppRoutes = [
         action: venueController.getVenueById
     },
     {
-        path: "/client/login",
+        path: "/social/client/login",
         method: "post",
         action: socialController.login
     }
