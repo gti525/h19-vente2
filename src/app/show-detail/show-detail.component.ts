@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Event } from '../models/event';
 import { EventService } from '../event.service';
 import { CartService } from '../cart.service';
@@ -19,7 +19,8 @@ export class ShowDetailComponent implements OnInit {
   constructor(
     private eventService: EventService,
     private cartService: CartService, 
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private router : Router
   ) { }
 
   ngOnInit() {
@@ -42,7 +43,7 @@ export class ShowDetailComponent implements OnInit {
 
   onAddClick() {
     this.cartService.addTicket(this.event).subscribe(() => {
-
+      this.router.navigate(['/cart']);
     });
   }
 }

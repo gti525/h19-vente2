@@ -38,22 +38,22 @@ export class CartComponent implements OnInit {
   }
 
   onAddClick(ticket: CartTicket) {
-  	ticket.count += 1;
+  	/*ticket.count += 1;
   	this.cartService.editTicket(ticket).subscribe(() => {
 
-  	})
+  	})*/
   }
 
   onSubClick(ticket: CartTicket) {
-  	ticket.count -= 1;
+  	/*ticket.count -= 1;
   	this.cartService.editTicket(ticket).subscribe(() => {
   		
-  	})
+  	})*/
   }
 
   onRemoveClick(ticket: CartTicket) {
-  	this.cartService.removeTicket(ticket).subscribe(() => {
+  	/*this.cartService.removeTicket(ticket).subscribe(() => {
   		
-  	})
+  	})*/
   }
 }

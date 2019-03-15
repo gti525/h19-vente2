@@ -20,7 +20,7 @@ export class CartService {
   }
 
   public editTicket(ticket: CartTicket) {
-  	return this.httpClient.put(this.apiURL, ticket);
+  	//return this.httpClient.put(this.apiURL, ticket);
   }
 
   public removeTicket(ticket: CartTicket) {
