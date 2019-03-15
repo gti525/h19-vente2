@@ -1,5 +1,6 @@
-import {Entity, Column, PrimaryGeneratedColumn, ManyToOne, JoinColumn} from "typeorm";
+import {Entity, Column, PrimaryGeneratedColumn, ManyToOne, JoinColumn, OneToMany} from "typeorm";
 import {Venue} from "./Venue";
+import { Ticket } from "./Ticket";
 
 @Entity()
 export class Event {
@@ -49,11 +50,14 @@ export class Event {
   image: string;
 
   @Column()
-  saleStatue: number;
+  saleStatus: number;
   // Typo
   // 0 = Not on sale (Newly uploaded event)
   // 1 = Currently on sale and shown on website (needs valid tickets)
 
   @ManyToOne(type => Venue, venue => venue.events)
   venue: Venue;
+
+  @OneToMany(type => Ticket, ticket => ticket.event)
+  tickets: Ticket;
 }

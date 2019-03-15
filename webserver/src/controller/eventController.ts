@@ -72,7 +72,20 @@ export async function addEvent(request: Request, response: Response) {
             response.end();
             return;
         }
-    // Catch JSON errors such as missing properties from the previos IF or other malformations.
+
+        if (true) {
+            console.log(request.body.tickets);
+
+            response.status(400);
+            response.json({
+                message: "La syntaxe du corps de la requête ne respecte pas ce qui est attendu.",
+                example: Event.example
+            });
+            response.end();
+            return;
+        }
+
+    // Catch JSON errors such as missing properties from the previous IF or other malformations.
     } catch (err) {
         response.status(400);
         response.json({
@@ -103,7 +116,7 @@ export async function addEvent(request: Request, response: Response) {
     event.organisation = "Placeholder"; // TODO: what is that field again?
     event.image = "https://vente2-gti525.herokuapp.com/assets/images/placeholder-image-icon-21.jpg"; // Placeholder image
     event.dateEvent = new Date(); // TODO: correct date from JSON
-    event.saleStatue = 0; // See Event Entity for meaning.
+    event.saleStatus = 0; // See Event Entity for meaning.
     const dbResponse = await eventRepository.insert(event);
     const eventId = dbResponse.identifiers.pop().id;
     // TODO: Tickets
