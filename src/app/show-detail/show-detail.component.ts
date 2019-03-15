@@ -37,6 +37,7 @@ export class ShowDetailComponent implements OnInit {
 
   getSingleEventById(id:number) {
   	this.eventService.getEventById(id).subscribe((res : Event)=>{
+      console.log("res : " , res);
       this.event = res;
     });
   }
