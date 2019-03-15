@@ -2,12 +2,15 @@
 <div mat-dialog-content>
   <li class="list-group-item">
   <mat-form-field>
-    <input matInput [(ngModel)]="data.email" placeholder="email">
+    <input matInput [(ngModel)]="loginSocial.email" placeholder="email" required>
   </mat-form-field>
   <br />
   <mat-form-field>
-    <input matInput [(ngModel)]="data.password" placeholder="mot de passe">
+    <input matInput [(ngModel)]="loginSocial.password" placeholder="mot de passe" required>
   </mat-form-field>
+  <div *ngIf="error" class="row mt-4">
+    {{error}}
+  </div>
 </li>
 </div>
 <div mat-dialog-actions>
@@ -16,7 +19,8 @@
       <button mat-button (click)="onNoClick()">Annuler</button>
     </div>
     <div class="col-sm">
-      <button mat-button [mat-dialog-close]="data" cdkFocusInitial>Se connecter</button>
+      <button mat-button (click)="onConnect()" cdkFocusInitial>Se connecter</button>
     </div>
+    
    </div>
 </div>
