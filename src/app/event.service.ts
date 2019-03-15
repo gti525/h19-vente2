@@ -18,4 +18,16 @@ export class EventService {
   public getEvents(){
     return this.httpClient.get(this.apiURL +  '/events');
   }
+
+  public updateEvent(id_event, imgEvent) {
+
+    const obj = {
+        id_event: id_event,
+        imgEvent: imgEvent
+      };
+    this
+      .httpClient
+      .post(`${this.apiURL}/update/${id_event}`, obj)
+      .subscribe(res => console.log('Mise à jour réussie!'));
+  }
 }

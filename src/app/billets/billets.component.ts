@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Event } from '../models/event';
 import { EventService } from '../event.service';
+import { Router } from '@angular/router';
+import { validateConfig } from '@angular/router/src/config';
 
 @Component({
   selector: 'billets',
@@ -10,9 +12,11 @@ import { EventService } from '../event.service';
 
 export class BilletsComponent implements OnInit {
     public events: Event[] = [];
+    e: any;
 
     constructor(
-        private eventService: EventService
+        private eventService: EventService,
+        private router : Router
     ) {}
 
     ngOnInit() {
@@ -21,13 +25,14 @@ export class BilletsComponent implements OnInit {
           });
     }
 
-    modifier(idBillet: any)
-    {
-        alert(idBillet);
+    updateEvent(idSpectacle, imgSrc) {
+        var test = document.getElementsByTagName('urlIMG')[0];
+        alert(test);
+        //this.eventService.updateEvent(idSpectacle, imgSrc)
     }
 
-    supprimer()
+    doSomething(val)
     {
-
+        alert(val.name);
     }
 }
