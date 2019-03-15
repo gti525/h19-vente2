@@ -7,7 +7,7 @@ import { Event } from './models/event';
   providedIn: 'root'
 })
 export class CartService {
-	apiURL = 'https://vente2-gti525.herokuapp.com/api/cart'
+	apiURL = 'https://vente2-gti525.herokuapp.com/api/cart';
 
   constructor(private httpClient: HttpClient) {}
 
@@ -20,10 +20,10 @@ export class CartService {
   }
 
   public editTicket(ticket: CartTicket) {
-  	//return this.httpClient.put(this.apiURL, ticket);
+  	return this.httpClient.put(this.apiURL, ticket);
   }
 
-  public removeTicket(ticket: CartTicket) {
-  	//return this.httpClient.delete(this.apiURL, ticket);
+  public removeTicket(ticketId: number) {
+  	return this.httpClient.delete(this.apiURL + `/${ticketId}`);
   }
 }

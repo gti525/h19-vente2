@@ -26,23 +26,13 @@ class Cart {
 
 let carts = new Map();
 
-let exampleTicket = <Ticket>({id: 3, uuid: "asdf", price: 50, transaction: null, event: null})
-let exampleCartTicket = new CartTicket(exampleTicket, 3);
-let exampleCart = new Cart([exampleCartTicket], new Date());
-
-carts.set("test", exampleCart);
-
 export async function getCart(request: Request, response: Response) {
-	response.send(carts.get("test"));
-}
-
-/*export async function getCart(request: Request, response: Response) {
 	if (carts.has(request.ip)) {
 		response.send(carts.get(request.ip));
 	} else {
 		response.json({"error": 0, "description": "cart is empty"})
 	}
-}*/
+}
 
 export async function addTicket(request: Request, response: Response) {
 	let ticket: Ticket;
@@ -61,7 +51,7 @@ export async function addTicket(request: Request, response: Response) {
 
 	ticket = new Ticket();
 	ticket.uuid = uuid.v4();
-	ticket.price = 50.50;
+	ticket.price = 50.5;
 	ticket.event = event;
 	ticket.id = Math.random() * 1_000_000_000_000;
 	ticket.transaction = null;
@@ -96,7 +86,7 @@ export async function editTicket(request: Request, response: Response) {
 	for (let i = 0; i < cart.tickets.length; i++) {
 		totalCount += cart.tickets[i].count;
 		if (cart.tickets[i].ticket.id == id) {
-			cartTicket = cart.tickets[i].ticket;
+			cartTicket = cart.tickets[i];
 		}
 	}
 
@@ -113,7 +103,7 @@ export async function editTicket(request: Request, response: Response) {
 }
 
 export async function removeTicket(request: Request, response: Response) {
-	let id = request.body.ticket.id;
+	let id = request.params.ticketId;
 	let cart = carts.get(request.ip);
 	let index: number;
 
