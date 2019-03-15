@@ -46,20 +46,19 @@ export class LoginSocialComponent implements OnInit {
 
         console.log("data :  ", res.data);
         this.user = res.data;
-
-        //this.dialogRef.close(this.user);
+        this.dialogRef.close(this.user);
       })
       .catch(err => {
-
+        console.log("in error");
 
         this.errorMessage = '';
-        console.log("error :  ", err);
+        console.log("error :  ", err.response.data);
 
-        if (err.data.status == 404) {
+        if (err.response.data.status == 404) {
           this.errorMessage = " Error : Email and/or Password combination not found";
         }
         else {
-          this.errorMessage = " Error : " + err.data.title;
+          this.errorMessage = " Error : " + err.response.data.title;
         }
         console.log(" this.errorMessage", this.errorMessage);
         //window.alert(this.errorMessage );
