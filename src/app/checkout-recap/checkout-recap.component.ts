@@ -16,14 +16,15 @@ export class CheckoutRecapComponent implements OnInit {
   spectacles = SPECTACLES;
   user: User;
   creditCard: CreditCard;
+  userSocial;
 
   constructor(
     public checkoutPassService: CheckoutPassService,
   ) { }
 
   ngOnInit() {
-    this.creditCard = this.checkoutPassService.creditCard;
     this.user = this.checkoutPassService.user;
+    this.creditCard = this.checkoutPassService.creditCard;
   }
 
   getTotal() {
@@ -38,6 +39,10 @@ export class CheckoutRecapComponent implements OnInit {
       total += (product.price * quantity);
     }
     return total;
+  }
+
+  onSubmit(){
+
   }
 
 }

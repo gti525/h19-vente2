@@ -13,6 +13,7 @@ import { AuthGuard } from './gestion-admin/_guards';
 import { BilletsComponent } from './billets/billets.component';
 
 const routes: Routes = [
+  { path: '', redirectTo: 'home' , pathMatch:'full'},
   { path: 'home', component: HomeComponent },
   { path: 'login',component: LoginComponent },
   { path: 'admin', component: AdminComponent, canActivate: [AuthGuard] },
@@ -25,7 +26,7 @@ const routes: Routes = [
   { path: "billets", component: BilletsComponent },
   
   // otherwise redirect to home
-  { path: '**', redirectTo: '' }
+  
 ];
 
 @NgModule({

@@ -1,26 +1,49 @@
-<div class="module-container">
-    <h2>Panier d'achats</h2>
-    <table class="table">
-        <thead>
-          <tr>
-            <th scope="col">#</th>
-            <th scope="col">Spectacle Name</th>
-            <th scope="col">Artist</th>
-            <th scope="col">Quantity</th>
-            <th scope="col">Unit Price</th>
-            <th scope="col">Total Price</th>
-          </tr>
-        </thead>
-        <tbody> 
-          <tr *ngFor="let spectacle of spectacles; let i = index">
-            <th scope="row">{{i + 1}}</th>
-            <td>{{spectacle.name}}</td>
-            <td>{{spectacle.artist}}</td>
-            <td>3</td>
-            <td>{{spectacle.price}}</td> 
-            <td>{{spectacle.price}}</td>
-          </tr>
-        </tbody>
-      </table>
-      <span class="checkout-total">Total: </span>
+<div class="container">
+  <div class="row title-row">
+    <div class="col-12">
+      <h2>Panier</h2>
+    </div>
   </div>
+  <div *ngIf="cart; else emptyMessage" class="row cart-section">
+    <div class="col-md-8">
+      <div *ngFor="let ticket of cart.tickets" class="ticket-row">
+        <div class="general-block main-ticket">
+          <span>{{ticket.ticket.event.title}}</span>
+          <span>{{ticket.ticket.price | number:'0.2-2'}} $</span>
+        </div>
+        <div class="general-block qte-ticket">
+          <span class="qte-label">{{ticket.count}}</span>
+          <div class="plus-minus">
+            <div (click)="onAddClick(ticket)" class="plus-minus-box plus-box">+</div>
+            <div (click)="onSubClick(ticket)" class="plus-minus-box minus-box">-</div>
+          </div>
+        </div>
+        <div class="remove-ticket">
+          <div (click)="onRemoveClick(ticket)" class="remove-x">x</div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="general-block resume">
+        <div class="resume-title">Résumé</div>
+        <div class="resume-content">
+          <div *ngFor="let ticket of cart.tickets" class="resume-line">
+            <span>{{ticket.count}} - {{ticket.ticket.event.title}}</span>
+            <span>{{(ticket.count * ticket.ticket.price) | number:'0.2-2'}} $</span>
+          </div>
+        </div>
+        <div class="resume-total">Total: {{total | number:'0.2-2'}} $</div>
+      </div>
+      <a routerLink="/checkout-client-information" class="btn-checkout">
+        Checkout
+      </a>
+    </div>
+  </div>
+  <ng-template #emptyMessage>
+    <div class="row">
+      <div class="col-12">
+        <span>Votre panier est vide.</span>
+      </div>
+    </div>
+  </ng-template>
+</div>

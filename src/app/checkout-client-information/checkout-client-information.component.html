@@ -1,26 +1,78 @@
-<h2> Saisissez vos informations </h2>
 
 <li class="list-group-item">
   <form [formGroup]="userFormGroup" (ngSubmit)="onSoumettre()">
 
-    <h4> Nom : </h4>
-    <input type="Nom" class="form-control" formControlName="name" placeholder="Votre nom de famille">
+    <div class="container py-3">
+      <div class="row">
+          <div class="mx-auto col-sm-6">
+                      <!-- form user info -->
+                      <div class="card">
+                          <div class="card-header">
+                              <h4 class="mb-0"> Information du client</h4>
+                          </div>
+                          <div class="card-body">
+                              <form class="form" role="form" autocomplete="off">
+                                  <div class="form-group row">
+                                      <label class="col-lg-3 col-form-label form-control-label">Prénom </label>
+                                      <div class="col-lg-9">
+                                          <input class="form-control" type="text" value="">
+                                      </div>
+                                  </div>
+                                  <div class="form-group row">
+                                      <label class="col-lg-3 col-form-label form-control-label">Nom </label>
+                                      <div class="col-lg-9">
+                                          <input class="form-control" type="text" value="">
+                                      </div>
+                                  </div>
+                                  <div class="form-group row">
+                                      <label class="col-lg-3 col-form-label form-control-label">Email</label>
+                                      <div class="col-lg-9">
+                                          <input class="form-control" type="email" value="">
+                                      </div>
+                                  </div>
+                                  <div class="form-group row">
+                                      <label class="col-lg-3 col-form-label form-control-label">Adresse </label>
+                                      <div class="col-lg-9">
+                                          <input class="form-control" type="text" value="">
+                                      </div>
+                                  </div>
 
-    <h4> Prénom : </h4>
-    <input type="text" class="form-control" formControlName="firstName" placeholder="Votre prénom">
+                                  <div class="form-group row">
+                                      <label class="col-lg-3 col-form-label form-control-label">Ville </label>
+                                      <div class="col-lg-9">
+                                          <input class="form-control" type="text" value="">
+                                      </div>
+                                  </div>
 
-    <h4> Adresse : </h4>
-    <input type="text" class="form-control" formControlName="civicAddress" placeholder="Votre adresse civique">
+                                  <div class="form-group row">
+                                    <label class="col-lg-3 col-form-label form-control-label">Province </label>
+                                    <div class="col-lg-9">
+                                        <input class="form-control" type="text" value="">
+                                    </div>
+                                </div>
 
-    <h4> Ville : </h4>
-    <input type="text" class="form-control" formControlName="city" placeholder="Votre ville">
+                                <div class="form-group row">
+                                  <label class="col-lg-3 col-form-label form-control-label"> Code postal </label>
+                                  <div class="col-lg-9">
+                                      <input class="form-control" type="text" value="">
+                                  </div>
+                              </div>
 
-    <h4> Province : </h4>
-    <input type="text" class="form-control" formControlName="province" placeholder="Votre province">
+                                  <div class="form-group row">
+                                      <label class="col-lg-3 col-form-label form-control-label"></label>
+                                      <div class="col-lg-9">
+                                          <input type="reset" class="btn btn-secondary" value="Cancel">
+                                           
+                                          <input type="submit" class="btn btn-success" value="Soumettre">
+                                      </div>
+                                  </div>
+                              </form>
+                          </div>
+                      </div>
+                      <!-- /form user info -->
+          </div>
+      </div>
+  </div>
 
-    <h4> Code postale : </h4>
-    <input type="text" class="form-control" formControlName="postalCode" placeholder="Votre code postale">
-
-    <input type="submit" class="btn btn-success" value="Soumettre">
   </form>
 </li>

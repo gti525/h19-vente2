@@ -1,11 +1,13 @@
 import * as eventController from "./controller/eventController";
 import * as venueController from "./controller/venueController";
+import * as cartController from "./controller/cartController";
 
-
+import * as socialController from "./controller/socialController";
 /**
  * All application routes.
  */
 export const AppRoutes = [
+    // EVENTS
     {
         path: "/events",
         method: "get",
@@ -24,7 +26,7 @@ export const AppRoutes = [
     {
         path: "/events/:eventId",
         method: "delete",
-        action: eventController.deleteEvent
+        action: eventController.deleteEventById
     },
     {
         path: "/events/:eventId",
@@ -34,33 +36,34 @@ export const AppRoutes = [
     {
         path: "/events/:eventId",
         method: "put",
-        action: eventController.getEventById
+        action: eventController.replaceEventById
     },
     {
         path: "/events/:eventId/tickets",
         method: "get",
-        action: eventController.getEventById
+        action: eventController.getTicketsFromEventById
     },
     {
         path: "/events/:eventId/tickets",
         method: "put",
-        action: eventController.getEventById
+        action: eventController.replaceTicketsFromEventById
     },
     {
         path: "/events/:eventId/tickets",
         method: "delete",
-        action: eventController.getEventById
+        action: eventController.deleteTicketsFromEventById
     },
     {
         path: "/events/:eventId/_publish",
         method: "post",
-        action: eventController.getEventById
+        action: eventController.publishEventById
     },
     {
         path: "/events/:eventId/_terminate",
         method: "post",
-        action: eventController.getEventById
+        action: eventController.terminateEventById
     },
+    // VENUES
     {
         path: "/venues",
         method: "get",
@@ -70,5 +73,31 @@ export const AppRoutes = [
         path: "/venue/:venueId",
         method: "get",
         action: venueController.getVenueById
+    },
+    // CART
+    {
+        path: "/cart",
+        method: "get",
+        action: cartController.getCart
+    },
+    {
+        path: "/cart",
+        method: "post",
+        action: cartController.addTicket
+    },
+    {
+        path: "/cart",
+        method: "put",
+        action: cartController.editTicket
+    },
+    {
+        path: "/cart/:ticketId",
+        method: "delete",
+        action: cartController.removeTicket
+    },
+    {
+        path: "/social/client/login",
+        method: "post",
+        action: socialController.login
     }
 ];

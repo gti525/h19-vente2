@@ -64,18 +64,18 @@ var Transactions: any = [
 ];
 
 var Tickets: any = [
-    { event: 45, transaction: 1,  guid:'asdkfj-jk3fkasjdf-oiasdjfi839', price: 3.33},
-    { event: 45, transaction: 1,  guid:'asdkfj-jk3fkasjdf-oiasdjfi838', price: 14.12},
-    { event: 45, transaction: 1,  guid:'asdkfj-jk3fkasjdf-oiasdjfi837', price: 15.2},
-    { event: 45, transaction: 1,  guid:'asdkfj-jk3fkasjdf-oiasdjfi836', price: 18.3},
-    { event: 45, transaction: 1,  guid:'asdkfj-jk3fkasjdf-oiasdjfi835', price: 5.55},
-    { event: 45, transaction:null,  guid:'asdkfj-jk3fkasjdf-oiasdjfi834', price: 4.43},
-    { event: 45, transaction:null,  guid:'asdkfj-jk3fkasjdf-oiasdjfi833', price: 4.36},
-    { event: 45, transaction:null,  guid:'asdkfj-jk3fkasjdf-oiasdjfi832', price: 5.36},
-    { event: 45, transaction:null,  guid:'asdkfj-jk3fkasjdf-oiasdjfi831', price: 7.85},
-    { event: 45, transaction:null,  guid:'asdkfj-jk3fkasjdf-oiasdjfi830', price: 99.99},
-    { event: 45, transaction:null,  guid:'asdkfj-jk3fkasjdf-oiasdjfi829', price: 15.23},
-    { event: 45, transaction:null,  guid:'asdkfj-jk3fkasjdf-oiasdjfi828', price: 16.24}
+    { event: 45, transaction: 1,  uuid:'asdkfj-jk3fkasjdf-oiasdjfi839', price: 3.33},
+    { event: 45, transaction: 1,  uuid:'asdkfj-jk3fkasjdf-oiasdjfi838', price: 14.12},
+    { event: 45, transaction: 1,  uuid:'asdkfj-jk3fkasjdf-oiasdjfi837', price: 15.2},
+    { event: 45, transaction: 1,  uuid:'asdkfj-jk3fkasjdf-oiasdjfi836', price: 18.3},
+    { event: 45, transaction: 1,  uuid:'asdkfj-jk3fkasjdf-oiasdjfi835', price: 5.55},
+    { event: 45, transaction:null,  uuid:'asdkfj-jk3fkasjdf-oiasdjfi834', price: 4.43},
+    { event: 45, transaction:null,  uuid:'asdkfj-jk3fkasjdf-oiasdjfi833', price: 4.36},
+    { event: 45, transaction:null,  uuid:'asdkfj-jk3fkasjdf-oiasdjfi832', price: 5.36},
+    { event: 45, transaction:null,  uuid:'asdkfj-jk3fkasjdf-oiasdjfi831', price: 7.85},
+    { event: 45, transaction:null,  uuid:'asdkfj-jk3fkasjdf-oiasdjfi830', price: 99.99},
+    { event: 45, transaction:null,  uuid:'asdkfj-jk3fkasjdf-oiasdjfi829', price: 15.23},
+    { event: 45, transaction:null,  uuid:'asdkfj-jk3fkasjdf-oiasdjfi828', price: 16.24}
 ];
 
 createConnection(<ConnectionOptions>{

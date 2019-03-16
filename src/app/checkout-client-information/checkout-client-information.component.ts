@@ -4,7 +4,7 @@ import { FormGroup, FormBuilder, FormControl } from '@angular/forms';
 import { CheckoutPassService } from "../services/checkout-pass.service"
 
 import { User } from "../models/user";
-
+import { LoginSocial } from '../models/login-social';
 
 @Component({
   selector: 'app-checkout-client-information',
@@ -15,6 +15,8 @@ export class CheckoutClientInformationComponent implements OnInit {
 
   user: User;
   userFormGroup: FormGroup;
+  userSocial: any;
+
 
   constructor(
     public checkoutPassService: CheckoutPassService,
@@ -30,8 +32,26 @@ export class CheckoutClientInformationComponent implements OnInit {
     });
   }
 
+  openDialog(): void {
+    const dialogRef = this.dialog.open(LoginSocialComponent, {
+      width: '600px',
+      data: {}
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result){
+        console.log("from client-information : ", result);
+        this.checkoutPassService.setUserSocial(result) ;
+        this.router.navigate(["checkout-credit"]);
+      }
+    });
+  }
+
   onSoumettre() {
+    
+    
     this.checkoutPassService.user = new User(this.userFormGroup.value);
+    
     this.router.navigate(["checkout-credit"]);
   }
 
