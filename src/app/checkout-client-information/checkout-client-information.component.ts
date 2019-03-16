@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from "@angular/router";
 import { FormGroup, FormBuilder, FormControl } from '@angular/forms';
-import { CheckoutPassService } from "../services/checkout-pass.service"
+import { CheckoutPassService } from "../services/checkout-pass.service";
 
 import { User } from "../models/user";
 import { LoginSocial } from '../models/login-social';

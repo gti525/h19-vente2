@@ -4,7 +4,10 @@
 
 <p>Page dédiée à la gestion des vignettes de spectacles.</p>
 <div>
-  Utilisateurs autorisés du point d'accès à l'API sécurisé:
+    Utilisateurs autorisés du point d'accès à l'API sécurisé:
+    <ul>
+      <font color="green"><li *ngFor="let user of users">{{user.firstName}} {{user.lastName}}</li></font>
+    </ul>
 </div>
 
 <body>
@@ -26,7 +29,7 @@
             <td><img class="card-img-top show-image" src="{{spectacle.image}}"></td>
             <td>{{spectacle.title}}</td>
             <td>
-                <input type="text" class="form-control" name="urlIMG" id="url" placeholder="Entrez l'url de la nouvelle image" aria-label="lienImage" aria-describedby="basic-addon2">
+                <input type="text" class="form-control" name="urlIMG" id="urlIMG" placeholder="Entrez l'url de la nouvelle image" aria-label="lienImage" aria-describedby="basic-addon2">
             </td> 
             <td>
                 <input style="padding:6px;" type="button" value="Modifier l'image" (click)="updateEvent(spectacle.id, spectacle.id)">

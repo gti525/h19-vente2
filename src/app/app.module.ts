@@ -18,10 +18,12 @@ import { CheckoutCreditComponent } from './checkout-credit/checkout-credit.compo
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { LoginComponent } from './login/login.component';
 
+
 // used to create fake backend
 import { fakeBackendProvider } from './gestion-admin/_helpers';
 import { BasicAuthInterceptor, ErrorInterceptor } from './gestion-admin/_helpers';
 import { BilletsComponent } from './billets/billets.component';
+import { LoginSocialComponent } from './login-social/login-social.component';
 
 const appRoutes : Routes = [
 ];
@@ -39,7 +41,8 @@ const appRoutes : Routes = [
     ShowDetailComponent,
     CheckoutCreditComponent,
     LoginComponent,
-    BilletsComponent
+    BilletsComponent,
+    LoginSocialComponent
   ],
   imports: [
     BrowserModule,
