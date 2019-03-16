@@ -17,6 +17,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { CheckoutCreditComponent } from './checkout-credit/checkout-credit.component';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { LoginComponent } from './login/login.component';
+import { MatFormFieldModule } from '@angular/material';
 
 
 // used to create fake backend
@@ -50,6 +51,7 @@ const appRoutes : Routes = [
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
+    MatFormFieldModule, // or SharedModule that exports MatFormFieldModule,
     RouterModule.forRoot(appRoutes)
   ],
   providers: [

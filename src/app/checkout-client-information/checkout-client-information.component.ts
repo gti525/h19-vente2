@@ -1,10 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from "@angular/router";
 import { FormGroup, FormBuilder, FormControl } from '@angular/forms';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { CheckoutPassService } from "../services/checkout-pass.service";
+import { LoginSocialComponent } from "../login-social/login-social.component";
+import { LoginSocialService } from '../services/login-social.service';
 
 import { User } from "../models/user";
-import { LoginSocial } from '../models/login-social';
 
 @Component({
   selector: 'app-checkout-client-information',
@@ -21,7 +23,8 @@ export class CheckoutClientInformationComponent implements OnInit {
   constructor(
     public checkoutPassService: CheckoutPassService,
     private router: Router,
-    private fb: FormBuilder) {
+    private fb: FormBuilder,
+    public dialog: MatDialog) {
     this.userFormGroup = this.fb.group({
       name: new FormControl(''),
       firstName: new FormControl(''),
