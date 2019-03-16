@@ -193,19 +193,61 @@ export async function addEvent(request: Request, response: Response) {
  */
 export async function deleteEventById(request: Request, response: Response) {
 
+    // TODO: 401 Unauthorized
+
     // get a event repository to perform operations with event
     const eventRepository = getManager().getRepository(Event);
 
+    const event = await eventRepository.findOne(request.params.eventId);
 
     // if event was not found return 404 to the client
-    if (true) {
-        response.status(501);
+    if (!event) {
+        response.status(404);
         response.json({
-            message: "Service n'est pas encore implémenté.",
+            message: "Un spectacle avec l'ID soumis n'a pas été trouvé.",
         });
         response.end();
         return;
     }
+
+    // if event is online [saleStatus = 1], return 409
+    if (event.saleStatus === 1) {
+      response.status(409);
+      response.json({
+            message: "Le spectacle est présentement en vente; terminer la vente avant d'envoyer la requête à nouveau.",
+      });
+      response.end();
+      return;
+    }
+
+    // if event is offline, but has tickets sold, return 403
+    if (event.saleStatus === 2){
+      response.status(403);
+      response.json({
+            message: "Le spectacle ne peut être supprimé; des billets ont été vendus.",
+      });
+      response.end();
+      return;
+    }
+
+    const ticketRepository = getManager().getRepository(Ticket);
+    const tickets: Ticket[] = await ticketRepository.find({
+      where: {event: request.params.eventId}
+    });
+
+    const venueRepository = getManager().getRepository(Venue);
+    const venue: Venue[] = await venueRepository.find({
+      relations: ["event"]
+    });
+
+    console.log(venue);
+
+    response.status(204);
+      response.json({
+            message: "TODO",
+      });
+      response.end();
+
 }
 /**
  * Replace an event from the database
