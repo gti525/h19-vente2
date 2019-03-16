@@ -31,6 +31,11 @@ export const AppRoutes = [
     {
         path: "/events/:eventId",
         method: "put",
+        action: eventController.updateEvent
+    },
+    {
+        path: "/events/:eventId",
+        method: "put",
         action: eventController.replaceEventById
     },
     {

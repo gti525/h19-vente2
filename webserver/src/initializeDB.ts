@@ -122,7 +122,7 @@ createConnection(<ConnectionOptions>{
     //     var date = new Date();
     //     date.setDate(date.getDate() + Math.floor(Math.random() * 50) + 1)  
     //     event.dateEvent = date;
-    //     event.saleStatus = 0;
+    //     event.saleStatue = 0;
     //     const venue =  await connection.manager.getRepository(Venue).findOne(i);
     //     event.venue = venue
     //     connection.manager.save(event);
