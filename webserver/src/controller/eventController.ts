@@ -356,3 +356,29 @@ export async function deleteTicketsFromEventById(request: Request, response: Res
         return;
     }
 }
+
+/**
+ * Update an event from the database
+ */
+export async function updateEvent(request: Request, response: Response) {
+
+    const newID = parseInt(request.params.id);
+    const newUrlImg = String(request.body);
+
+    const eventRepository = getManager().getRepository(Event);
+    // TODO: Tickets
+
+    const dbResponse = await eventRepository.query('UPDATE Event SET image = ? WHERE id = ?', [newUrlImg, newID]);
+    
+    const eventId = dbResponse.identifiers.pop().id;
+    
+    response.set("Location", "/events/" + eventId);
+    response.status(201);
+    response.json({
+        id: eventId,
+        message: "TODO"
+    });
+    response.end();
+    return;
+
+}

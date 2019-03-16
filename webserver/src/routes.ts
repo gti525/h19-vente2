@@ -31,6 +31,11 @@ export const AppRoutes = [
     {
         path: "/events/:eventId",
         method: "put",
+        action: eventController.updateEvent
+    },
+    {
+        path: "/events/:eventId",
+        method: "put",
         action: eventController.replaceEventById
     },
     {
@@ -86,7 +91,7 @@ export const AppRoutes = [
         action: cartController.editTicket
     },
     {
-        path: "/cart",
+        path: "/cart/:ticketId",
         method: "delete",
         action: cartController.removeTicket
     },

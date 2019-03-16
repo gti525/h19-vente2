@@ -1,5 +1,5 @@
 <h1>Show Detail</h1>
-<div>
+<div *ngIf='event'>
   <div>
     <img src="{{event.image}}">
   </div>
@@ -10,9 +10,21 @@
       <li>Date: {{event.dateEvent}}</li>
       <li>Description: {{event.description}}</li>
       <li>Venue: {{event.venue.name}}</li>
+      <li>
+        <div *ngIf="event.saleStatus==0">
+          Sale Status: Not on sale
+        </div>
+        <div *ngIf="event.saleStatus==1">
+          Sale Status: On sale
+        </div>
+        <div *ngIf="event.saleStatus==2">
+          Sale Status: All tickets sold
+        </div>
+      </li>
     </ul>
   </div>
   <div>
-    <input (click)="onAddClick()" type="button" value="Ajouter au panier" class="btn btn-primary"/>
+    
+      <input (click)="onAddClick()" type="button" value="Ajouter au panier" class="btn btn-primary" />
   </div>
 </div>

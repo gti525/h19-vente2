@@ -40,22 +40,46 @@ export class CartComponent implements OnInit {
   }
 
   onAddClick(ticket: CartTicket) {
-  	/*ticket.count += 1;
-  	this.cartService.editTicket(ticket).subscribe(data => {
-			
-  	})*/
+  	let copy = new CartTicket();
+  	Object.assign(copy, ticket);
+  	copy.count += 1
+  	this.cartService.editTicket(copy).subscribe(data => {
+  		if (!("error" in data)) {
+				ticket.count += 1
+				this.calculateTotal();
+			}
+  	})
   }
 
   onSubClick(ticket: CartTicket) {
-  	/*ticket.count -= 1;
-  	this.cartService.editTicket(ticket).subscribe(data => {
-  		
-  	})*/
+  	let copy = new CartTicket();
+  	Object.assign(copy, ticket);
+  	copy.count -= 1;
+  	this.cartService.editTicket(copy).subscribe(data => {
+  		if (!("error" in data)) {
+				ticket.count -= 1
+				this.calculateTotal();
+			}
+  	})
   }
 
   onRemoveClick(ticket: CartTicket) {
-  	/*this.cartService.removeTicket(ticket).subscribe(data => {
-  		
-  	})*/
+  	this.cartService.removeTicket(ticket.ticket.id).subscribe(data => {
+  		if (!("error" in data)) {
+  			let index: number;
+
+  			for (let i = 0; i < this.cart.tickets.length; i++) {
+  				if (this.cart.tickets[i].ticket.id == ticket.ticket.id) {
+  					index = i;
+  					break;
+  				}
+  			}
+
+  			this.cart.tickets.splice(index, 1);
+				this.calculateTotal();
+			} else if (data["error"] == 4) {
+				this.cart = null;
+			}
+  	})
   }
 }

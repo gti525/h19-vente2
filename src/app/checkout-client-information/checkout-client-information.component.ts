@@ -2,9 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from "@angular/router";
 import { FormGroup, FormBuilder, FormControl } from '@angular/forms';
 import { CheckoutPassService } from "../services/checkout-pass.service"
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
-import { LoginSocialComponent } from '../login-social/login-social.component'
-import { LoginSocialService } from '../services/login-social.service';
 
 import { User } from "../models/user";
 import { LoginSocial } from '../models/login-social';
@@ -18,18 +15,13 @@ export class CheckoutClientInformationComponent implements OnInit {
 
   user: User;
   userFormGroup: FormGroup;
-  loginSocial : LoginSocial = {
-    email : "test",
-    password : "hoe"
-  }
+  userSocial: any;
 
 
   constructor(
     public checkoutPassService: CheckoutPassService,
-    private loginSocialService: LoginSocialService,
     private router: Router,
-    private fb: FormBuilder,
-    public dialog: MatDialog) {
+    private fb: FormBuilder) {
     this.userFormGroup = this.fb.group({
       name: new FormControl(''),
       firstName: new FormControl(''),
@@ -47,12 +39,19 @@ export class CheckoutClientInformationComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-    
+      if (result){
+        console.log("from client-information : ", result);
+        this.checkoutPassService.setUserSocial(result) ;
+        this.router.navigate(["checkout-credit"]);
+      }
     });
   }
 
   onSoumettre() {
+    
+    
     this.checkoutPassService.user = new User(this.userFormGroup.value);
+    
     this.router.navigate(["checkout-credit"]);
   }
 
