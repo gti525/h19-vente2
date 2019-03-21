@@ -26,6 +26,10 @@ import { BasicAuthInterceptor, ErrorInterceptor } from './gestion-admin/_helpers
 import { BilletsComponent } from './billets/billets.component';
 import { LoginSocialComponent } from './login-social/login-social.component';
 
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MaterialModule } from './material.module';
+
+
 const appRoutes : Routes = [
 ];
 
@@ -52,6 +56,8 @@ const appRoutes : Routes = [
     ReactiveFormsModule,
     HttpClientModule,
     MatFormFieldModule, // or SharedModule that exports MatFormFieldModule,
+    MaterialModule,
+    BrowserAnimationsModule,
     RouterModule.forRoot(appRoutes)
   ],
   providers: [
@@ -61,6 +67,9 @@ const appRoutes : Routes = [
     // provider used to create fake backend
     fakeBackendProvider
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+    entryComponents: [
+      LoginSocialComponent,
+    ],
 })
 export class AppModule { }
