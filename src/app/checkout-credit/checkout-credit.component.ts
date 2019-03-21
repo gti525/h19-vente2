@@ -24,7 +24,8 @@ export class CheckoutCreditComponent implements OnInit {
       name: new FormControl(''),
       number: new FormControl(''),
       cvv: new FormControl(''),
-      expiration: new FormControl('')
+      expirationMonth: new FormControl(''),
+      expirationYear: new FormControl('')
     });
   }
 

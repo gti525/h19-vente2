@@ -4,7 +4,6 @@ import { FormGroup, FormBuilder, FormControl } from '@angular/forms';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { CheckoutPassService } from "../services/checkout-pass.service";
 import { LoginSocialComponent } from "../login-social/login-social.component";
-import { LoginSocialService } from '../services/login-social.service';
 
 import { User } from "../models/user";
 
@@ -51,10 +50,8 @@ export class CheckoutClientInformationComponent implements OnInit {
   }
 
   onSoumettre() {
-    
     console.log("onSoumettre");
     this.checkoutPassService.user = new User(this.userFormGroup.value);
-    
     this.router.navigate(["checkout-credit"]);
   }
 
