@@ -52,7 +52,7 @@ export class CheckoutClientInformationComponent implements OnInit {
 
   onSoumettre() {
     
-    
+    console.log("onSoumettre");
     this.checkoutPassService.user = new User(this.userFormGroup.value);
     
     this.router.navigate(["checkout-credit"]);
