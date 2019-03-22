@@ -21,6 +21,7 @@ export class CheckoutCreditComponent implements OnInit {
     private router: Router,
     private fb: FormBuilder) {
     this.creditCardFormGroup = this.fb.group({
+      firstName: new FormControl(''),
       name: new FormControl(''),
       number: new FormControl(''),
       cvv: new FormControl(''),
@@ -33,7 +34,11 @@ export class CheckoutCreditComponent implements OnInit {
   }
 
   public onSubmit() {
-    this.checkoutPassService.creditCard = new CreditCard(this.creditCardFormGroup.value);
-    this.router.navigate(["checkout-recap"]);
+    var tmpCreditCard =  new CreditCard(this.creditCardFormGroup.value);
+    
+    console.log(tmpCreditCard);
+    this.checkoutPassService.setPreauthCredit(tmpCreditCard);
+    this.checkoutPassService.creditCard = tmpCreditCard;
+    //this.router.navigate(["checkout-recap"]);
   }
 }
