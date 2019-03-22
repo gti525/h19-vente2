@@ -1,84 +1,79 @@
+
 <li class="list-group-item">
-   
+  <form [formGroup]="userFormGroup" (ngSubmit)="onSoumettre()">
 
-        <div class="container py-3">
-            <div class="row">
-                <div class="mx-auto col-sm-6">
-                    <!-- form user info -->
-                    <div class="card">
-                        <div class="card-header">
-                            <h4 class="mb-0"> Information du client</h4>
-                        </div>
-                        <div class="card-body">
-                            <form [formGroup]="userFormGroup" (ngSubmit)="onSoumettre()" class="form" role="form" autocomplete="off">
-                                <div class="form-group row">
-                                    <label class="col-lg-3 col-form-label form-control-label">Prénom </label>
-                                    <div class="col-lg-9">
-                                        <input class="form-control" type="text" value="" formControlName="firstName"
-                                            required>
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <label class="col-lg-3 col-form-label form-control-label">Nom </label>
-                                    <div class="col-lg-9">
-                                        <input class="form-control" type="text" value="" formControlName="name"
-                                            required>
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <label class="col-lg-3 col-form-label form-control-label">Email</label>
-                                    <div class="col-lg-9">
-                                        <input class="form-control" type="email" value="">
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <label class="col-lg-3 col-form-label form-control-label">Adresse </label>
-                                    <div class="col-lg-9">
-                                        <input class="form-control" type="text" value="" formControlName="civicAddress"
-                                            required>
-                                    </div>
-                                </div>
+    <div class="container py-3">
+      <div class="row">
+          <div class="mx-auto col-sm-6">
+                      <!-- form user info -->
+                      <div class="card">
+                          <div class="card-header">
+                              <h4 class="mb-0"> Information du client</h4>
+                          </div>
+                          <div class="card-body">
+                              <form class="form" role="form" autocomplete="off">
+                                  <div class="form-group row">
+                                      <label class="col-lg-3 col-form-label form-control-label">Prénom </label>
+                                      <div class="col-lg-9">
+                                          <input class="form-control" type="text" value="">
+                                      </div>
+                                  </div>
+                                  <div class="form-group row">
+                                      <label class="col-lg-3 col-form-label form-control-label">Nom </label>
+                                      <div class="col-lg-9">
+                                          <input class="form-control" type="text" value="">
+                                      </div>
+                                  </div>
+                                  <div class="form-group row">
+                                      <label class="col-lg-3 col-form-label form-control-label">Email</label>
+                                      <div class="col-lg-9">
+                                          <input class="form-control" type="email" value="">
+                                      </div>
+                                  </div>
+                                  <div class="form-group row">
+                                      <label class="col-lg-3 col-form-label form-control-label">Adresse </label>
+                                      <div class="col-lg-9">
+                                          <input class="form-control" type="text" value="">
+                                      </div>
+                                  </div>
 
-                                <div class="form-group row">
-                                    <label class="col-lg-3 col-form-label form-control-label">Ville </label>
-                                    <div class="col-lg-9">
-                                        <input class="form-control" type="text" value="" formControlName="city"
-                                            required>
-                                    </div>
-                                </div>
+                                  <div class="form-group row">
+                                      <label class="col-lg-3 col-form-label form-control-label">Ville </label>
+                                      <div class="col-lg-9">
+                                          <input class="form-control" type="text" value="">
+                                      </div>
+                                  </div>
 
-                                <div class="form-group row">
+                                  <div class="form-group row">
                                     <label class="col-lg-3 col-form-label form-control-label">Province </label>
                                     <div class="col-lg-9">
-                                        <input class="form-control" type="text" value="" formControlName="province"
-                                            required>
+                                        <input class="form-control" type="text" value="">
                                     </div>
                                 </div>
 
                                 <div class="form-group row">
-                                    <label class="col-lg-3 col-form-label form-control-label"> Code postal </label>
-                                    <div class="col-lg-9">
-                                        <input class="form-control" type="text" value="" formControlName="postalCode"
-                                            required>
-                                    </div>
-                                </div>
+                                  <label class="col-lg-3 col-form-label form-control-label"> Code postal </label>
+                                  <div class="col-lg-9">
+                                      <input class="form-control" type="text" value="">
+                                  </div>
+                              </div>
 
-                                <div class="form-group row">
-                                    <label class="col-lg-3 col-form-label form-control-label"></label>
-                                    <div class="col-lg-9">
-                                        <input type="reset" class="btn btn-secondary" value="Cancel">
+                                  <div class="form-group row">
+                                      <label class="col-lg-3 col-form-label form-control-label"></label>
+                                      <div class="col-lg-9">
+                                          <input type="reset" class="btn btn-secondary" value="Cancel">
+                                           
+                                          <input type="submit" class="btn btn-success" value="Soumettre">
+                                      </div>
+                                  </div>
+                              </form>
+                          </div>
+                      </div>
+                      <!-- /form user info -->
+          </div>
+      </div>
+  </div>
 
-                                        <input type="submit" class="btn btn-success" value="Soumettre">
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                    <!-- /form user info -->
-                </div>
-            </div>
-        </div>
-
-
+  </form>
 </li>
 <button mat-raised-button (click)="openDialog()">Plateforme social authentification</button>
