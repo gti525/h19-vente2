@@ -50,7 +50,7 @@
   </div>
   <div class="col col-lg-2">
     <a routerLink="/checkout-confirmation">
-      <button type="button" class="btn btn-primary">Confirmer</button>
+      <button type="button" (ngSubmit)="onConfirm()" class="btn btn-primary">Confirmer</button>
     </a>
   </div>
 </div>

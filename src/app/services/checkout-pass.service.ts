@@ -14,9 +14,11 @@ export class CheckoutPassService {
   private userSocial: any;
   private preAuthCredit: any;
   private axiosClient: AxiosInstance;
+  private transactionPreAuth: any;
+
   apiURL = 'https://h19-passerelle.herokuapp.com/api/v1';
 
-  constructor() { 
+  constructor() {
     /*this.axiosClient = axios.create({
       timeout: 3000,
       headers: {
@@ -29,7 +31,7 @@ export class CheckoutPassService {
     });*/
   }
 
-  setUserSocial(userSocial : any){
+  setUserSocial(userSocial: any) {
     //reset the user just in case
     this.user = new User();
     this.user.firstName = userSocial.FirstName;
@@ -39,26 +41,16 @@ export class CheckoutPassService {
     this.user.city = userSocial.City;
     this.user.civicAddress = userSocial.Address;
     this.userSocial = userSocial;
+
   }
 
-  getUserSocial(){
+  getUserSocial() {
     return this.userSocial;
   }
 
-  setPreauthCredit(crediCard : CreditCard){
-    //reset the user just in case
-    //INSERT INTO CREDIT_CARD VALUES 
-    // (5105823505096154, '180.21', 10000,1,2020,'123',4);
-    
-    /* user 4 : (3, 
-    '22233333', 
-    '$2a$10$vsMf.RQM/cg3nUjoYU8WH.bB9abGYVeE/rmSPLZ3UAR6/WksudUUu', 
-    'USER', 
-    1, 
-    'Jean-Michel', 
-    'Benoit', FALSE, NULL, 'jmb@tecsys.com') */
+  setPreauthCredit(crediCard: CreditCard) {
+    /* exemple credit-card
 
-    /*
     Jean-Michel
     Benoit
     5105823505096154
@@ -66,32 +58,61 @@ export class CheckoutPassService {
     2020
     123
     */
-    var postData:any = 
-      {
-        "MERCHANT_API_KEY": "HJoMststlPWjtosFtFG85Q3DdS5/v/8Db2jjPkssN6U=",
-        "amount": 100,
-        "purchase_desc": "PURCHASE/ Vente2 ",
-        "credit_card": {
-          "first_name": crediCard.firstName,
-          "last_name": crediCard.name,
-          "number": crediCard.number,
-          "cvv": crediCard.cvv,
-          "exp": {
-            "month": crediCard.expirationMonth,
-            "year": crediCard.expirationYear
-          }
+    var postData: any =
+    {
+      "MERCHANT_API_KEY": "HJoMststlPWjtosFtFG85Q3DdS5/v/8Db2jjPkssN6U=",
+      "amount": 100,
+      "purchase_desc": "PURCHASE/ Vente2 ",
+      "credit_card": {
+        "first_name": crediCard.firstName,
+        "last_name": crediCard.name,
+        "number": crediCard.number,
+        "cvv": crediCard.cvv,
+        "exp": {
+          "month": crediCard.expirationMonth,
+          "year": crediCard.expirationYear
         }
-      };
+      }
+    };
     console.log(postData);
 
     axios.post(this.apiURL + '/transaction/create', postData)
-    .then(res => {
+      .then(res => {
         console.log("response : ", res);
-    })
-    .catch(err => {
+        this.transactionPreAuth = res.data;
+        
+        /* exemple response :
+          {
+            "transaction_number": "3330382145",
+            "result": "SUCCESS"
+          }
+        */
+      })
+      .catch(err => {
         console.log("error : ", err);
-    });
-    
+      });
+
+  }
+
+  confirmTransaction() {
+
+    var postData: any =
+    {
+      "transaction_number": "3330382145", //this.transactionPreAuth.transaction_number,
+      "action": "CONFIRM",
+      "MERCHANT_API_KEY": "HJoMststlPWjtosFtFG85Q3DdS5/v/8Db2jjPkssN6U="
+    };
+
+    console.log(postData);
+
+    axios.post(this.apiURL + '/transaction/process', postData)
+      .then(res => {
+        console.log("response : ", res);
+      })
+      .catch(err => {
+        console.log("error : ", err);
+      });
+
   }
 
 
