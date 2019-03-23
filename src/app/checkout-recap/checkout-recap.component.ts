@@ -41,8 +41,9 @@ export class CheckoutRecapComponent implements OnInit {
     return total;
   }
 
-  onSubmit(){
-
+  onConfirm(){
+    console.log("onConfirm");
+    this.checkoutPassService.confirmTransaction();
   }
 
 }

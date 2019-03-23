@@ -34,11 +34,21 @@ export class CheckoutCreditComponent implements OnInit {
   }
 
   public onSubmit() {
+    //INSERT INTO CREDIT_CARD VALUES 
+    // (5105823505096154, '180.21', 10000,1,2020,'123',4);
+    
+    /* user 4 : (3, 
+    '22233333', 
+    '$2a$10$vsMf.RQM/cg3nUjoYU8WH.bB9abGYVeE/rmSPLZ3UAR6/WksudUUu', 
+    'USER', 
+    1, 
+    'Jean-Michel', 
+    'Benoit', FALSE, NULL, 'jmb@tecsys.com') */
     var tmpCreditCard =  new CreditCard(this.creditCardFormGroup.value);
     
     console.log(tmpCreditCard);
     this.checkoutPassService.setPreauthCredit(tmpCreditCard);
     this.checkoutPassService.creditCard = tmpCreditCard;
-    //this.router.navigate(["checkout-recap"]);
+    this.router.navigate(["checkout-recap"]);
   }
 }
