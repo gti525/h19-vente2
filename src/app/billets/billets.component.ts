@@ -12,7 +12,7 @@ import { validateConfig } from '@angular/router/src/config';
 
 export class BilletsComponent implements OnInit {
     public events: Event[] = [];
-    e: any;
+    urlValue: any;
 
     constructor(
         private eventService: EventService,
@@ -25,14 +25,15 @@ export class BilletsComponent implements OnInit {
           });
     }
 
-    updateEvent(idSpectacle, imgSrc) {
-        var test = document.getElementsByTagName('urlIMG')[0];
-        alert(test);
-        //this.eventService.updateEvent(idSpectacle, imgSrc)
+    updateEvent(idSpectacle) {
+        //alert(this.urlValue);
+        this.eventService.updateEvent(idSpectacle, this.urlValue);
     }
 
-    doSomething(val)
+    onKey(event)
     {
-        alert(val.name);
+        if (event.key === "Enter") {
+            this.urlValue = event.target.value;
+        }
     }
 }

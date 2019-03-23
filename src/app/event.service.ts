@@ -27,7 +27,7 @@ export class EventService {
       };
     this
       .httpClient
-      .post(`${this.apiURL}/update/${id_event}`, obj)
+      .post(`${this.apiURL}/event/${id_event}`, obj)
       .subscribe(res => console.log('Mise à jour réussie!'));
   }
 }
