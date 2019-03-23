@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from "@angular/router";
-import { FormGroup, FormBuilder, FormControl } from '@angular/forms';
+import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { CheckoutPassService } from "../services/checkout-pass.service";
 import { LoginSocialComponent } from "../login-social/login-social.component";
 
 import { User } from "../models/user";
+import { from } from 'rxjs';
 
 @Component({
   selector: 'app-checkout-client-information',
@@ -27,6 +28,7 @@ export class CheckoutClientInformationComponent implements OnInit {
     this.userFormGroup = this.fb.group({
       name: new FormControl(''),
       firstName: new FormControl(''),
+      email: new FormControl(),
       civicAddress: new FormControl(''),
       city: new FormControl(''),
       province: new FormControl(''),
@@ -51,11 +53,23 @@ export class CheckoutClientInformationComponent implements OnInit {
 
   onSoumettre() {
     console.log("onSoumettre");
+
+    this.userFormGroup = this.formBuilder.group({
+      name: ['', Validators.required],
+      firstName: ['', Validators.required],
+      email: ['', Validators.required],
+      civicAddress: ['', Validators.required],
+      city: ['', Validators.required],
+      firsprovince : ['', Validators.required],
+      postalCode : ['', Validators.required]
+    });
+
     this.checkoutPassService.user = new User(this.userFormGroup.value);
     this.router.navigate(["checkout-credit"]);
   }
 
   ngOnInit() {
+    
   }
 
 }
