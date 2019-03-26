@@ -54,7 +54,7 @@ export class CheckoutClientInformationComponent implements OnInit {
   onSoumettre() {
     console.log("onSoumettre");
 
-    this.userFormGroup = this.formBuilder.group({
+    this.userFormGroup = this.fb.group({
       name: ['', Validators.required],
       firstName: ['', Validators.required],
       email: ['', Validators.required],
