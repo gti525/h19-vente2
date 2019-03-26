@@ -19,15 +19,20 @@ export class EventService {
     return this.httpClient.get(this.apiURL +  '/events');
   }
 
-  public updateEvent(id_event, imgEvent) {
+  public updateEvent(id: number, newUrlImg: string) {
 
-    const obj = {
-        id_event: id_event,
-        imgEvent: imgEvent
-      };
-    this
-      .httpClient
-      .post(`${this.apiURL}/event/${id_event}`, obj)
-      .subscribe(res => console.log('Mise à jour réussie!'));
+    return this.httpClient.put(`${this.apiURL}/event/:${id}`, 
+                          {
+                          "image":  newUrlImg
+                          })
+                          .subscribe(data  => { 
+                                    alert("Mise à jour réussie !");
+                                    console.log("PATCH Request is successful ", data);
+                          },
+                          error  => {
+                          console.log("Que se passe-t-il ? ", error);
+                        }
+                        );
   }
+
 }

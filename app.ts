@@ -52,6 +52,7 @@ createConnection(<ConnectionOptions>{
   app.use(bodyParser.json());
   const router = express.Router();
   var path = require("path");
+  var Event = require('./src/app/models/event');
 
   // Add headers
   app.use(function (req, res, next) {
@@ -81,6 +82,34 @@ createConnection(<ConnectionOptions>{
   router.get('/', function (req, res) {
     res.json({ message: 'Bienvenue suar l\'API de vente2 GTI525' });
   });
+
+  router.route("/event/:id")
+    //Modifier une url d'une image
+    .put(function(req, res) {
+
+        if(req.body.image == null){
+            res.status(400).json({ erreur: 'L\'url doit être fourni dans le corps de la requête' });
+            return;
+        }
+
+        Event.findById(req.params.id, function(err, event) {
+
+            if (err){
+                res.status(400).json({ erreur: 'Erreur lors de l\'accès. Vous avez probablement fourni le mauvais identifiant?' });
+                return;
+            }
+
+            event.image = req.body.image;
+
+            event.save(function(err) {
+                if (err){
+                    res.status(500).json({ erreur: 'Erreur lors de l\'enregistrement à la BD' });
+                    return;
+                }
+                res.json({ message: 'Mise à jour réussie !' });
+            });
+        });
+    });
 
   // register all application routes
 
