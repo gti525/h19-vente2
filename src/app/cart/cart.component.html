@@ -34,9 +34,9 @@
         </div>
         <div class="resume-total">Total: {{total | number:'0.2-2'}} $</div>
       </div>
-      <a routerLink="/checkout-client-information" class="btn-checkout">
+      <button (click)="onCheckoutClick()" class="btn-checkout">
         Checkout
-      </a>
+      </button>
     </div>
   </div>
   <ng-template #emptyMessage>

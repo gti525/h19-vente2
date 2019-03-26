@@ -52,7 +52,7 @@ export class CheckoutClientInformationComponent implements OnInit {
   }
 
   onSoumettre() {
-    console.log("onSoumettre");
+    
 
     this.userFormGroup = this.fb.group({
       name: ['', Validators.required],
@@ -69,7 +69,7 @@ export class CheckoutClientInformationComponent implements OnInit {
   }
 
   ngOnInit() {
-    
+    console.log(this.checkoutPassService.cart.date);
   }
 
 }

@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { CreditCard } from "../models/credit-card";
+import { Cart, CartTicket } from '../models/cart';
 import { User } from "../models/user";
 import axios from "axios";
 import { AxiosInstance } from "axios";
@@ -12,6 +13,7 @@ export class CheckoutPassService {
   public user: User;
   //private because must be set through setUserSocial
   private userSocial: any;
+  public cart: Cart;
   private preAuthCredit: any;
   private axiosClient: AxiosInstance;
   private transactionPreAuth: any;
@@ -19,16 +21,7 @@ export class CheckoutPassService {
   apiURL = 'https://h19-passerelle.herokuapp.com/api/v1';
 
   constructor() {
-    /*this.axiosClient = axios.create({
-      timeout: 3000,
-      headers: {
-        'Access-Control-Allow-Origin': '*',
-      }
-      //headers: {
-        //"Content-Type": "application/json"
-        //"Access-Control-Allow-Origin":"*"
-      //}
-    });*/
+   
   }
 
   setUserSocial(userSocial: any) {
