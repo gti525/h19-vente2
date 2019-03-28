@@ -5,7 +5,7 @@ import * as bodyParser from "body-parser";
 import { createConnection, ConnectionOptions } from "typeorm";
 import { Venue } from "./webserver/src/entity/Venue";
 import { AppRoutes } from "./webserver/src/routes";
-import * as PostgressConnectionStringParser from 'pg-connection-string';
+import * as PostgressConnectionStringParser from "pg-connection-string";
 
 const port = process.env.PORT || 8080;
 let LOCALHOST_SSL = true;
@@ -27,7 +27,7 @@ console.log("DATABASE_URL: " + DATABASE_URL);
 console.log("LOCALHOST_SSL: " + LOCALHOST_SSL);
 // Create a new express application instancenpm
 createConnection(<ConnectionOptions>{
-  type: 'postgres',
+  type: "postgres",
 
   // We need add the extra SSL to use heroku on localhost
   extra: {
@@ -52,23 +52,23 @@ createConnection(<ConnectionOptions>{
   app.use(bodyParser.json());
   const router = express.Router();
   var path = require("path");
-  var Event = require('./src/app/models/event');
+  var Event = require("./src/app/models/event");
 
   // Add headers
   app.use(function (req, res, next) {
 
     // Website you wish to allow to connect
-    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader("Access-Control-Allow-Origin", "*");
 
     // Request methods you wish to allow
-    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+    res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, PATCH, DELETE");
 
     // Request headers you wish to allow
-    res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
+    res.setHeader("Access-Control-Allow-Headers", "X-Requested-With,content-type");
 
     // Set to true if you need the website to include cookies in the requests sent
     // to the API (e.g. in case you use sessions)
-    res.setHeader('Access-Control-Allow-Credentials', true);
+    res.setHeader("Access-Control-Allow-Credentials", true);
 
     // Pass to next layer of middleware
     next();
@@ -79,8 +79,8 @@ createConnection(<ConnectionOptions>{
   // --------------------
 
 
-  router.get('/', function (req, res) {
-    res.json({ message: 'Bienvenue suar l\'API de vente2 GTI525' });
+  router.get("/", function (req, res) {
+    res.json({ message: "Bienvenue suar l'API de vente2 GTI525" });
   });
 
   router.route("/event/:id")
@@ -88,14 +88,14 @@ createConnection(<ConnectionOptions>{
     .put(function(req, res) {
 
         if(req.body.image == null){
-            res.status(400).json({ erreur: 'L\'url doit être fourni dans le corps de la requête' });
+            res.status(400).json({ erreur: "L'url doit être fourni dans le corps de la requête" });
             return;
         }
 
         Event.findById(req.params.id, function(err, event) {
 
             if (err){
-                res.status(400).json({ erreur: 'Erreur lors de l\'accès. Vous avez probablement fourni le mauvais identifiant?' });
+                res.status(400).json({ erreur: "Erreur lors de l'accès. Vous avez probablement fourni le mauvais identifiant?" });
                 return;
             }
 
@@ -103,10 +103,10 @@ createConnection(<ConnectionOptions>{
 
             event.save(function(err) {
                 if (err){
-                    res.status(500).json({ erreur: 'Erreur lors de l\'enregistrement à la BD' });
+                    res.status(500).json({ erreur: "Erreur lors de l'enregistrement à la BD" });
                     return;
                 }
-                res.json({ message: 'Mise à jour réussie !' });
+                res.json({ message: "Mise à jour réussie !" });
             });
         });
     });
@@ -129,16 +129,16 @@ createConnection(<ConnectionOptions>{
 
   // FIN DES ROUTES API
   //lier router à la route /api
-  app.use('/api', router);
+  app.use("/api", router);
 
 
 
   // distribue l'application Angular par défaut.
-  app.use(express.static(__dirname + '/dist/vente2'));
+  app.use(express.static(__dirname + "/dist/vente2"));
 
   // * permet de refresh une page à partir du même url. example /show/1 retournera toujours la même page.
-  app.get('*', function (req, res) {
-    res.sendFile(path.join(__dirname, '/dist/vente2/index.html'));
+  app.get("*", function (req, res) {
+    res.sendFile(path.join(__dirname, "/dist/vente2/index.html"));
   });
 
   // on écoute sur process.env.port pour heroku et 8080 localement.

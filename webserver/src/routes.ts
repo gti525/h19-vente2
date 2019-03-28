@@ -19,7 +19,7 @@ export const AppRoutes = [
         action: eventController.addEvent
     },
     {
-        path: "/event/:eventId",
+        path: "/events/:eventId",
         method: "get",
         action: eventController.getEventById
     },

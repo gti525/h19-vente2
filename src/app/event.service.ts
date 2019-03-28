@@ -12,7 +12,7 @@ export class EventService {
   constructor(private httpClient: HttpClient) {}
   
   public getEventById(id: number){
-    return this.httpClient.get(`${this.apiURL}/event/${id}`);
+    return this.httpClient.get(`${this.apiURL}/events/${id}`);
   }
 
   public getEvents(){
@@ -21,13 +21,13 @@ export class EventService {
 
   public updateEvent(id: number, newUrlImg: string) {
 
-    return this.httpClient.put(`${this.apiURL}/event/:${id}`, 
+    return this.httpClient.put(`${this.apiURL}/events/:${id}`, 
                           {
                           "image":  newUrlImg
                           })
                           .subscribe(data  => { 
                                     alert("Mise à jour réussie !");
-                                    console.log("PATCH Request is successful ", data);
+                                    console.log("PUT Request is successful ", data);
                           },
                           error  => {
                           console.log("Que se passe-t-il ? ", error);
