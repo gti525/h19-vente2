@@ -35,6 +35,10 @@ export class Event {
     },
     tickets: [
       {
+        uuid: "e7c21e8d-6801-4433-aa36-b8d416978afc",
+        price: 40.25
+      },
+      {
         uuid: "123e4567-e89b-12d3-a456-426655440000",
         price: 32.5
       }

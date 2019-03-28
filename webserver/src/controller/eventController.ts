@@ -294,6 +294,141 @@ export async function replaceEventById(request: Request, response: Response) {
     response.end();
     return;
   }
+
+  // 403 (event-side)
+  if (event.saleStatus === 2) {
+    response.status(403);
+    response.json({
+          message: "Le spectacle ne peut être remplacé; des billets ont été vendus.",
+    });
+    response.end();
+    return;
+  }
+
+  // Assign entity variables
+  const tickets = new Array<Ticket>();
+
+  try {
+    // Check for existance and type basic first.
+    if (
+      !request.body.title &&
+      !isString(request.body.title) &&
+      !request.body.description &&
+      !isString(request.body.description) &&
+      !request.body.artist &&
+      !isString(request.body.artist) &&
+      !request.body.date &&
+      !isString(request.body.date) &&
+      !request.body.venue.name &&
+      !isString(request.body.venue.name) &&
+      !request.body.venue.address &&
+      !isString(request.body.venue.address) &&
+      !request.body.venue.capacity &&
+      !isNumber(request.body.venue.capacity)
+    ) {
+      response.status(400);
+      response.json({
+        message:
+          "La syntaxe du corps de la requête ne respecte pas ce qui est attendu.",
+        example: Event.example
+      });
+      response.end();
+      return;
+    }
+
+    // Create Venue
+    event.venue.name = request.body.venue.name;
+    event.venue.address = request.body.venue.address;
+    event.venue.capacity = request.body.venue.capacity;
+
+    // Create Event
+    event.title = request.body.title;
+    event.description = request.body.description;
+    event.artist = request.body.artist;
+    if (request.body.organisation && isString(request.body.organisation)) {
+      event.organisation = request.body.organisation;
+    }
+    if (request.body.imageUrl) {
+      if (isUrl(request.body.imageUrl)) {
+        event.image = request.body.imageUrl;
+      } else {
+        event.image =
+          "https://vente2-gti525.herokuapp.com/assets/images/placeholder-image-icon-21.jpg"; // Placeholder image
+      }
+    }
+    event.dateEvent = new Date(request.body.date);
+    event.saleStatus = 0; // Not one sale
+
+    // If the tickets are included
+    if (request.body.tickets) {
+      if (!isArray(request.body.tickets)) {
+        response.status(400);
+        response.json({
+          message:
+            "La syntaxe du corps de la requête ne respecte pas ce qui est attendu.",
+          example: Event.exampleWithTickets
+        });
+        response.end();
+        return;
+      }
+      for (const element of request.body.tickets) {
+        // console.log("Price: " + element.price + ", isNumber: " + isNumber(element.price));
+        // console.log("UUID: " + element.uuid + ", isUUID: " + anyNonNil(element.uuid));
+        if (!isNumber(element.price) || !anyNonNil(element.uuid)) {
+          response.status(400);
+          response.json({
+            message:
+              "La syntaxe du corps de la requête ne respecte pas ce qui est attendu.",
+            example: Event.exampleWithTickets
+          });
+          response.end();
+          return;
+        }
+        const ticket = new Ticket();
+        ticket.uuid = element.uuid;
+        ticket.price = element.price;
+        ticket.event = event;
+        tickets.push(ticket);
+      }
+      if (checkDuplicateInObject("uuid", tickets)) {
+        response.status(409);
+        response.json({
+          message: "Les billets soumis ne sont pas uniques (uuid)."
+        });
+        response.end();
+        return;
+      }
+      // console.log(tickets.length);
+    }
+
+    // Catch JSON errors such as missing properties from the previous checks or other syntax errors.
+  } catch (err) {
+    // throw(err);
+    response.status(400);
+    response.json({
+      message:
+        "La syntaxe du corps de la requête ne respecte pas ce qui est attendu.",
+      example: Event.exampleWithTickets
+    });
+    response.end();
+    return;
+  }
+
+  // DB insertions
+  // Venue first since Event (Many) has a Venue (One) as a foreign key.
+  // const venueRepository = getManager().getRepository(Venue);
+  // await venueRepository.save(venue);
+
+  // It will automatically add the Venue foreign key, since it is part of the entity.
+  const dbResponse = await eventRepository.save(event);
+
+  // Ticket (Many) last, since it contains Event (One) as a foreign key.
+  const ticketRepository = getManager().getRepository(Ticket);
+  await ticketRepository.save(tickets, { chunk: tickets.length / 500 });
+
+  response.status(204);
+  response.end();
+  return;
 }
 
 /**
