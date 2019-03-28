@@ -31,11 +31,11 @@ createConnection(<ConnectionOptions>{
 
   // We need add the extra SSL to use heroku on localhost
   extra: {
-    ssl: true,
+    ssl: LOCALHOST_SSL,
   },
 
   // Change the next line to use the Heroku postgresql from other environment like localhost, remenber that heroku changes this data periodically for security reasons
-  url: "postgres://xuamcueiltwsar:35ad6253deb74e6f8aa19a178e9b3240744c30ca4a9f5719933ca168592e262c@ec2-54-243-228-140.compute-1.amazonaws.com:5432/dktnp0dql1q5k",
+  url: DATABASE_URL,
 
   entities: [
     __dirname + "/webserver/src/entity/*.ts"
