@@ -3,6 +3,7 @@ import { Router, NavigationExtras } from "@angular/router";
 import { CheckoutPassService } from "../services/checkout-pass.service"
 import { CreditCard } from "../models/credit-card";
 import { FormGroup, FormBuilder, FormControl } from '@angular/forms';
+import { User } from '../models/user';
 
 @Component({
   selector: 'app-checkout-credit',
@@ -13,6 +14,7 @@ export class CheckoutCreditComponent implements OnInit {
 
   creditCardFormGroup: FormGroup;
   creditCard: CreditCard;
+  user : User;
 
   //todo Form Validation : https://angular.io/guide/form-validation
 
@@ -31,6 +33,7 @@ export class CheckoutCreditComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.user = this.checkoutPassService.user;
   }
 
   public onSubmit() {

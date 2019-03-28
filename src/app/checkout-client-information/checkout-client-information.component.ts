@@ -54,15 +54,15 @@ export class CheckoutClientInformationComponent implements OnInit {
   onSoumettre() {
     
 
-    this.userFormGroup = this.fb.group({
-      name: ['', Validators.required],
-      firstName: ['', Validators.required],
-      email: ['', Validators.required],
-      civicAddress: ['', Validators.required],
-      city: ['', Validators.required],
-      firsprovince : ['', Validators.required],
-      postalCode : ['', Validators.required]
-    });
+    // this.userFormGroup = this.fb.group({
+    //   name: ['', Validators.required],
+    //   firstName: ['', Validators.required],
+    //   email: ['', Validators.required],
+    //   civicAddress: ['', Validators.required],
+    //   city: ['', Validators.required],
+    //   firsprovince : ['', Validators.required],
+    //   postalCode : ['', Validators.required]
+    // });
 
     this.checkoutPassService.user = new User(this.userFormGroup.value);
     this.router.navigate(["checkout-credit"]);
