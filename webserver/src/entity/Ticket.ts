@@ -15,6 +15,16 @@ export class Ticket {
     price: 32.5
   };
 
+  static exampleWithArray: object = [
+    {
+    uuid: "e7c21e8d-6801-4433-aa36-b8d416978afc",
+    price: 17.5
+    },
+    {
+      uuid: "123e4567-e89b-12d3-a456-426655440000",
+      price: 32.5
+    }];
+
   constructor() {}
 
   @PrimaryGeneratedColumn({

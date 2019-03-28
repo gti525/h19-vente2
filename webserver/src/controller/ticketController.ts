@@ -9,7 +9,7 @@ export async function getTicketsByEventId(request: Request, response: Response) 
     // get a ticket repository to perform operations with tickets
     const ticketRepository = getManager().getRepository(Ticket);
 
-    //const tickets = await ticketRepository.find();
+    // const tickets = await ticketRepository.find();
 
     // return loaded events
     // response.send(tickets);

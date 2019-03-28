@@ -2,19 +2,17 @@ import { Request, Response } from "express";
 import { getManager } from "typeorm";
 import { Event } from "../entity/Event";
 import { Venue } from "../entity/Venue";
-import { isNumber, isString, isArray, isNullOrUndefined } from "util";
+import { isNumber, isString, isArray } from "util";
 import { Ticket } from "../entity/Ticket";
 import { anyNonNil } from "is-uuid";
 import { checkDuplicateInObject } from "../lib/tools";
 import isUrl = require("is-url");
-import { areTicketsSoldForEvent, getSoldTicketsForEvent, getFreeTicketsForEvent, getTicketsForEvent, deleteTicketsForEvent } from "./ticketController";
-import { forEach } from "@angular/router/src/utils/collection";
-import { getVenueForEvent, deleteVenueForEvent } from "./venueController";
+import { getSoldTicketsForEvent, getFreeTicketsForEvent, deleteTicketsForEvent } from "./ticketController";
 
 /**
  * Loads all events from the database.
  */
-export async function getAllEvents(request: Request, response: Response) {
+export async function getAllEvents(response: Response) {
 
     console.log(`GET /events`);
     // get a event repository to perform operations with event
@@ -247,12 +245,7 @@ export async function deleteEventById(request: Request, response: Response) {
         });
         response.end();
         return;
-    } else if (ticketsResult === 2 || ticketsResult === 0 ) {
-        // There wasn't any tickets, or they were deleted; no more tickets at the end
-        // Proceed with the removal of the event, followed by the venue
-        const eventResult = await eventRepository.remove(event);
-        const venueResult = await deleteVenueForEvent(event);
-    }
+    } else if (ticketsResult === 2 || ticketsResult === 0 ) {}
 
     response.status(204);
     response.end();
@@ -263,8 +256,6 @@ export async function deleteEventById(request: Request, response: Response) {
 export async function replaceEventById(request: Request, response: Response) {
 
     console.log(`PUT /events/${request.params.eventId}`);
-    // get a event repository to perform operations with event
-    const eventRepository = getManager().getRepository(Event);
 
     if (true) {
         response.status(501);
@@ -458,16 +449,97 @@ export async function getTicketsFromEventById(request: Request, response: Respon
  */
 export async function replaceTicketsFromEventById(request: Request, response: Response) {
 
-    // get a event repository to perform operations with event
-    const eventRepository = getManager().getRepository(Event);
+    console.log(`PUT /events/${request.params.eventId}/tickets`);
 
-    if (true) {
-        response.status(501);
+    // TODO: 401 UNAUTHORIZE
+
+    // 404
+    const eventRepository = getManager().getRepository(Event);
+    const event = await eventRepository.findOne(request.params.eventId);
+
+    // if event was not found return 404 to the client
+    if (!event) {
+        response.status(404);
         response.json({
-            message: "Service n'est pas encore implémenté.",
+            message: "Un spectacle avec l'ID soumis n'a pas été trouvé.",
         });
         response.end();
         return;
+    }
+    // if event is online [saleStatus = 1], return 409
+    if (event.saleStatus === 1) {
+        response.status(409);
+        response.json({
+              message: "Le spectacle est présentement en vente; terminer la vente avant d'envoyer la requête à nouveau.",
+        });
+        response.end();
+        return;
+      }
+
+      // if event is offline, but has tickets sold, return 403
+      if (event.saleStatus === 2) {
+        response.status(403);
+        response.json({
+              message: "Les billets ne peuvent être remplacés; certains ont été vendus.",
+        });
+        response.end();
+        return;
+      }
+
+    // If the body has something
+    if (request.body) {
+
+        if (!(isArray(request.body))) {
+            response.status(400);
+            response.json({
+                message: "La syntaxe du corps de la requête ne respecte pas ce qui est attendu.",
+                example: Ticket.exampleWithArray
+            });
+            response.end();
+            return;
+        }
+        const tickets = new Array<Ticket>();
+        request.body.forEach(element => {
+            // console.log("Price: " + element.price + ", isNumber: " + isNumber(element.price));
+            // console.log("UUID: " + element.uuid + ", isUUID: " + anyNonNil(element.uuid));
+            if ( !(isNumber(element.price)) && !(anyNonNil(element.uuid)) ) {
+                response.status(400);
+                response.json({
+                    message: "La syntaxe du corps de la requête ne respecte pas ce qui est attendu.",
+                    example: Ticket.exampleWithArray
+                });
+                response.end();
+                return;
+            }
+            const ticket = new Ticket();
+            ticket.uuid = element.uuid;
+            ticket.price = element.price;
+            ticket.event = event;
+            tickets.push(ticket);
+        });
+        if (checkDuplicateInObject("uuid", tickets)) {
+            response.status(409);
+                response.json({
+                    message: "Les billets soumis ne sont pas uniques (uuid).",
+                });
+                response.end();
+                return;
+        }
+        const ticketsResult = await deleteTicketsForEvent(event);
+        if (ticketsResult === 1) {
+            // Tickets are sold, cannot delete
+            response.status(403);
+            response.json({
+                    message: "Les billets ne peuvent être remplacés; certains ont été vendus.",
+            });
+            response.end();
+            return;
+        } else if (ticketsResult === 2 || ticketsResult === 0 ) {}
+
+        const ticketRepository = getManager().getRepository(Ticket);
+        await ticketRepository.save(tickets, {chunk: tickets.length / 500});
+        response.status(204);
+        response.end();
     }
 }
 
