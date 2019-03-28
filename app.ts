@@ -116,7 +116,7 @@ createConnection(<ConnectionOptions>{
   // example of a typescript TypeORM express https://github.com/typeorm/typescript-express-example
 
   AppRoutes.forEach(route => {
-    console.log(route);
+    // console.log(route);
     router[route.method](route.path, (request: Request, response: Response, next: Function) => {
         route.action(request, response)
             .then(() => next);
