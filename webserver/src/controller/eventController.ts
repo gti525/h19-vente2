@@ -309,6 +309,7 @@ export async function publishEventById(request: Request, response: Response) {
         return;
     }
 
+    // 204
     if (event.saleStatus === 0 || event.saleStatus === 2) {
 
         event.saleStatus = 1;
@@ -317,6 +318,8 @@ export async function publishEventById(request: Request, response: Response) {
         response.status(204);
         response.end();
         return;
+
+    // Disaster
     } else {
         response.status(500);
         response.json({
@@ -359,6 +362,7 @@ export async function terminateEventById(request: Request, response: Response) {
         return;
     }
 
+    // 200
     if (event.saleStatus === 1) {
 
         const soldTickets = await getSoldTicketsForEvent(event);
@@ -374,10 +378,12 @@ export async function terminateEventById(request: Request, response: Response) {
         event.saleStatus = 0;
         eventRepository.save(event);
         const freeTickets = await getFreeTicketsForEvent(event);
-        for (const ticket of freeTickets) {
-            delete ticket.id;
-            ticket["status"] = "disponible";
-            // console.log(ticket);
+        if (freeTickets.length !== 0) {
+            for (const ticket of freeTickets) {
+                delete ticket.id;
+                ticket["status"] = "disponible";
+                // console.log(ticket);
+            }
         }
         const tickets = freeTickets.concat(soldTickets);
         // console.log(JSON.stringify(tickets));
@@ -387,6 +393,7 @@ export async function terminateEventById(request: Request, response: Response) {
         response.end();
         return;
 
+    // Disaster
     } else {
         response.status(500);
         response.json({
@@ -401,17 +408,48 @@ export async function terminateEventById(request: Request, response: Response) {
  */
 export async function getTicketsFromEventById(request: Request, response: Response) {
 
+    console.log(`GET /events/${request.params.eventId}/tickets`);
+    // TODO: 401 UNAUTHORIZE
+
     // get a event repository to perform operations with event
     const eventRepository = getManager().getRepository(Event);
 
-    if (true) {
-        response.status(501);
+    const event = await eventRepository.findOne(request.params.eventId);
+
+    // 404
+    if (!event) {
+        response.status(404);
         response.json({
-            message: "Service n'est pas encore implémenté.",
+            message: "Un spectacle avec l'ID soumis n'a pas été trouvé.",
         });
         response.end();
         return;
     }
+
+    const soldTickets = await getSoldTicketsForEvent(event);
+    if (soldTickets.length !== 0) {
+        for (const ticket of soldTickets) {
+            delete ticket.id;
+            ticket["status"] = "vendu";
+            // console.log(ticket);
+        }
+    }
+    const freeTickets = await getFreeTicketsForEvent(event);
+    if (freeTickets.length !== 0) {
+        for (const ticket of freeTickets) {
+            delete ticket.id;
+            ticket["status"] = "disponible";
+            // console.log(ticket);
+        }
+    }
+
+    const tickets = freeTickets.concat(soldTickets);
+    // console.log(JSON.stringify(tickets));
+
+    response.status(200);
+    response.json(tickets);
+    response.end();
+    return;
 }
 
 /**
