@@ -16,7 +16,7 @@ import {
 /**
  * Loads all events from the database.
  */
-export async function getAllEvents(response: Response) {
+export async function getAllEvents(request: Request, response: Response) {
   console.log(`GET /events`);
   // get a event repository to perform operations with event
   const eventRepository = getManager().getRepository(Event);
