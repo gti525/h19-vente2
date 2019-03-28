@@ -476,17 +476,65 @@ export async function replaceTicketsFromEventById(request: Request, response: Re
  */
 export async function deleteTicketsFromEventById(request: Request, response: Response) {
 
+    console.log(`DELETE /events/${request.params.eventId}/tickets`);
     // get a event repository to perform operations with event
     const eventRepository = getManager().getRepository(Event);
 
-    if (true) {
-        response.status(501);
+    // TODO: 401 Unauthorized
+
+    const event = await eventRepository.findOne(request.params.eventId);
+
+    // if event was not found return 404 to the client
+    if (!event) {
+        response.status(404);
         response.json({
-            message: "Service n'est pas encore implémenté.",
+            message: "Un spectacle avec l'ID soumis n'a pas été trouvé.",
         });
         response.end();
         return;
     }
+
+    // if event is online [saleStatus = 1], return 409
+    if (event.saleStatus === 1) {
+      response.status(409);
+      response.json({
+            message: "Le spectacle est présentement en vente; terminer la vente avant d'envoyer la requête à nouveau.",
+      });
+      response.end();
+      return;
+    }
+
+    // if event is offline, but has tickets sold, return 403
+    if (event.saleStatus === 2) {
+      response.status(403);
+      response.json({
+            message: "Le spectacle ne peut être supprimé; des billets ont été vendus.",
+      });
+      response.end();
+      return;
+    }
+
+    const ticketsResult = await deleteTicketsForEvent(event);
+    if (ticketsResult === 1) {
+        // Tickets are sold, cannot delete
+        response.status(403);
+        response.json({
+                message: "Les billets ne peuvent pas être supprimé; certains ont été vendus.",
+        });
+        response.end();
+        return;
+    } else if (ticketsResult === 2) {
+        // There wasn't any tickets
+        response.status(404);
+        response.json({
+                message: "Le spectacle spécifié ne possède pas de billets.",
+        });
+        response.end();
+        return;
+    }
+
+    response.status(204);
+    response.end();
 }
 
 /**
