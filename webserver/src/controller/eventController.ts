@@ -7,6 +7,8 @@ import { Ticket } from "../entity/Ticket";
 import { anyNonNil } from "is-uuid";
 import { checkDuplicateInObject } from "../lib/tools";
 import isUrl = require("is-url");
+import { areTicketsSoldForEvent, getSoldTicketsForEvent, getFreeTicketsForEvent } from "./ticketController";
+import { forEach } from "@angular/router/src/utils/collection";
 
 /**
  * Loads all events from the database.
@@ -307,13 +309,20 @@ export async function publishEventById(request: Request, response: Response) {
         return;
     }
 
-    if (true) {
-        response.status(501);
-        response.json({
-            message: "Service n'est pas encore implémenté.",
-        });
+    if (event.saleStatus === 0 || event.saleStatus === 2) {
+
+        event.saleStatus = 1;
+        eventRepository.save(event);
+
+        response.status(204);
         response.end();
         return;
+    } else {
+        response.status(500);
+        response.json({
+            message: "Something went horribly and terribly wrong; the event is in some kind of limbo.",
+        });
+        response.end();
     }
 }
 
@@ -328,13 +337,62 @@ export async function terminateEventById(request: Request, response: Response) {
     // get a event repository to perform operations with event
     const eventRepository = getManager().getRepository(Event);
 
-    if (true) {
-        response.status(501);
+    const event = await eventRepository.findOne(request.params.eventId);
+
+    // 404
+    if (!event) {
+        response.status(404);
         response.json({
-            message: "Service n'est pas encore implémenté.",
+            message: "Un spectacle avec l'ID soumis n'a pas été trouvé.",
         });
         response.end();
         return;
+    }
+
+    // 409
+    if (event.saleStatus === 0 || event.saleStatus === 2) {
+        response.status(409);
+        response.json({
+            message: "Le spectacle n'est présentement pas en vente; publier la vente avant d'envoyer la requête à nouveau.",
+        });
+        response.end();
+        return;
+    }
+
+    if (event.saleStatus === 1) {
+
+        const soldTickets = await getSoldTicketsForEvent(event);
+
+        if (soldTickets.length !== 0) {
+            event.saleStatus = 2;
+            for (const ticket of soldTickets) {
+                delete ticket.id;
+                ticket["status"] = "vendu";
+                // console.log(ticket);
+            }
+        }
+        event.saleStatus = 0;
+        eventRepository.save(event);
+        const freeTickets = await getFreeTicketsForEvent(event);
+        for (const ticket of freeTickets) {
+            delete ticket.id;
+            ticket["status"] = "disponible";
+            // console.log(ticket);
+        }
+        const tickets = freeTickets.concat(soldTickets);
+        // console.log(JSON.stringify(tickets));
+
+        response.status(200);
+        response.json(tickets);
+        response.end();
+        return;
+
+    } else {
+        response.status(500);
+        response.json({
+            message: "Something went horribly and terribly wrong; the event is in some kind of limbo and the tickets have been abducted.",
+        });
+        response.end();
     }
 }
 
