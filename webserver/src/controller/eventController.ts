@@ -7,8 +7,9 @@ import { Ticket } from "../entity/Ticket";
 import { anyNonNil } from "is-uuid";
 import { checkDuplicateInObject } from "../lib/tools";
 import isUrl = require("is-url");
-import { areTicketsSoldForEvent, getSoldTicketsForEvent, getFreeTicketsForEvent } from "./ticketController";
+import { areTicketsSoldForEvent, getSoldTicketsForEvent, getFreeTicketsForEvent, getTicketsForEvent, deleteTicketsForEvent } from "./ticketController";
 import { forEach } from "@angular/router/src/utils/collection";
+import { getVenueForEvent, deleteVenueForEvent } from "./venueController";
 
 /**
  * Loads all events from the database.
@@ -237,24 +238,24 @@ export async function deleteEventById(request: Request, response: Response) {
       return;
     }
 
-    const ticketRepository = getManager().getRepository(Ticket);
-    const tickets: Ticket[] = await ticketRepository.find({
-      where: {event: request.params.eventId}
-    });
-
-    const venueRepository = getManager().getRepository(Venue);
-    const venue: Venue[] = await venueRepository.find({
-      relations: ["event"]
-    });
-
-    console.log(venue);
+    const ticketsResult = await deleteTicketsForEvent(event);
+    if (ticketsResult === 1) {
+        // Tickets are sold, cannot delete
+        response.status(403);
+        response.json({
+                message: "Le spectacle ne peut être supprimé; des billets ont été vendus.",
+        });
+        response.end();
+        return;
+    } else if (ticketsResult === 2 || ticketsResult === 0 ) {
+        // There wasn't any tickets, or they were deleted; no more tickets at the end
+        // Proceed with the removal of the event, followed by the venue
+        const eventResult = await eventRepository.remove(event);
+        const venueResult = await deleteVenueForEvent(event);
+    }
 
     response.status(204);
-      response.json({
-            message: "TODO",
-      });
-      response.end();
-
+    response.end();
 }
 /**
  * Replace an event from the database
