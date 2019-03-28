@@ -13,6 +13,7 @@ import isUrl = require("is-url");
  */
 export async function getAllEvents(request: Request, response: Response) {
 
+    console.log(`GET /events`);
     // get a event repository to perform operations with event
     const eventRepository = getManager().getRepository(Event);
 
@@ -28,10 +29,11 @@ export async function getAllEvents(request: Request, response: Response) {
  */
 export async function getEventById(request: Request, response: Response) {
 
+    console.log(`GET /events/${request.params.eventId}`);
     // get a event repository to perform operations with event
     const eventRepository = getManager().getRepository(Event);
 
-    // load a event by a given event id and its associated venues
+    // load a event by a given event id and its associated venue
     const event = await eventRepository
         .createQueryBuilder("event")
         .innerJoinAndSelect("event.venue", "venue")
@@ -54,6 +56,8 @@ export async function getEventById(request: Request, response: Response) {
  * Submit one event to the database
  */
 export async function addEvent(request: Request, response: Response) {
+
+    console.log(`POST /events`);
 
     // Assign entity variables
     const venue = new Venue();
@@ -130,7 +134,7 @@ export async function addEvent(request: Request, response: Response) {
                     response.end();
                     return;
                 }
-                let ticket = new Ticket();
+                const ticket = new Ticket();
                 ticket.uuid = element.uuid;
                 ticket.price = element.price;
                 ticket.event = event;
@@ -193,6 +197,7 @@ export async function addEvent(request: Request, response: Response) {
  */
 export async function deleteEventById(request: Request, response: Response) {
 
+    console.log(`DELETE /events/${request.params.eventId}`);
     // TODO: 401 Unauthorized
 
     // get a event repository to perform operations with event
@@ -221,7 +226,7 @@ export async function deleteEventById(request: Request, response: Response) {
     }
 
     // if event is offline, but has tickets sold, return 403
-    if (event.saleStatus === 2){
+    if (event.saleStatus === 2) {
       response.status(403);
       response.json({
             message: "Le spectacle ne peut être supprimé; des billets ont été vendus.",
@@ -254,6 +259,7 @@ export async function deleteEventById(request: Request, response: Response) {
  */
 export async function replaceEventById(request: Request, response: Response) {
 
+    console.log(`PUT /events/${request.params.eventId}`);
     // get a event repository to perform operations with event
     const eventRepository = getManager().getRepository(Event);
 
@@ -272,8 +278,34 @@ export async function replaceEventById(request: Request, response: Response) {
  */
 export async function publishEventById(request: Request, response: Response) {
 
+    console.log(`POST /events/${request.params.eventId}/_publish`);
+
+    // TODO: 401 UNAUTHORIZE
+
     // get a event repository to perform operations with event
     const eventRepository = getManager().getRepository(Event);
+
+    const event = await eventRepository.findOne(request.params.eventId);
+
+    // 404
+    if (!event) {
+        response.status(404);
+        response.json({
+            message: "Un spectacle avec l'ID soumis n'a pas été trouvé.",
+        });
+        response.end();
+        return;
+    }
+
+    // 409
+    if (event.saleStatus === 1) {
+        response.status(409);
+        response.json({
+            message: "Le spectacle est présentement en vente; terminer la vente avant d'envoyer la requête à nouveau.",
+        });
+        response.end();
+        return;
+    }
 
     if (true) {
         response.status(501);
@@ -289,6 +321,9 @@ export async function publishEventById(request: Request, response: Response) {
  * Termine the sell of an event and return all tickets
  */
 export async function terminateEventById(request: Request, response: Response) {
+
+    console.log(`POST /events/${request.params.eventId}/_terminate`);
+    // TODO: 401 UNAUTHORIZE
 
     // get a event repository to perform operations with event
     const eventRepository = getManager().getRepository(Event);
@@ -362,16 +397,16 @@ export async function deleteTicketsFromEventById(request: Request, response: Res
  */
 export async function updateEvent(request: Request, response: Response) {
 
-    const newID = parseInt(request.params.id);
+    const newID = parseInt(request.params.id, 10);
     const newUrlImg = String(request.body);
 
     const eventRepository = getManager().getRepository(Event);
     // TODO: Tickets
 
-    const dbResponse = await eventRepository.query('UPDATE Event SET image = ? WHERE id = ?', [newUrlImg, newID]);
-    
+    const dbResponse = await eventRepository.query("UPDATE Event SET image = ? WHERE id = ?", [newUrlImg, newID]);
+
     const eventId = dbResponse.identifiers.pop().id;
-    
+
     response.set("Location", "/events/" + eventId);
     response.status(201);
     response.json({
