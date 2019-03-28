@@ -4,6 +4,7 @@ import { SPECTACLES } from '../mock/mock-spectacles';
 import { CheckoutPassService } from "../services/checkout-pass.service"
 import { CreditCard } from "../models/credit-card";
 import { User } from "../models/user";
+import { Cart } from '../models/cart';
 
 @Component({
   selector: 'app-checkout-recap',
@@ -17,6 +18,7 @@ export class CheckoutRecapComponent implements OnInit {
   user: User;
   creditCard: CreditCard;
   userSocial;
+  cart: Cart;
 
   constructor(
     public checkoutPassService: CheckoutPassService,
@@ -25,6 +27,7 @@ export class CheckoutRecapComponent implements OnInit {
   ngOnInit() {
     this.user = this.checkoutPassService.user;
     this.creditCard = this.checkoutPassService.creditCard;
+    this.cart = this.checkoutPassService.cart;
   }
 
   getTotal() {

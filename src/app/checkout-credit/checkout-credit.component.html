@@ -1,92 +1,99 @@
-<h2> Informations sur la carte de crédit </h2>
+
 
 <li class="list-group-item">
 	<div class="container py-3">
-	<form [formGroup]="creditCardFormGroup" (ngSubmit)="onSubmit()">
-
-
-		<div class="form-group">
-			<label for="username">Prénom</label>
-			<div class="input-group">
-				<div class="input-group-prepend">
-					<span class="input-group-text"></span>
-				</div>
-				<input type="text" class="form-control" formControlName="firstName" placeholder="" required="">
-			</div> 
-		</div> 
-
-		<div class="form-group">
-			<label for="username">Nom</label>
-			<div class="input-group">
-				<div class="input-group-prepend">
-					<span class="input-group-text"></span>
-				</div>
-				<input type="text" class="form-control" formControlName="name" placeholder="" required="">
-			</div> 
-		</div> 
-
-		<div class="form-group">
-			<label for="cardNumber">Numéro de carte</label>
-			<div class="input-group">
-				<div class="input-group-prepend">
-					<span class="input-group-text"><i class="fa fa-credit-card"></i></span>
-				</div>
-				<input type="text" class="form-control" formControlName="number" placeholder="">
-			</div>
+		<div class="module-container">
+			<h2>Utilisateur</h2>
+			<span class="checkout-client-line">{{user.firstName}} {{user.name}}</span>
+			<span class="checkout-client-line">{{user.civicAddress}}</span>
+			<span class="checkout-client-line">{{user.city}}, {{user.province}}, {{user.postalCode}}</span>
 		</div>
+		
+		<form [formGroup]="creditCardFormGroup" (ngSubmit)="onSubmit()">
+			<h2> Informations sur la carte de crédit </h2>
 
-		<div class="row">
-			<div class="col-sm-8">
-				<div class="form-group">
-					<label><span class="hidden-xs">Expiration</span> </label>
-					<div class="form-inline">
-						<select class="form-control" formControlName="expirationMonth" style="width:45%" required>
-							<option value="" >MM</option>
-							<option value="01">01 - Janvier</option>
-							<option value="02">02 - Février</option>
-							<option value="03">03 - Mars</option>
-							<option value="04">04 - Avril</option>
-							<option value="05">05 - Mai</option>
-							<option value="06">06 - Juin</option>
-							<option value="07">07 - Juillet</option>
-							<option value="08">08 - Août</option>
-							<option value="09">09 - Septembre</option>
-							<option value="10">10 - Octobre</option>
-							<option value="11">11 - Novembre</option>
-							<option value="12">12 - Décembre</option>
-						</select>
-						<div class="invalid-feedback">Example invalid custom select feedback</div>
-						<span style="width:10%; text-align: center"> </span>
-						<select class="form-control" formControlName="expirationYear" style="width:45%" required>
-							<option>YYYY</option>
-							<option>2019</option>
-							<option>2020</option>
-							<option>2021</option>
-							<option>2022</option>
-							<option>2023</option>
-							<option>2024</option>
-							<option>2025</option>
-							<option>2026</option>
-							<option>2027</option>
-							<option>2028</option>
-							<option>2029</option>
-							<option>2030</option>
-						</select>
-						<div class="invalid-feedback">Example invalid custom select feedback</div>
+			<div class="form-group">
+				<label for="username">Prénom</label>
+				<div class="input-group">
+					<div class="input-group-prepend">
+						<span class="input-group-text"></span>
+					</div>
+					<input type="text" class="form-control" formControlName="firstName" placeholder="" required="">
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label for="username">Nom</label>
+				<div class="input-group">
+					<div class="input-group-prepend">
+						<span class="input-group-text"></span>
+					</div>
+					<input type="text" class="form-control" formControlName="name" placeholder="" required="">
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label for="cardNumber">Numéro de carte</label>
+				<div class="input-group">
+					<div class="input-group-prepend">
+						<span class="input-group-text"><i class="fa fa-credit-card"></i></span>
+					</div>
+					<input type="text" class="form-control" formControlName="number" placeholder="">
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-sm-8">
+					<div class="form-group">
+						<label><span class="hidden-xs">Expiration</span> </label>
+						<div class="form-inline">
+							<select class="form-control" formControlName="expirationMonth" style="width:45%" required>
+								<option value="">MM</option>
+								<option value="01">01 - Janvier</option>
+								<option value="02">02 - Février</option>
+								<option value="03">03 - Mars</option>
+								<option value="04">04 - Avril</option>
+								<option value="05">05 - Mai</option>
+								<option value="06">06 - Juin</option>
+								<option value="07">07 - Juillet</option>
+								<option value="08">08 - Août</option>
+								<option value="09">09 - Septembre</option>
+								<option value="10">10 - Octobre</option>
+								<option value="11">11 - Novembre</option>
+								<option value="12">12 - Décembre</option>
+							</select>
+							<div class="invalid-feedback">Example invalid custom select feedback</div>
+							<span style="width:10%; text-align: center"> </span>
+							<select class="form-control" formControlName="expirationYear" style="width:45%" required>
+								<option>YYYY</option>
+								<option>2019</option>
+								<option>2020</option>
+								<option>2021</option>
+								<option>2022</option>
+								<option>2023</option>
+								<option>2024</option>
+								<option>2025</option>
+								<option>2026</option>
+								<option>2027</option>
+								<option>2028</option>
+								<option>2029</option>
+								<option>2030</option>
+							</select>
+							<div class="invalid-feedback">Example invalid custom select feedback</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-sm-4">
+					<div class="form-group">
+						<label data-toggle="tooltip" title=""
+							data-original-title="3 digits code on back side of the card">CVV <i
+								class="fa fa-question-circle"></i></label>
+						<input class="form-control" formControlName="cvv" required type="text">
 					</div>
 				</div>
 			</div>
-			<div class="col-sm-4">
-				<div class="form-group">
-					<label data-toggle="tooltip" title=""
-						data-original-title="3 digits code on back side of the card">CVV <i
-							class="fa fa-question-circle"></i></label>
-					<input class="form-control" formControlName="cvv" required type="text">
-				</div> 
-			</div>
-		</div> 
-		<input type="submit" class="btn btn-primary btn-lg btn-block" value="Confirmer">
+			<input type="submit" class="btn btn-primary btn-lg btn-block" value="Confirmer">
 
-	</form>
-</div>
+		</form>
+	</div>
 </li>

@@ -1,57 +1,69 @@
-
-
 <h1 class="page-title">Récapitulatif</h1>
+<div class="container py-3">
+  <div class="module-container">
+      <div class="container">
+          <div class="row title-row">
+            <div class="col-12">
+              <h2>Panier</h2>
+            </div>
+          </div>
+          <div *ngIf="cart; else emptyMessage" class="row cart-section">
+            <div class="col-md-8">
+              <div *ngFor="let ticket of cart.tickets" class="ticket-row">
+                <div class="general-block main-ticket">
+                  <span>{{ticket.ticket.event.title}}</span>
+                  <span>{{ticket.ticket.price | number:'0.2-2'}} $</span>
+                </div>
+                <div class="general-block qte-ticket">
+                  <span class="qte-label">{{ticket.count}}</span>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="general-block resume">
+                <div class="resume-title">Résumé</div>
+                <div class="resume-content">
+                  <div *ngFor="let ticket of cart.tickets" class="resume-line">
+                    <span>{{ticket.count}} - {{ticket.ticket.event.title}}</span>
+                    <span>{{(ticket.count * ticket.ticket.price) | number:'0.2-2'}} $</span>
+                  </div>
+                </div>
+                <div class="resume-total">Total: {{total | number:'0.2-2'}} $</div>
+              </div>
+            </div>
+          </div>
+          <ng-template #emptyMessage>
+            <div class="row">
+              <div class="col-12">
+                <span>Votre panier est vide.</span>
+              </div>
+            </div>
+          </ng-template>
+        </div>
 
-<div class="module-container">
-  <h2>Panier d'achats</h2>
-  <table class="table">
-      <thead>
-        <tr>
-          <th scope="col">#</th>
-          <th scope="col">Nom de Spectacle</th>
-          <th scope="col">Artiste</th>
-          <th scope="col">Quantité</th>
-          <th scope="col">Prix unitaire</th>
-          <th scope="col">Prix total</th>
-        </tr>
-      </thead>
-      <tbody> 
-        <tr *ngFor="let spectacle of spectacles; let i = index">
-          <th scope="row">{{i + 1}}</th>
-          <td>{{spectacle.name}}</td>
-          <td>{{spectacle.artist}}</td>
-          <td>3</td>
-          <td>{{spectacle.price}}</td> 
-          <td>{{spectacle.price}}</td>
-        </tr>
-      </tbody>
-    </table>
-    <span class="checkout-total">Total: {{ getTotal() }}</span>
-</div>
-
-<div class="module-container">
-  <h2>Utilisateur</h2>
+  <div class="module-container">
+    <h2>Utilisateur</h2>
     <span class="checkout-client-line">{{user.firstName}} {{user.name}}</span>
     <span class="checkout-client-line">{{user.civicAddress}}</span>
     <span class="checkout-client-line">{{user.city}}, {{user.province}}, {{user.postalCode}}</span>
-</div>
+  </div>
 
-<div class="module-container">
-  <h2>Carte de Crédit</h2>
+  <div class="module-container">
+    <h2>Carte de Crédit</h2>
     <span class="checkout-client-line">{{creditCard.firstName}} {{creditCard.name}}</span>
     <span class="checkout-client-line">{{creditCard.number}}</span>
     <span class="checkout-client-line">{{creditCard.cvv}}</span>
-    <span class="checkout-client-line">{{creditCard.expirationMonth}} / {{creditCard.expirationYear}}  </span>
-</div>
-
-<div class="row justify-content-md-center">
-  <div class="col col-lg-2">
-    <button type="button" class="btn btn-default">Cancel</button>
+    <span class="checkout-client-line">{{creditCard.expirationMonth}} / {{creditCard.expirationYear}} </span>
   </div>
-  <div class="col col-lg-2">
-    <a routerLink="/checkout-confirmation">
-      <button type="button" (ngSubmit)="onConfirm()" class="btn btn-primary">Confirmer</button>
-    </a>
+
+  <div class="row justify-content-md-center">
+    <div class="col col-lg-2">
+      <button type="button" class="btn btn-default">Cancel</button>
+    </div>
+    <div class="col col-lg-2">
+      <a routerLink="/checkout-confirmation">
+        <button type="button" (ngSubmit)="onConfirm()" class="btn btn-primary">Confirmer</button>
+      </a>
+    </div>
   </div>
 </div>
-

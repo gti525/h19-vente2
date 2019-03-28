@@ -1,3 +1,4 @@
+@import "../cart/cart.component.css";
 
 [override] .h2{
     color: #5c5c5c;
