@@ -123,10 +123,10 @@ export async function addEvent(request: Request, response: Response) {
                 response.end();
                 return;
             }
-            request.body.tickets.forEach(element => {
+            for (const element of request.body.tickets) {
                 // console.log("Price: " + element.price + ", isNumber: " + isNumber(element.price));
                 // console.log("UUID: " + element.uuid + ", isUUID: " + anyNonNil(element.uuid));
-                if ( !(isNumber(element.price)) && !(anyNonNil(element.uuid)) ) {
+                if ( !(isNumber(element.price)) || !(anyNonNil(element.uuid)) ) {
                     response.status(400);
                     response.json({
                         message: "La syntaxe du corps de la requête ne respecte pas ce qui est attendu.",
@@ -140,7 +140,7 @@ export async function addEvent(request: Request, response: Response) {
                 ticket.price = element.price;
                 ticket.event = event;
                 tickets.push(ticket);
-            });
+            }
             if (checkDuplicateInObject("uuid", tickets)) {
                 response.status(409);
                     response.json({
@@ -257,14 +257,32 @@ export async function replaceEventById(request: Request, response: Response) {
 
     console.log(`PUT /events/${request.params.eventId}`);
 
-    if (true) {
-        response.status(501);
+    // TODO: 401 UNAUTHORIZE
+
+    const eventRepository = getManager().getRepository(Event);
+
+    const event = await eventRepository.findOne(request.params.eventId);
+
+    // 404
+    if (!event) {
+        response.status(404);
         response.json({
-            message: "Service n'est pas encore implémenté.",
+            message: "Un spectacle avec l'ID soumis n'a pas été trouvé.",
         });
         response.end();
         return;
     }
+
+    // 409
+    if (event.saleStatus === 1) {
+        response.status(409);
+        response.json({
+            message: "Le spectacle est présentement en vente; terminer la vente avant d'envoyer la requête à nouveau.",
+        });
+        response.end();
+        return;
+    }
+
 }
 
 /**
@@ -486,23 +504,11 @@ export async function replaceTicketsFromEventById(request: Request, response: Re
         return;
       }
 
-    // If the body has something
-    if (request.body) {
+    try{
+         // If the body has something
+        if (request.body) {
 
-        if (!(isArray(request.body))) {
-            response.status(400);
-            response.json({
-                message: "La syntaxe du corps de la requête ne respecte pas ce qui est attendu.",
-                example: Ticket.exampleWithArray
-            });
-            response.end();
-            return;
-        }
-        const tickets = new Array<Ticket>();
-        request.body.forEach(element => {
-            // console.log("Price: " + element.price + ", isNumber: " + isNumber(element.price));
-            // console.log("UUID: " + element.uuid + ", isUUID: " + anyNonNil(element.uuid));
-            if ( !(isNumber(element.price)) && !(anyNonNil(element.uuid)) ) {
+            if (!(isArray(request.body))) {
                 response.status(400);
                 response.json({
                     message: "La syntaxe du corps de la requête ne respecte pas ce qui est attendu.",
@@ -511,35 +517,57 @@ export async function replaceTicketsFromEventById(request: Request, response: Re
                 response.end();
                 return;
             }
-            const ticket = new Ticket();
-            ticket.uuid = element.uuid;
-            ticket.price = element.price;
-            ticket.event = event;
-            tickets.push(ticket);
-        });
-        if (checkDuplicateInObject("uuid", tickets)) {
-            response.status(409);
+            const tickets = new Array<Ticket>();
+            for (const element of request.body) {
+                // console.log("Price: " + element.price + ", isNumber: " + isNumber(element.price));
+                // console.log("UUID: " + element.uuid + ", isUUID: " + anyNonNil(element.uuid));
+                if ( !(isNumber(element.price)) || !(anyNonNil(element.uuid)) ) {
+                    response.status(400);
+                    response.json({
+                        message: "La syntaxe du corps de la requête ne respecte pas ce qui est attendu.",
+                        example: Ticket.exampleWithArray
+                    });
+                    response.end();
+                    return;
+                }
+                const ticket = new Ticket();
+                ticket.uuid = element.uuid;
+                ticket.price = element.price;
+                ticket.event = event;
+                tickets.push(ticket);
+            }
+            if (checkDuplicateInObject("uuid", tickets)) {
+                response.status(409);
+                    response.json({
+                        message: "Les billets soumis ne sont pas uniques (uuid).",
+                    });
+                    response.end();
+                    return;
+            }
+            const ticketsResult = await deleteTicketsForEvent(event);
+            if (ticketsResult === 1) {
+                // Tickets are sold, cannot delete
+                response.status(403);
                 response.json({
-                    message: "Les billets soumis ne sont pas uniques (uuid).",
+                        message: "Les billets ne peuvent être remplacés; certains ont été vendus.",
                 });
                 response.end();
                 return;
-        }
-        const ticketsResult = await deleteTicketsForEvent(event);
-        if (ticketsResult === 1) {
-            // Tickets are sold, cannot delete
-            response.status(403);
-            response.json({
-                    message: "Les billets ne peuvent être remplacés; certains ont été vendus.",
-            });
-            response.end();
-            return;
-        } else if (ticketsResult === 2 || ticketsResult === 0 ) {}
+            } else if (ticketsResult === 2 || ticketsResult === 0 ) {}
 
-        const ticketRepository = getManager().getRepository(Ticket);
-        await ticketRepository.save(tickets, {chunk: tickets.length / 500});
-        response.status(204);
+            const ticketRepository = getManager().getRepository(Ticket);
+            await ticketRepository.save(tickets, {chunk: tickets.length / 500});
+            response.status(204);
+            response.end();
+        }
+    } catch (err) {
+        response.status(400);
+        response.json({
+            message: "La syntaxe du corps de la requête ne respecte pas ce qui est attendu.",
+            example: Ticket.exampleWithArray
+        });
         response.end();
+        return;
     }
 }
 
