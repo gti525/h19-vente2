@@ -115,6 +115,7 @@ export class CartComponent implements OnInit {
 
 	//pass the cart to the checkout service on checkout button click
 	onCheckoutClick() {
+		this.checkoutPassService.showCart = this.showCart;
 		this.checkoutPassService.cart = this.cart;
 		this.router.navigate(["checkout-client-information"]);
 	}

@@ -103,14 +103,14 @@ createConnection(<ConnectionOptions>{
             // .catch(err => next(err));
     });
   });
-/*
+
   // Utilisation de session
   var session = require('express-session');
   app.use(session({
     secret: 'keyboard cat', // Probably not secure hehe
     resave: false,
     saveUninitialized: true
-  }))*/
+  }))
 
   // FIN DES ROUTES API
   //lier router à la route /api

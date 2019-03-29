@@ -4,7 +4,7 @@ import { SPECTACLES } from '../mock/mock-spectacles';
 import { CheckoutPassService } from "../services/checkout-pass.service"
 import { CreditCard } from "../models/credit-card";
 import { User } from "../models/user";
-import { Cart } from '../models/cart';
+import { ShowCart, Cart } from '../models/cart';
 import { LoginSocialService } from '../services/login-social.service';
 
 @Component({
@@ -20,6 +20,8 @@ export class CheckoutRecapComponent implements OnInit {
   creditCard: CreditCard;
   userSocial;
   cart: Cart;
+  showCart: ShowCart;
+  total:number;
 
   constructor(
     public checkoutPassService: CheckoutPassService,
@@ -29,22 +31,17 @@ export class CheckoutRecapComponent implements OnInit {
   ngOnInit() {
     this.user = this.checkoutPassService.user;
     this.creditCard = this.checkoutPassService.creditCard;
+    this.showCart = this.checkoutPassService.showCart;
     this.cart = this.checkoutPassService.cart;
   }
 
-  getTotal() {
-    var total = 0;
+  calculateTotal() {
+		this.total = 0;
 
-    // TODO a modifier lorsque classe spectacle-cart sera créer 
-    var quantity = 3;
-
-    for (var i = 0; i < this.spectacles.length; i++) {
-
-      var product = this.spectacles[i];
-      total += (product.price * quantity);
-    }
-    return total;
-  }
+		for (let i = 0; i < this.cart.tickets.length; i++) {
+			this.total += Number(this.cart.tickets[i].price);
+		}
+	}
 
   onConfirm() {
     console.log("onConfirm");
@@ -58,7 +55,7 @@ export class CheckoutRecapComponent implements OnInit {
     //si l'utilisateur s'est login par social.
     if (this.checkoutPassService.getUserSocial() != 0) {
 
-      this.cart.tickets.forEach(function (ticket) {
+      this.showCart.tickets.forEach(function (ticket) {
         this.loginSocialService.postTicket(ticket)
           .then(res => {
             

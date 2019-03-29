@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import { CreditCard } from "../models/credit-card";
-import { Cart, CartTicket } from '../models/cart';
+import {  ShowCart, Cart } from '../models/cart';
 import { User } from "../models/user";
 import axios from "axios";
 import { AxiosInstance } from "axios";
+
 @Injectable({
   providedIn: 'root'
 })
@@ -13,7 +14,8 @@ export class CheckoutPassService {
   public user: User;
   //private because must be set through setUserSocial
   private userSocial: any;
-  public cart: Cart;
+  public cart : Cart;
+  public showCart: ShowCart;
   private preAuthCredit: any;
   private axiosClient: AxiosInstance;
   private transactionPreAuth: any;
