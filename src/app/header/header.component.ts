@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Cart } from '../models/cart';
 import { CartService } from '../cart.service';
+import { HeaderUpdateService } from '../header-update.service';
 
 @Component({
   selector: 'app-header',
@@ -12,10 +13,16 @@ export class HeaderComponent implements OnInit {
 	public cart: Cart;
 	public count: number = 0;
 
-  constructor(private cartService: CartService) { }
+  constructor(
+  	private cartService: CartService, 
+  	private headerUpdateService: HeaderUpdateService
+  ) { }
 
   ngOnInit() {
   	this.getCart();
+  	this.headerUpdateService.notification.subscribe(data => {
+  		this.getCart();
+  	});
   }
 
   getCart() {
