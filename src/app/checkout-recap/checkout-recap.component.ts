@@ -5,6 +5,7 @@ import { CheckoutPassService } from "../services/checkout-pass.service"
 import { CreditCard } from "../models/credit-card";
 import { User } from "../models/user";
 import { Cart } from '../models/cart';
+import { LoginSocialService } from '../services/login-social.service';
 
 @Component({
   selector: 'app-checkout-recap',
@@ -22,6 +23,7 @@ export class CheckoutRecapComponent implements OnInit {
 
   constructor(
     public checkoutPassService: CheckoutPassService,
+    private loginSocialService: LoginSocialService
   ) { }
 
   ngOnInit() {
@@ -44,9 +46,35 @@ export class CheckoutRecapComponent implements OnInit {
     return total;
   }
 
-  onConfirm(){
+  onConfirm() {
     console.log("onConfirm");
-    this.checkoutPassService.confirmTransaction();
+    var confirmation = this.checkoutPassService.confirmTransaction();
+    if(confirmation){
+      this.postTicketToSocial();
+    }
+  }
+
+  postTicketToSocial() {
+    //si l'utilisateur s'est login par social.
+    if (this.checkoutPassService.getUserSocial() != 0) {
+
+      this.cart.tickets.forEach(function (ticket) {
+        this.loginSocialService.postTicket(ticket)
+          .then(res => {
+            
+          })
+          .catch(err => {
+
+
+            if (err.response.data.status == 404) {
+              console.log(err);
+            }
+            else {
+              console.log(err);
+            }
+          });
+      });
+    }
   }
 
 }

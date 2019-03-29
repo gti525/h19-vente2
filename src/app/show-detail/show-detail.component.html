@@ -1,17 +1,29 @@
 <h1>Show Detail</h1>
-<div *ngIf='event'>
-  <div>
-    <img src="{{event.image}}">
-  </div>
-  <div>
-      <div id="horizontal-analytic-banner" class="pub"></div>
-    <ul>
-      <li>Title: {{event.title}}</li>
-      <li>Artist: {{event.artist}}</li>
-      <li>Date: {{event.dateEvent}}</li>
-      <li>Description: {{event.description}}</li>
-      <li>Venue: {{event.venue.name}}</li>
-      <li>
+<div class="container">
+  <div *ngIf="event!==undefined" class="row">
+    <div class="col">
+      <div>
+        <img class="crop" src="{{event.image}}">
+      </div>
+    </div>
+    <div class="col">
+      <h2 class="h2-responsive text-center text-md-left product-name font-weight-bold dark-grey-text mb-1 ml-xl-0 ml-4">
+        <strong>{{event.title}}</strong>
+      </h2>
+      <p class="ml-xl-0 ml-4">
+        Artist: {{event.artist}}
+      </p>
+      <p class="ml-xl-0 ml-4">
+        Date: {{event.dateEvent}}
+      </p>
+      <p class="ml-xl-0 ml-4">
+        Description: {{event.description}}
+      </p>
+      <p class="ml-xl-0 ml-4">
+        Venue: {{event.venue.name}}
+      </p>
+      <p class="ml-xl-0 ml-4">
+
         <div *ngIf="event.saleStatus==0">
           Sale Status: Not on sale
         </div>
@@ -21,10 +33,11 @@
         <div *ngIf="event.saleStatus==2">
           Sale Status: All tickets sold
         </div>
-      </li>
-    </ul>
-  </div>
-  <div>
-      <input (click)="onAddClick()" type="button" value="Ajouter au panier" class="btn btn-primary" />
+
+        <p>
+          <input (click)="onAddClick()" type="button" value="Ajouter au panier" class="btn btn-primary button-add" />
+        </p>
+    </div>
   </div>
 </div>
+<div id="horizontal-analytic-banner" class="pub"></div>

@@ -57,7 +57,7 @@
     "@types/is-uuid": "^1.0.0",
     "@types/jasmine": "~2.8.8",
     "@types/jasminewd2": "~2.0.3",
-    "@types/node": "~8.9.4",
+    "@types/node": "^8.10.45",
     "codelyzer": "~4.5.0",
     "cors": "^2.8.5",
     "jasmine-core": "~2.99.1",

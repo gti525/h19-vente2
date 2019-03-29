@@ -1,3 +1,14 @@
 .pub {
-    float:right;
+    text-align: center;
+    padding: 10px;
+}
+
+.crop {
+    width: 500px;
+    overflow: hidden;
+}
+
+.button-add {
+    margin-top: 60px;
+    text-align: center;
 }
