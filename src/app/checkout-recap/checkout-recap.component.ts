@@ -33,6 +33,7 @@ export class CheckoutRecapComponent implements OnInit {
     this.creditCard = this.checkoutPassService.creditCard;
     this.showCart = this.checkoutPassService.showCart;
     this.cart = this.checkoutPassService.cart;
+    this.calculateTotal();
   }
 
   calculateTotal() {
