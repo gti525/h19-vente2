@@ -27,7 +27,7 @@ export class EventService {
                           })
                           .subscribe(data  => { 
                                     alert("Mise à jour réussie !");
-                                    console.log("PUT Request is successful ", data);
+                                    console.log("PATCH Request is successful ", data);
                           },
                           error  => {
                           console.log("Que se passe-t-il ? ", error);

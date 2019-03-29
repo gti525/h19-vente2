@@ -981,6 +981,104 @@ export async function deleteTicketsFromEventById(
   response.end();
 }
 
+export async function updateEventImage(request: Request, response: Response) {
+  console.log(`PATCH /events/${request.params.eventId}/image`);
+
+  const eventRepository = getManager().getRepository(Event);
+
+  const event = await eventRepository.findOne(request.params.eventId);
+
+  // 404
+  if (!event) {
+    response.status(404);
+    response.json({
+      message: "Un spectacle avec l'ID soumis n'a pas été trouvé."
+    });
+    response.end();
+    return;
+  }
+  
+  try {
+
+    if (request.body.imageUrl) {
+      if (isUrl(request.body.imageUrl)) {
+        event.image = request.body.imageUrl;
+      } else {
+        event.image =
+          "https://vente2-gti525.herokuapp.com/assets/images/placeholder-image-icon-21.jpg"; // Placeholder image
+      }
+    } else {
+        event.image =
+          "https://vente2-gti525.herokuapp.com/assets/images/placeholder-image-icon-21.jpg"; // Placeholder image
+    }
+
+    await eventRepository.update(
+      request.params.imageUrl ,
+      event,
+    );
+
+    const updatedEvent = await eventRepository.findOne(request.params.contactId);
+
+    request.send(updatedEvent);
+
+  } catch(err) {
+
+    request.send(err);
+
+  }
+}
+
+
+/**
+ * 
+ * export async function updateEventById(request: Request, response: Response) {
+  console.log(`PATCH /events/${request.params.eventId}`);
+
+  const eventRepository = getManager().getRepository(Event);
+
+  const event = await eventRepository.findOne(request.params.eventId);
+
+  // 404
+  if (!event) {
+    response.status(404);
+    response.json({
+      message: "Un spectacle avec l'ID soumis n'a pas été trouvé."
+    });
+    response.end();
+    return;
+  }
+  
+  try {
+
+    if (request.body.imageUrl) {
+      if (isUrl(request.body.imageUrl)) {
+        event.image = request.body.imageUrl;
+      } else {
+        event.image =
+          "https://vente2-gti525.herokuapp.com/assets/images/placeholder-image-icon-21.jpg"; // Placeholder image
+      }
+    } else {
+        event.image =
+          "https://vente2-gti525.herokuapp.com/assets/images/placeholder-image-icon-21.jpg"; // Placeholder image
+    }
+
+    await eventRepository.update(
+      request.params.imageUrl ,
+      event,
+    );
+
+    const updatedEvent = await eventRepository.findOne(request.params.contactId);
+
+    request.send(updatedEvent);
+
+  } catch(err) {
+
+    request.send(err);
+
+  }
+}
+ */
+
 /**
  * Update an event from the database
  */

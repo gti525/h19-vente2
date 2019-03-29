@@ -83,9 +83,9 @@ createConnection(<ConnectionOptions>{
     res.json({ message: "Bienvenue suar l'API de vente2 GTI525" });
   });
 
-  router.route("/event/:id")
+  router.route("/events/:id")
     //Modifier une url d'une image
-    .put(function(req, res) {
+    .patch(function(req, res) {
 
         if(req.body.image == null){
             res.status(400).json({ erreur: "L'url doit être fourni dans le corps de la requête" });
