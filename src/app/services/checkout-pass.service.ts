@@ -98,7 +98,7 @@ export class CheckoutPassService {
 
     console.log(postData);
 
-    axios.post(this.apiURL + '/transaction/process', postData)
+    return axios.post(this.apiURL + '/transaction/process', postData)
       .then(res => {
         console.log("response : ", res);
       })
