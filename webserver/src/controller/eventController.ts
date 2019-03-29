@@ -984,6 +984,7 @@ export async function deleteTicketsFromEventById(
 /**
  * Update an event from the database
  */
+/****
 export async function updateEventById(request: Request, response: Response) {
   console.log(`PATCH /events/${request.params.eventId}`);
   console.log('Ceci est un message test');
@@ -1109,7 +1110,7 @@ export async function updateEventById(request: Request, response: Response) {
     }*/
 
     // Catch JSON errors such as missing properties from the previous checks or other syntax errors.
-  } catch (err) {
+ /* } catch (err) {
     // throw(err);
     console.log(err);
     response.status(400);
@@ -1136,8 +1137,8 @@ export async function updateEventById(request: Request, response: Response) {
     const ticketRepository = getManager().getRepository(Ticket);
     await ticketRepository.save(tickets, { chunk: tickets.length / 500 });
   }*/
-
+/*
   response.status(204);
   response.end();
   return;
-}
+}*/
