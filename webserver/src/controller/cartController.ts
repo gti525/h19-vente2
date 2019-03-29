@@ -1,124 +1,182 @@
 import { Request, Response } from "express";
-//import { getManager } from "typeorm";
+import { getManager } from "typeorm";
 import { Ticket } from "../entity/Ticket";
 import { Event } from "../entity/Event";
 import uuid = require("uuid");
 
-class CartTicket {
-	ticket: Ticket;
-	count: number;
-
-	constructor(ticket: Ticket, count: number) {
-		this.ticket = ticket;
-		this.count = count;
-	}
-}
-
 class Cart {
-	tickets: CartTicket[];
+	tickets: Ticket[];
 	date: Date;
 
-	constructor(tickets: CartTicket[], date: Date) {
-		this.tickets = tickets;
+	constructor(date: Date) {
+		this.tickets = [];
 		this.date = date;
 	}
 }
 
 let carts = new Map();
+let ticketsInCart = [];
 
 export async function getCart(request: Request, response: Response) {
-	if (carts.has(request.ip)) {
-		response.send(carts.get(request.ip));
+	if (carts.has(request.session.id)) {
+		response.send(carts.get(request.session.id));
 	} else {
-		response.json({"error": 0, "description": "cart is empty"})
+		response.json({"error": 0, "description": "Cart is empty."})
 	}
+}
+
+async function getRemainingTickets(eventId) {
+	let remainingTickets = [];
+
+	// Check if there's tickets remaining
+	const ticketRepository = getManager().getRepository(Ticket);
+
+	const tickets = await ticketRepository
+    .createQueryBuilder("ticket")
+    .innerJoinAndSelect("ticket.event", "event")
+    .where("ticket.transaction is null AND ticket.event.id = :id", { id: eventId })
+    .getMany();
+
+  if (tickets) {
+  	for (let i = 0; i < tickets.length; i++) {
+  		if (!ticketsInCart.includes(tickets[i].id)) {
+  			remainingTickets.push(tickets[i]);
+  		}
+  	}
+  }
+
+  return remainingTickets;
 }
 
 export async function addTicket(request: Request, response: Response) {
-	let ticket: Ticket;
-	let event = new Event();
+	let addTicket = false;
 	let cart: Cart;
-	let totalCount = 0;
+	let eventId = request.body.id;
 
-	event.id = request.body.id;
-	event.title = request.body.title;
-	event.description = request.body.description;
-	event.organisation = request.body.organisation;
-	event.artist = request.body.artist;
-	event.dateEvent = new Date(request.body.dateEvent);
-	event.saleStatus = request.body.saleStatus;
-	event.venue = null;
+	// Check if ticket already in cart
+	if (carts.has(request.session.id)) {
+		cart = carts.get(request.session.id);
 
-	ticket = new Ticket();
-	ticket.uuid = uuid.v4();
-	ticket.price = 50.5;
-	ticket.event = event;
-	ticket.id = Math.random() * 1_000_000_000_000;
-	ticket.transaction = null;
+		if (cart.tickets.length == 6) {
+			response.json({"error": 1, "description": "Cart is full."})
+			return
+		}
 
-	if (carts.has(request.ip)) {
-		cart = carts.get(request.ip);
-	} else {
-		cart = new Cart([], new Date());
-		carts.set(request.ip, cart);
-	}
-
-	for (let i = 0; i < cart.tickets.length; i++) {
-		totalCount += cart.tickets[i].count;
-	}
-
-	if (totalCount < 6) {
-		let cartTicket = new CartTicket(ticket, 1);
-		cart.tickets.push(cartTicket);
-		response.send(cartTicket);
-	} else {
-		response.json({"error": 1, "description": "Cart is full."});
-	}
-}
-
-export async function editTicket(request: Request, response: Response) {
-	let id = request.body.ticket.id;
-	let count = request.body.count;
-	let cartTicket: CartTicket;
-	let cart = carts.get(request.ip);
-	let totalCount = 0;
-
-	for (let i = 0; i < cart.tickets.length; i++) {
-		totalCount += cart.tickets[i].count;
-		if (cart.tickets[i].ticket.id == id) {
-			cartTicket = cart.tickets[i];
+		for (let i = 0; i < cart.tickets.length; i++) {
+			if (cart.tickets[i].event.id == eventId) {
+				response.json({"error": 2, "description": "Ticket already in cart."});
+				return;
+			}
 		}
 	}
 
-	let newCount = totalCount + count - cartTicket.count;
+	// Check if there's tickets remaining
+	getRemainingTickets(eventId).then(function(tickets) {
+		if (tickets.length > 0) {
+			if (!carts.has(request.session.id)) {
+				cart = new Cart(new Date());
+				carts.set(request.session.id, cart);
+			}
 
-	if (newCount > 6) {
-		response.json({"error": 2, "description": "Maximum number of tickets reached"});
-	} else if (count == 0) {
-		response.json({"error": 3, "description": "Can't change to 0, use delete instead"})
+			cart.tickets.push(tickets[0]);
+			ticketsInCart.push(tickets[0].id);
+			response.send(tickets[0]);
+		} else {
+			response.json({"error": 3, "description": "No more tickets for this event."});
+		}
+	});
+}
+
+export async function editTicket(request: Request, response: Response) {
+	let cart: Cart = carts.get(request.session.id);
+
+	if (request.body.add) {
+		if (cart.tickets.length == 6) {
+			response.json({"error": 1, "description": "Cart is full."});
+		} else {
+			getRemainingTickets(request.body.event.id).then(function(tickets) {
+				if (tickets.length > 0) {
+					cart.tickets.push(tickets[0]);
+					ticketsInCart.push(tickets[0].id);
+					response.send(cart);
+				} else {
+					response.json({"error": 3, "description": "No more tickets for this event."});
+				}
+			});
+		}
 	} else {
-		cartTicket.count = count;
-		response.send(cartTicket);
+		let indexTickets = 0;
+		let indexTicketIds = 0;
+
+		for (let i = 0; i < cart.tickets.length; i++) {
+			if (cart.tickets[i].id == request.body.id) {
+				indexTickets = i;
+				break;
+			}
+		}
+
+		for (let i = 0; i < ticketsInCart.length; i++) {
+			if (ticketsInCart[i] == request.body.id) {
+				indexTicketIds = i;
+				break;
+			}
+		}
+
+		cart.tickets.splice(indexTickets, 1);
+		ticketsInCart.splice(indexTicketIds, 1);
+
+		if (cart.tickets.length == 0) {
+			carts.delete(request.session.id);
+		}
+
+		response.send(cart);
 	}
 }
 
 export async function removeTicket(request: Request, response: Response) {
 	let id = request.params.ticketId;
-	let cart = carts.get(request.ip);
-	let index: number;
+	let cart = carts.get(request.session.id);
+	let indices = [];
+	let ids = [];
+	let indicesIds = [];
+	let eventId: number;
 
-	if (cart.tickets.length == 1) {
-		carts.delete(request.ip);
-		response.json({"error": 4, "description": "Last ticket deleted. Cart is now empty."})
-	} else {
-		for (let i = 0; i < cart.tickets.length; i++) {
-			if (cart.tickets[i].ticket.id == id) {
-				index = i;
-				break;
-			}
+	// Get event id
+	for (let i = 0; i < cart.tickets.length; i++) {
+		if (cart.tickets[i].id == id) {
+			eventId = cart.tickets[i].event.id;
+			break;
 		}
-
-		cart.tickets.splice(index, 1);
-		response.send(cart);
 	}
+
+	// Get indices and ids of tickets to remove
+	for (let i = 0; i < cart.tickets.length; i++) {
+		if (cart.tickets[i].event.id == eventId) {
+			indices.push(i);
+			ids.push(cart.tickets[i].id);
+		}
+	}
+
+	// Remove tickets
+	for (let i = indices.length - 1; i >= 0; i--) {
+		cart.tickets.splice(indices[i], 1);
+	}
+
+	// Get indices of ids in cart
+	for (let i = 0; i < ticketsInCart.length; i++) {
+		if (ids.includes(ticketsInCart[i])) {
+			indicesIds.push(i);
+		}
+	}
+
+	// Remove ids
+	for (let i = indicesIds.length - 1; i >= 0; i--) {
+		ticketsInCart.splice(indicesIds[i], 1);
+	}
+
+	if (cart.tickets.length == 0) {
+		carts.delete(request.session.id);
+	}
+
+	response.send(cart);
 }

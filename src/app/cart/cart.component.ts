@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { Cart, CartTicket } from '../models/cart';
+import { Cart, CartTicket, ShowCart } from '../models/cart';
 import { CartService } from '../cart.service';
 import { Router } from '@angular/router';
 import { CheckoutPassService } from "../services/checkout-pass.service";
+import { Event } from '../models/event';
+import { Ticket } from '../models/ticket';
 
 @Component({
 	selector: 'app-cart',
@@ -11,6 +13,7 @@ import { CheckoutPassService } from "../services/checkout-pass.service";
 })
 export class CartComponent implements OnInit {
 	public cart: Cart;
+	public showCart: ShowCart;
 	public total: number;
 
 	constructor(
@@ -28,60 +31,86 @@ export class CartComponent implements OnInit {
 			if (!("error" in data)) {
 				this.cart = data as Cart;
 				this.calculateTotal();
+				this.generateShowCart();
+			} else {
+				this.showCart = null;
+				console.log(data);
 			}
 		});
+	}
+
+	tempAdd() {
+		let event: Event = new Event();
+		event.id = 2;
+		this.cartService.addTicket(event).subscribe(data => {
+      if (!("error" in data)) {
+        this.getCart();
+      } else {
+      	console.log(data);
+      }
+    });
 	}
 
 	calculateTotal() {
 		this.total = 0;
 
 		for (let i = 0; i < this.cart.tickets.length; i++) {
-			let ticket = this.cart.tickets[i];
-			this.total += ticket.count * ticket.ticket.price;
+			this.total += Number(this.cart.tickets[i].price);
 		}
 	}
 
+	generateShowCart() {
+		let eventIds = [];
+		let showCart = new ShowCart();
+		showCart.tickets = [];
+
+		for (let i = 0; i < this.cart.tickets.length; i++) {
+			if (eventIds.includes(this.cart.tickets[i].event.id)) {
+				for (let j = 0; j < showCart.tickets.length; j++) {
+					if (showCart.tickets[j].ticket.event.id == this.cart.tickets[i].event.id) {
+						showCart.tickets[j].count++;
+						break;
+					}
+				}
+			} else {
+				let ticket = new CartTicket();
+				ticket.ticket = this.cart.tickets[i];
+				ticket.count = 1;
+				showCart.tickets.push(ticket);
+				eventIds.push(this.cart.tickets[i].event.id);
+			}
+		}
+
+		this.showCart = showCart;
+	}
+
 	onAddClick(ticket: CartTicket) {
-		let copy = new CartTicket();
-		Object.assign(copy, ticket);
-		copy.count += 1
-		this.cartService.editTicket(copy).subscribe(data => {
+		let obj = Object.assign({}, ticket.ticket);
+		obj["add"] = true;
+		this.cartService.editTicket(obj).subscribe(data => {
 			if (!("error" in data)) {
-				ticket.count += 1
-				this.calculateTotal();
+				this.getCart();
+			} else {
+				console.log(data);
 			}
 		})
 	}
 
 	onSubClick(ticket: CartTicket) {
-		let copy = new CartTicket();
-		Object.assign(copy, ticket);
-		copy.count -= 1;
-		this.cartService.editTicket(copy).subscribe(data => {
+		let obj = Object.assign({}, ticket.ticket);
+		obj["add"] = false;
+		this.cartService.editTicket(obj).subscribe(data => {
 			if (!("error" in data)) {
-				ticket.count -= 1
-				this.calculateTotal();
+				this.getCart();
+			} else {
+				console.log(data);
 			}
 		})
 	}
 
 	onRemoveClick(ticket: CartTicket) {
 		this.cartService.removeTicket(ticket.ticket.id).subscribe(data => {
-			if (!("error" in data)) {
-				let index: number;
-
-				for (let i = 0; i < this.cart.tickets.length; i++) {
-					if (this.cart.tickets[i].ticket.id == ticket.ticket.id) {
-						index = i;
-						break;
-					}
-				}
-
-				this.cart.tickets.splice(index, 1);
-				this.calculateTotal();
-			} else if (data["error"] == 4) {
-				this.cart = null;
-			}
+			this.getCart();
 		})
 	}
 

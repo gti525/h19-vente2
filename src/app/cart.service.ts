@@ -1,13 +1,15 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Cart, CartTicket } from './models/cart';
+import { Cart } from './models/cart';
 import { Event } from './models/event';
+import { Ticket } from './models/ticket';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CartService {
 	apiURL = 'https://vente2-gti525.herokuapp.com/api/cart';
+  //apiURL = 'http://localhost:8080/api/cart';
 
   constructor(private httpClient: HttpClient) {}
 
@@ -19,7 +21,7 @@ export class CartService {
   	return this.httpClient.post(this.apiURL, event);
   }
 
-  public editTicket(ticket: CartTicket) {
+  public editTicket(ticket: Ticket) {
   	return this.httpClient.put(this.apiURL, ticket);
   }
 
