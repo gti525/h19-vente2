@@ -1,17 +1,16 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { EventEmitter } from '@angular/core'
 
 @Injectable({
   providedIn: 'root'
 })
 export class HeaderUpdateService {
 
-	private notificationSource = new BehaviorSubject('blob');
-	notification = this.notificationSource.asObservable();
+	updates = new EventEmitter();
 
   constructor() {}
 
   updateHeader() {
-  	this.notificationSource.next('banana');
+  	this.updates.emit();
   }
 }

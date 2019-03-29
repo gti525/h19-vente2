@@ -19,7 +19,8 @@ export class HeaderComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-  	this.headerUpdateService.notification.subscribe(data => {
+  	this.getCart();
+  	this.headerUpdateService.updates.subscribe(data => {
   		this.getCart();
   	});
   }
@@ -30,6 +31,8 @@ export class HeaderComponent implements OnInit {
 				this.cart = data as Cart;
 				this.count = this.cart.tickets.length;
 			} else {
+				this.cart = null;
+				this.count = 0;
 				console.log(data);
 			}
 		});
