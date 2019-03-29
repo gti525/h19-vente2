@@ -21,7 +21,7 @@ export class EventService {
 
   public updateEvent(id: number, newUrlImg: string) {
 
-    return this.httpClient.patch(`${this.apiURL}/events/${id}`, 
+    return this.httpClient.patch(`${this.apiURL}/events/:${id}/image`, 
                           {
                           "image":  newUrlImg
                           })
