@@ -19,7 +19,6 @@ export class HeaderComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-  	this.getCart();
   	this.headerUpdateService.notification.subscribe(data => {
   		this.getCart();
   	});
