@@ -14,6 +14,7 @@ import {
   verifyTicketsFromArray
 } from "./ticketController";
 import { getVenueForEventWithRelation, deleteVenueForEventWithRelation } from "./venueController";
+import { APIToken } from "../authorization/api-token";
 
 /**
  * Loads all events from the database.
@@ -67,7 +68,24 @@ export async function addEvent(request: Request, response: Response) {
   const event = new Event();
   const tickets = new Array<Ticket>();
 
-  // TODO: 401 UNAUTHORIZE
+  const authorization = request.get("Authorization");
+  if (!authorization) {
+    response.status(401);
+    response.json({
+      message: "Les informations d'autorisation sont manquantes ou invalides."
+    });
+    response.end();
+    return;
+  }
+  // console.log(authorization);
+  if (authorization !== "API-Key " + APIToken.validTokens) {
+    response.status(401);
+    response.json({
+      message: "Les informations d'autorisation sont manquantes ou invalides."
+    });
+    response.end();
+    return;
+  }
 
   // START OF 400 BAD REQUEST (Before making DB connections)
 
@@ -196,10 +214,6 @@ export async function addEvent(request: Request, response: Response) {
     return;
   }
 
-  // TODO: Check for type compatibility between DB and properties from the JSON (such as string size)
-
-  // TODO: Check that the JSON properties retrieved respect a specific format (maybe?)
-
   // DB insertions
   // Venue first since Event (Many) has a Venue (One) as a foreign key.
   const venueRepository = getManager().getRepository(Venue);
@@ -228,7 +242,25 @@ export async function addEvent(request: Request, response: Response) {
  */
 export async function deleteEventById(request: Request, response: Response) {
   console.log(`DELETE /events/${request.params.eventId}`);
-  // TODO: 401 Unauthorized
+
+  const authorization = request.get("Authorization");
+  if (!authorization) {
+    response.status(401);
+    response.json({
+      message: "Les informations d'autorisation sont manquantes ou invalides."
+    });
+    response.end();
+    return;
+  }
+  // console.log(authorization);
+  if (authorization !== "API-Key " + APIToken.validTokens) {
+    response.status(401);
+    response.json({
+      message: "Les informations d'autorisation sont manquantes ou invalides."
+    });
+    response.end();
+    return;
+  }
 
   // get a event repository to perform operations with event
   const eventRepository = getManager().getRepository(Event);
@@ -290,7 +322,24 @@ export async function deleteEventById(request: Request, response: Response) {
 export async function replaceEventById(request: Request, response: Response) {
   console.log(`PUT /events/${request.params.eventId}`);
 
-  // TODO: 401 UNAUTHORIZE
+  const authorization = request.get("Authorization");
+  if (!authorization) {
+    response.status(401);
+    response.json({
+      message: "Les informations d'autorisation sont manquantes ou invalides."
+    });
+    response.end();
+    return;
+  }
+  // console.log(authorization);
+  if (authorization !== "API-Key " + APIToken.validTokens) {
+    response.status(401);
+    response.json({
+      message: "Les informations d'autorisation sont manquantes ou invalides."
+    });
+    response.end();
+    return;
+  }
 
   const eventRepository = getManager().getRepository(Event);
 
@@ -486,7 +535,24 @@ export async function replaceEventById(request: Request, response: Response) {
 export async function publishEventById(request: Request, response: Response) {
   console.log(`POST /events/${request.params.eventId}/_publish`);
 
-  // TODO: 401 UNAUTHORIZE
+  const authorization = request.get("Authorization");
+  if (!authorization) {
+    response.status(401);
+    response.json({
+      message: "Les informations d'autorisation sont manquantes ou invalides."
+    });
+    response.end();
+    return;
+  }
+  // console.log(authorization);
+  if (authorization !== "API-Key " + APIToken.validTokens) {
+    response.status(401);
+    response.json({
+      message: "Les informations d'autorisation sont manquantes ou invalides."
+    });
+    response.end();
+    return;
+  }
 
   // get a event repository to perform operations with event
   const eventRepository = getManager().getRepository(Event);
@@ -539,7 +605,24 @@ export async function publishEventById(request: Request, response: Response) {
  */
 export async function terminateEventById(request: Request, response: Response) {
   console.log(`POST /events/${request.params.eventId}/_terminate`);
-  // TODO: 401 UNAUTHORIZE
+  const authorization = request.get("Authorization");
+  if (!authorization) {
+    response.status(401);
+    response.json({
+      message: "Les informations d'autorisation sont manquantes ou invalides."
+    });
+    response.end();
+    return;
+  }
+  // console.log(authorization);
+  if (authorization !== "API-Key " + APIToken.validTokens) {
+    response.status(401);
+    response.json({
+      message: "Les informations d'autorisation sont manquantes ou invalides."
+    });
+    response.end();
+    return;
+  }
 
   // get a event repository to perform operations with event
   const eventRepository = getManager().getRepository(Event);
@@ -616,7 +699,25 @@ export async function getTicketsFromEventById(
   response: Response
 ) {
   console.log(`GET /events/${request.params.eventId}/tickets`);
-  // TODO: 401 UNAUTHORIZE
+
+  const authorization = request.get("Authorization");
+  if (!authorization) {
+    response.status(401);
+    response.json({
+      message: "Les informations d'autorisation sont manquantes ou invalides."
+    });
+    response.end();
+    return;
+  }
+  // console.log(authorization);
+  if (authorization !== "API-Key " + APIToken.validTokens) {
+    response.status(401);
+    response.json({
+      message: "Les informations d'autorisation sont manquantes ou invalides."
+    });
+    response.end();
+    return;
+  }
 
   // get a event repository to perform operations with event
   const eventRepository = getManager().getRepository(Event);
@@ -668,7 +769,24 @@ export async function replaceTicketsFromEventById(
 ) {
   console.log(`PUT /events/${request.params.eventId}/tickets`);
 
-  // TODO: 401 UNAUTHORIZE
+  const authorization = request.get("Authorization");
+  if (!authorization) {
+    response.status(401);
+    response.json({
+      message: "Les informations d'autorisation sont manquantes ou invalides."
+    });
+    response.end();
+    return;
+  }
+  // console.log(authorization);
+  if (authorization !== "API-Key " + APIToken.validTokens) {
+    response.status(401);
+    response.json({
+      message: "Les informations d'autorisation sont manquantes ou invalides."
+    });
+    response.end();
+    return;
+  }
 
   // 404
   const eventRepository = getManager().getRepository(Event);
@@ -787,7 +905,24 @@ export async function deleteTicketsFromEventById(
   // get a event repository to perform operations with event
   const eventRepository = getManager().getRepository(Event);
 
-  // TODO: 401 Unauthorized
+  const authorization = request.get("Authorization");
+  if (!authorization) {
+    response.status(401);
+    response.json({
+      message: "Les informations d'autorisation sont manquantes ou invalides."
+    });
+    response.end();
+    return;
+  }
+  // console.log(authorization);
+  if (authorization !== "API-Key " + APIToken.validTokens) {
+    response.status(401);
+    response.json({
+      message: "Les informations d'autorisation sont manquantes ou invalides."
+    });
+    response.end();
+    return;
+  }
 
   const event = await eventRepository.findOne(request.params.eventId);
 
