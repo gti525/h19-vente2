@@ -1,0 +1,12 @@
+.cartDiv {
+	display: flex;
+	align-items: center;
+}
+
+.cartIcon {
+	margin-right: 5px;
+}
+
+.cartBadge {
+	margin-left: 5px;
+}
