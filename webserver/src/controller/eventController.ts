@@ -10,8 +10,10 @@ import isUrl = require("is-url");
 import {
   getSoldTicketsForEvent,
   getFreeTicketsForEvent,
-  deleteTicketsForEvent
+  deleteTicketsForEvent,
+  verifyTicketsFromArray
 } from "./ticketController";
+import { getVenueForEventWithRelation, deleteVenueForEventWithRelation } from "./venueController";
 
 /**
  * Loads all events from the database.
@@ -117,6 +119,9 @@ export async function addEvent(request: Request, response: Response) {
         event.image =
           "https://vente2-gti525.herokuapp.com/assets/images/placeholder-image-icon-21.jpg"; // Placeholder image
       }
+    } else {
+        event.image =
+          "https://vente2-gti525.herokuapp.com/assets/images/placeholder-image-icon-21.jpg"; // Placeholder image
     }
     event.dateEvent = new Date(request.body.date);
     event.saleStatus = 0; // Not one sale
@@ -160,7 +165,22 @@ export async function addEvent(request: Request, response: Response) {
         response.end();
         return;
       }
-      // console.log(tickets.length);
+
+      // Check if the DB already has the submitted tickets
+      const result = await verifyTicketsFromArray(tickets);
+      if (result.length !== 0) {
+        for (const item of result) {
+            delete item.id;
+            // console.log(ticket);
+          }
+        response.status(409);
+        response.json({
+          message: "Les billets suivants sont déjà dans le système.",
+          tickets: result
+        });
+        response.end();
+        return;
+      }
     }
 
     // Catch JSON errors such as missing properties from the previous checks or other syntax errors.
@@ -183,22 +203,21 @@ export async function addEvent(request: Request, response: Response) {
   // DB insertions
   // Venue first since Event (Many) has a Venue (One) as a foreign key.
   const venueRepository = getManager().getRepository(Venue);
-  await venueRepository.save(venue);
+  const venueResponse = await venueRepository.save(venue);
 
   // It will automatically add the Venue foreign key, since it is part of the entity.
   const eventRepository = getManager().getRepository(Event);
-  const dbResponse = await eventRepository.insert(event);
-  const eventId = dbResponse.identifiers.pop().id;
+  const eventResponse = await eventRepository.insert(event);
+  const eventId = eventResponse.identifiers.pop().id;
 
   // Ticket (Many) last, since it contains Event (One) as a foreign key.
   const ticketRepository = getManager().getRepository(Ticket);
-  await ticketRepository.save(tickets, { chunk: tickets.length / 500 });
+  const ticketsResponse = await ticketRepository.save(tickets, { chunk: tickets.length / 500 });
 
   response.set("Location", "/events/" + eventId);
   response.status(201);
   response.json({
     id: eventId,
-    message: "TODO"
   });
   response.end();
   return;
@@ -214,7 +233,7 @@ export async function deleteEventById(request: Request, response: Response) {
   // get a event repository to perform operations with event
   const eventRepository = getManager().getRepository(Event);
 
-  const event = await eventRepository.findOne(request.params.eventId);
+  const event = await eventRepository.findOne(request.params.eventId, {relations: ["venue"]});
 
   // if event was not found return 404 to the client
   if (!event) {
@@ -259,6 +278,9 @@ export async function deleteEventById(request: Request, response: Response) {
   } else if (ticketsResult === 2 || ticketsResult === 0) {
   }
 
+  const eventResult = await eventRepository.remove(event);
+  const venueResult = await deleteVenueForEventWithRelation(event);
+
   response.status(204);
   response.end();
 }
@@ -272,7 +294,7 @@ export async function replaceEventById(request: Request, response: Response) {
 
   const eventRepository = getManager().getRepository(Event);
 
-  const event = await eventRepository.findOne(request.params.eventId);
+  const event = await eventRepository.findOne(request.params.eventId, {relations: ["venue"]});
 
   // 404
   if (!event) {
@@ -307,6 +329,7 @@ export async function replaceEventById(request: Request, response: Response) {
 
   // Assign entity variables
   const tickets = new Array<Ticket>();
+  let venue: Venue;
 
   try {
     // Check for existance and type basic first.
@@ -336,10 +359,12 @@ export async function replaceEventById(request: Request, response: Response) {
       return;
     }
 
-    // Create Venue
-    event.venue.name = request.body.venue.name;
-    event.venue.address = request.body.venue.address;
-    event.venue.capacity = request.body.venue.capacity;
+    // Get Venue
+    venue =  await getVenueForEventWithRelation(event);
+    venue.name = request.body.venue.name;
+    venue.address = request.body.venue.address;
+    venue.capacity = request.body.venue.capacity;
+    event.venue = venue;
 
     // Create Event
     event.title = request.body.title;
@@ -355,6 +380,9 @@ export async function replaceEventById(request: Request, response: Response) {
         event.image =
           "https://vente2-gti525.herokuapp.com/assets/images/placeholder-image-icon-21.jpg"; // Placeholder image
       }
+    } else {
+        event.image =
+          "https://vente2-gti525.herokuapp.com/assets/images/placeholder-image-icon-21.jpg"; // Placeholder image
     }
     event.dateEvent = new Date(request.body.date);
     event.saleStatus = 0; // Not one sale
@@ -398,12 +426,30 @@ export async function replaceEventById(request: Request, response: Response) {
         response.end();
         return;
       }
-      // console.log(tickets.length);
+
+      // Delete the tickets of the events that need replacing, then check if other events have the same uuid.
+      const ticketsResponse = await deleteTicketsForEvent(event);
+
+      const result = await verifyTicketsFromArray(tickets);
+      if (result.length !== 0) {
+        for (const item of result) {
+            delete item.id;
+            // console.log(ticket);
+          }
+        response.status(409);
+        response.json({
+          message: "Les billets suivants sont déjà dans le système.",
+          tickets: result
+        });
+        response.end();
+        return;
+      }
     }
 
     // Catch JSON errors such as missing properties from the previous checks or other syntax errors.
   } catch (err) {
     // throw(err);
+    console.log(err);
     response.status(400);
     response.json({
       message:
@@ -416,15 +462,18 @@ export async function replaceEventById(request: Request, response: Response) {
 
   // DB insertions
   // Venue first since Event (Many) has a Venue (One) as a foreign key.
-  // const venueRepository = getManager().getRepository(Venue);
-  // await venueRepository.save(venue);
+  const venueRepository = getManager().getRepository(Venue);
+  const venueResponse = await venueRepository.save(venue);
 
   // It will automatically add the Venue foreign key, since it is part of the entity.
-  const dbResponse = await eventRepository.save(event);
+  const eventResponse = await eventRepository.save(event);
 
   // Ticket (Many) last, since it contains Event (One) as a foreign key.
-  const ticketRepository = getManager().getRepository(Ticket);
-  await ticketRepository.save(tickets, { chunk: tickets.length / 500 });
+
+  if (tickets.length !== 0) {
+    const ticketRepository = getManager().getRepository(Ticket);
+    await ticketRepository.save(tickets, { chunk: tickets.length / 500 });
+  }
 
   response.status(204);
   response.end();
@@ -486,7 +535,7 @@ export async function publishEventById(request: Request, response: Response) {
 }
 
 /**
- * Termine the sell of an event and return all tickets
+ * Terminate the sell of an event and return all tickets
  */
 export async function terminateEventById(request: Request, response: Response) {
   console.log(`POST /events/${request.params.eventId}/_terminate`);
@@ -645,7 +694,7 @@ export async function replaceTicketsFromEventById(
     return;
   }
 
-  // if event is offline, but has tickets sold, return 403
+  // if event is offline, but has tickets sold (from event POV), return 403
   if (event.saleStatus === 2) {
     response.status(403);
     response.json({
@@ -715,6 +764,7 @@ export async function replaceTicketsFromEventById(
       response.end();
     }
   } catch (err) {
+    console.log("Error");
     response.status(400);
     response.json({
       message:
@@ -799,26 +849,26 @@ export async function deleteTicketsFromEventById(
 /**
  * Update an event from the database
  */
-export async function updateEvent(request: Request, response: Response) {
+export async function updateEventImage(request: Request, response: Response) {
   const newID = parseInt(request.params.id, 10);
-  const newUrlImg = String(request.body);
+  const newUrlImg = String(request.body.image);
+
+  if (!isUrl(newUrlImg)) {
+    response.status(400);
+    response.end();
+    return;
+  }
 
   const eventRepository = getManager().getRepository(Event);
-  // TODO: Tickets
+  const dbResponse = await eventRepository.findOne(newID);
 
-  const dbResponse = await eventRepository.query(
-    "UPDATE Event SET image = ? WHERE id = ?",
-    [newUrlImg, newID]
-  );
+  if (!dbResponse) {
+    response.status(404);
+    response.end();
+    return;
+  }
 
-  const eventId = dbResponse.identifiers.pop().id;
-
-  response.set("Location", "/events/" + eventId);
-  response.status(201);
-  response.json({
-    id: eventId,
-    message: "TODO"
-  });
+  response.status(204);
   response.end();
   return;
 }

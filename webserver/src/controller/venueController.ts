@@ -40,23 +40,30 @@ export async function getVenueById(request: Request, response: Response) {
     response.send(venue);
 }
 
-export async function getVenueForEvent(event: Event): Promise<Venue> {
+/**
+ * Find a venue that matches the event passed.
+ * @param event An event entity with its venue relation loaded
+ */
+export async function getVenueForEventWithRelation(event: Event): Promise<Venue> {
 
     const venueRepository = getManager().getRepository(Venue);
 
     const venue = await venueRepository.findOne({
-        where: {event: event}
+        where: {id: event.venue.id}
     });
     // console.log(venue);
     return venue;
 }
-
-export async function deleteVenueForEvent(event: Event): Promise<Boolean> {
+/**
+ * Delete a venue that matches the event passed.
+ * @param event An event entity with its venue relation loaded
+ */
+export async function deleteVenueForEventWithRelation(event: Event): Promise<Boolean> {
 
     const venueRepository = getManager().getRepository(Venue);
 
     const venue = await venueRepository.findOne({
-        where: {event: event}
+        where: {id: event.venue.id}
     });
     const result = await venueRepository.remove(venue);
     // console.log(result.id);
