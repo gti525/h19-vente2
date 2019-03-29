@@ -7,7 +7,7 @@
   <div *ngIf="showCart; else emptyMessage" class="row cart-section">
     <div class="col-md-8">
       <div *ngFor="let ticket of showCart.tickets" class="ticket-row">
-        <div class="general-block main-ticket">
+        <div (click)="onTicketClick(ticket.ticket.event.id)" class="general-block main-ticket">
           <span>{{ticket.ticket.event.title}}</span>
           <span>{{ticket.ticket.price | number:'0.2-2'}} $</span>
         </div>
