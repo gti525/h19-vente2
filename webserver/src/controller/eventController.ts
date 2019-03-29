@@ -511,7 +511,7 @@ export async function publishEventById(request: Request, response: Response) {
 }
 
 /**
- * Termine the sell of an event and return all tickets
+ * Terminate the sell of an event and return all tickets
  */
 export async function terminateEventById(request: Request, response: Response) {
   console.log(`POST /events/${request.params.eventId}/_terminate`);
@@ -670,7 +670,7 @@ export async function replaceTicketsFromEventById(
     return;
   }
 
-  // if event is offline, but has tickets sold, return 403
+  // if event is offline, but has tickets sold (from event POV), return 403
   if (event.saleStatus === 2) {
     response.status(403);
     response.json({
@@ -824,26 +824,26 @@ export async function deleteTicketsFromEventById(
 /**
  * Update an event from the database
  */
-export async function updateEvent(request: Request, response: Response) {
+export async function updateEventImage(request: Request, response: Response) {
   const newID = parseInt(request.params.id, 10);
-  const newUrlImg = String(request.body);
+  const newUrlImg = String(request.body.image);
+
+  if (!isUrl(newUrlImg)) {
+    response.status(400);
+    response.end();
+    return;
+  }
 
   const eventRepository = getManager().getRepository(Event);
-  // TODO: Tickets
+  const dbResponse = await eventRepository.findOne(newID);
 
-  const dbResponse = await eventRepository.query(
-    "UPDATE Event SET image = ? WHERE id = ?",
-    [newUrlImg, newID]
-  );
+  if (!dbResponse) {
+    response.status(404);
+    response.end();
+    return;
+  }
 
-  const eventId = dbResponse.identifiers.pop().id;
-
-  response.set("Location", "/events/" + eventId);
-  response.status(201);
-  response.json({
-    id: eventId,
-    message: "TODO"
-  });
+  response.status(204);
   response.end();
   return;
 }

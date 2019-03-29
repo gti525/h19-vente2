@@ -29,9 +29,9 @@ export const AppRoutes = [
         action: eventController.deleteEventById
     },
     {
-        path: "/events/:eventId",
+        path: "/events/:eventId/image",
         method: "patch",
-        action: eventController.updateEvent
+        action: eventController.updateEventImage
     },
     {
         path: "/events/:eventId",
