@@ -73,7 +73,8 @@ createConnection(<ConnectionOptions>{
     // Pass to next layer of middleware
     next();
   });
-
+  app.listen(port);
+  console.log("Listening on port : ", port );
   // --------------------
   // ROUTES D'API
   // --------------------
