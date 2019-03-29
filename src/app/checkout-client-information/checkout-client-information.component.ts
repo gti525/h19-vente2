@@ -69,7 +69,7 @@ export class CheckoutClientInformationComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log(this.checkoutPassService.cart.date);
+    
   }
 
 }
