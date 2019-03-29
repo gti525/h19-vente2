@@ -10,6 +10,7 @@ import { CartService } from '../cart.service';
 export class HeaderComponent implements OnInit {
 
 	public cart: Cart;
+	public count: number = 0;
 
   constructor(private cartService: CartService) { }
 
@@ -21,6 +22,7 @@ export class HeaderComponent implements OnInit {
 		this.cartService.getCart().subscribe(data => {
 			if (!("error" in data)) {
 				this.cart = data as Cart;
+				this.count = this.cart.tickets.length;
 			} else {
 				console.log(data);
 			}
