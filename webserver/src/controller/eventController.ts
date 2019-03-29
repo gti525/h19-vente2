@@ -13,7 +13,7 @@ import {
   deleteTicketsForEvent,
   verifyTicketsFromArray
 } from "./ticketController";
-import { getVenueForEventWithRelation } from "./venueController";
+import { getVenueForEventWithRelation, deleteVenueForEventWithRelation } from "./venueController";
 
 /**
  * Loads all events from the database.
@@ -233,7 +233,7 @@ export async function deleteEventById(request: Request, response: Response) {
   // get a event repository to perform operations with event
   const eventRepository = getManager().getRepository(Event);
 
-  const event = await eventRepository.findOne(request.params.eventId);
+  const event = await eventRepository.findOne(request.params.eventId, {relations: ["venue"]});
 
   // if event was not found return 404 to the client
   if (!event) {
@@ -277,6 +277,9 @@ export async function deleteEventById(request: Request, response: Response) {
     return;
   } else if (ticketsResult === 2 || ticketsResult === 0) {
   }
+
+  const eventResult = await eventRepository.remove(event);
+  const venueResult = await deleteVenueForEventWithRelation(event);
 
   response.status(204);
   response.end();
