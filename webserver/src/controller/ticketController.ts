@@ -34,6 +34,17 @@ export async function areTicketsSoldForEvent(event: Event): Promise<Boolean> {
     return areTicketsSold;
 }
 
+export async function verifyTicketsFromArray(tickets: Ticket[]): Promise<Ticket[]> {
+
+    const ticketRepository = getManager().getRepository(Ticket);
+    const ticketsResponse = await ticketRepository.find({
+        where: tickets.map(thicket => ({uuid: thicket.uuid}))
+    });
+    // console.log(ticketsResponse);
+
+    return ticketsResponse;
+}
+
 export async function getTicketsForEvent(event: Event): Promise<Ticket[]> {
 
     const ticketRepository = getManager().getRepository(Ticket);

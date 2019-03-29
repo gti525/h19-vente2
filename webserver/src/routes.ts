@@ -30,7 +30,7 @@ export const AppRoutes = [
     },
     {
         path: "/events/:eventId",
-        method: "put",
+        method: "patch",
         action: eventController.updateEvent
     },
     {

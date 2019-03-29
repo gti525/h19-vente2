@@ -10,8 +10,10 @@ import isUrl = require("is-url");
 import {
   getSoldTicketsForEvent,
   getFreeTicketsForEvent,
-  deleteTicketsForEvent
+  deleteTicketsForEvent,
+  verifyTicketsFromArray
 } from "./ticketController";
+import { getVenueForEvent } from "./venueController";
 
 /**
  * Loads all events from the database.
@@ -117,6 +119,9 @@ export async function addEvent(request: Request, response: Response) {
         event.image =
           "https://vente2-gti525.herokuapp.com/assets/images/placeholder-image-icon-21.jpg"; // Placeholder image
       }
+    } else {
+        event.image =
+          "https://vente2-gti525.herokuapp.com/assets/images/placeholder-image-icon-21.jpg"; // Placeholder image
     }
     event.dateEvent = new Date(request.body.date);
     event.saleStatus = 0; // Not one sale
@@ -160,7 +165,22 @@ export async function addEvent(request: Request, response: Response) {
         response.end();
         return;
       }
-      // console.log(tickets.length);
+
+      // Check if the DB already has the submitted tickets
+      const result = await verifyTicketsFromArray(tickets);
+      if (result.length !== 0) {
+        for (const item of result) {
+            delete item.id;
+            // console.log(ticket);
+          }
+        response.status(403);
+        response.json({
+          message: "Les billets suivants sont déjà dans le système.",
+          tickets: result
+        });
+        response.end();
+        return;
+      }
     }
 
     // Catch JSON errors such as missing properties from the previous checks or other syntax errors.
@@ -183,22 +203,21 @@ export async function addEvent(request: Request, response: Response) {
   // DB insertions
   // Venue first since Event (Many) has a Venue (One) as a foreign key.
   const venueRepository = getManager().getRepository(Venue);
-  await venueRepository.save(venue);
+  const venueResponse = await venueRepository.save(venue);
 
   // It will automatically add the Venue foreign key, since it is part of the entity.
   const eventRepository = getManager().getRepository(Event);
-  const dbResponse = await eventRepository.insert(event);
-  const eventId = dbResponse.identifiers.pop().id;
+  const eventResponse = await eventRepository.insert(event);
+  const eventId = eventResponse.identifiers.pop().id;
 
   // Ticket (Many) last, since it contains Event (One) as a foreign key.
   const ticketRepository = getManager().getRepository(Ticket);
-  await ticketRepository.save(tickets, { chunk: tickets.length / 500 });
+  const ticketsResponse = await ticketRepository.save(tickets, { chunk: tickets.length / 500 });
 
   response.set("Location", "/events/" + eventId);
   response.status(201);
   response.json({
     id: eventId,
-    message: "TODO"
   });
   response.end();
   return;
@@ -307,6 +326,7 @@ export async function replaceEventById(request: Request, response: Response) {
 
   // Assign entity variables
   const tickets = new Array<Ticket>();
+  let venue: Venue;
 
   try {
     // Check for existance and type basic first.
@@ -336,11 +356,12 @@ export async function replaceEventById(request: Request, response: Response) {
       return;
     }
 
-    // Create Venue
+    // Get Venue
+    venue =  await getVenueForEvent(event);
+    event.venue = venue;
     event.venue.name = request.body.venue.name;
     event.venue.address = request.body.venue.address;
     event.venue.capacity = request.body.venue.capacity;
-
     // Create Event
     event.title = request.body.title;
     event.description = request.body.description;
@@ -420,11 +441,15 @@ export async function replaceEventById(request: Request, response: Response) {
   // await venueRepository.save(venue);
 
   // It will automatically add the Venue foreign key, since it is part of the entity.
-  const dbResponse = await eventRepository.save(event);
+  const eventResponse = await eventRepository.save(event);
+  const venueRepository = getManager().getRepository(Venue);
+  const venueResponse = await venueRepository.save(venue);
 
   // Ticket (Many) last, since it contains Event (One) as a foreign key.
-  const ticketRepository = getManager().getRepository(Ticket);
-  await ticketRepository.save(tickets, { chunk: tickets.length / 500 });
+  if (tickets.length !== 0) {
+    const ticketRepository = getManager().getRepository(Ticket);
+    await ticketRepository.save(tickets, { chunk: tickets.length / 500 });
+  }
 
   response.status(204);
   response.end();
