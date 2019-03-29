@@ -102,6 +102,10 @@ export class CartComponent implements OnInit {
 		})
 	}
 
+	onTicketClick(eventId: number) {
+		this.router.navigate(['/show', eventId]);
+	}
+
 	//pass the cart to the checkout service on checkout button click
 	onCheckoutClick() {
 		this.checkoutPassService.cart = this.cart;
