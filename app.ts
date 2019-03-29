@@ -42,8 +42,9 @@ createConnection(<ConnectionOptions>{
   ],
   subscribers: [],
   synchronize: true,
+  logging: "all",
 }).then(async connection => {
-
+  
   console.log("Opened connection to database.");
 
   var app: express.Application = express();
@@ -51,8 +52,7 @@ createConnection(<ConnectionOptions>{
   //app.use(cors()) // Use this after the variable declaration
   app.use(bodyParser.json());
   const router = express.Router();
-  var path = require("path");
-  var Event = require("./src/app/models/event");
+  
 
   // Add headers
   app.use(function (req, res, next) {
@@ -73,8 +73,11 @@ createConnection(<ConnectionOptions>{
     // Pass to next layer of middleware
     next();
   });
-  app.listen(port);
-  console.log("Listening on port : ", port );
+  
+
+  var path = require("path");
+  //var Event = require("./src/app/models/event");
+
   // --------------------
   // ROUTES D'API
   // --------------------
@@ -84,33 +87,7 @@ createConnection(<ConnectionOptions>{
     res.json({ message: "Bienvenue suar l'API de vente2 GTI525" });
   });
 
-  router.route("/events/:id")
-    //Modifier une url d'une image
-    .patch(function(req, res) {
-
-        if(req.body.image == null){
-            res.status(400).json({ erreur: "L'url doit être fourni dans le corps de la requête" });
-            return;
-        }
-
-        Event.findById(req.params.id, function(err, event) {
-
-            if (err){
-                res.status(400).json({ erreur: "Erreur lors de l'accès. Vous avez probablement fourni le mauvais identifiant?" });
-                return;
-            }
-
-            event.image = req.body.image;
-
-            event.save(function(err) {
-                if (err){
-                    res.status(500).json({ erreur: "Erreur lors de l'enregistrement à la BD" });
-                    return;
-                }
-                res.json({ message: "Mise à jour réussie !" });
-            });
-        });
-    });
+ 
 
   // register all application routes
 
@@ -126,14 +103,14 @@ createConnection(<ConnectionOptions>{
             // .catch(err => next(err));
     });
   });
-
+/*
   // Utilisation de session
   var session = require('express-session');
   app.use(session({
     secret: 'keyboard cat', // Probably not secure hehe
     resave: false,
     saveUninitialized: true
-  }))
+  }))*/
 
   // FIN DES ROUTES API
   //lier router à la route /api
