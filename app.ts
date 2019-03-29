@@ -126,12 +126,17 @@ createConnection(<ConnectionOptions>{
     });
   });
 
+  // Utilisation de session
+  var session = require('express-session');
+  app.use(session({
+    secret: 'keyboard cat', // Probably not secure hehe
+    resave: false,
+    saveUninitialized: true
+  }))
 
   // FIN DES ROUTES API
   //lier router à la route /api
   app.use("/api", router);
-
-
 
   // distribue l'application Angular par défaut.
   app.use(express.static(__dirname + "/dist/vente2"));

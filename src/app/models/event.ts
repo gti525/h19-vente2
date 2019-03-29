@@ -1,7 +1,6 @@
 import { Venue } from './venue';
 
-export class Event{
-    
+export class Event {
     id: number;
     title: string;
     description: string;

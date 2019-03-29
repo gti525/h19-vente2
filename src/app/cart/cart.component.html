@@ -2,11 +2,14 @@
   <div class="row title-row">
     <div class="col-12">
       <h2>Panier</h2>
+      <button (click)="tempAdd()" class="btn-checkout">
+        Temp Add
+      </button>
     </div>
   </div>
-  <div *ngIf="cart; else emptyMessage" class="row cart-section">
+  <div *ngIf="showCart; else emptyMessage" class="row cart-section">
     <div class="col-md-8">
-      <div *ngFor="let ticket of cart.tickets" class="ticket-row">
+      <div *ngFor="let ticket of showCart.tickets" class="ticket-row">
         <div class="general-block main-ticket">
           <span>{{ticket.ticket.event.title}}</span>
           <span>{{ticket.ticket.price | number:'0.2-2'}} $</span>
@@ -27,7 +30,7 @@
       <div class="general-block resume">
         <div class="resume-title">Résumé</div>
         <div class="resume-content">
-          <div *ngFor="let ticket of cart.tickets" class="resume-line">
+          <div *ngFor="let ticket of showCart.tickets" class="resume-line">
             <span>{{ticket.count}} - {{ticket.ticket.event.title}}</span>
             <span>{{(ticket.count * ticket.ticket.price) | number:'0.2-2'}} $</span>
           </div>

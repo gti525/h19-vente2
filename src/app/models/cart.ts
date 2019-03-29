@@ -5,7 +5,11 @@ export class CartTicket {
 	count: number;
 }
 
-export class Cart {
+export class ShowCart {
 	tickets: CartTicket[];
+}
+
+export class Cart {
+	tickets: Ticket[];
 	date: Date;
 }
