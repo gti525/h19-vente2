@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { CheckoutPassService } from "../services/checkout-pass.service";
 import { Event } from '../models/event';
 import { Ticket } from '../models/ticket';
+import { HeaderUpdateService } from '../header-update.service';
 
 @Component({
 	selector: 'app-cart',
@@ -20,6 +21,7 @@ export class CartComponent implements OnInit {
 	constructor(
 		public checkoutPassService: CheckoutPassService,
 		private cartService: CartService,
+		private headerUpdateService: HeaderUpdateService,
 		private router: Router
 	) { }
 
@@ -40,6 +42,8 @@ export class CartComponent implements OnInit {
 				console.log(data);
 			}
 		});
+
+		this.headerUpdateService.updateHeader();
 	}
 
 	calculateTotal() {
