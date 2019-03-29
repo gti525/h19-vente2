@@ -4,7 +4,7 @@
       <h2>Panier</h2>
     </div>
   </div>
-  <div *ngIf="showCart; else emptyMessage" class="row cart-section">
+  <div *ngIf="showCart" class="row cart-section">
     <div class="col-md-8">
       <div *ngFor="let ticket of showCart.tickets" class="ticket-row">
         <div (click)="onTicketClick(ticket.ticket.event.id)" class="general-block main-ticket">
@@ -35,15 +35,13 @@
         <div class="resume-total">Total: {{total | number:'0.2-2'}} $</div>
       </div>
       <button (click)="onCheckoutClick()" class="btn-checkout">
-        Checkout
+        Commander
       </button>
     </div>
   </div>
-  <ng-template #emptyMessage>
-    <div class="row">
-      <div class="col-12">
-        <span>Votre panier est vide.</span>
-      </div>
+  <div *ngIf="empty" class="row">
+    <div class="col-12">
+      <span>Votre panier est vide.</span>
     </div>
-  </ng-template>
+  </div>
 </div>

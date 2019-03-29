@@ -15,6 +15,7 @@ export class CartComponent implements OnInit {
 	public cart: Cart;
 	public showCart: ShowCart;
 	public total: number;
+	public empty: boolean = false;
 
 	constructor(
 		public checkoutPassService: CheckoutPassService,
@@ -29,11 +30,13 @@ export class CartComponent implements OnInit {
 	getCart() {
 		this.cartService.getCart().subscribe(data => {
 			if (!("error" in data)) {
+				this.empty = false;
 				this.cart = data as Cart;
 				this.calculateTotal();
 				this.generateShowCart();
 			} else {
 				this.showCart = null;
+				this.empty = true;
 				console.log(data);
 			}
 		});
