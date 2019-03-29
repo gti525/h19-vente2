@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import { getManager, IsNull, Any, Not } from "typeorm";
 import { Ticket } from "../entity/Ticket";
 import { Event } from "../entity/Event";
-import { async } from "@angular/core/testing";
+import { tick } from "@angular/core/src/render3";
 
 export async function getTicketsByEventId(request: Request, response: Response) {
 
@@ -38,8 +38,21 @@ export async function verifyTicketsFromArray(tickets: Ticket[]): Promise<Ticket[
 
     const ticketRepository = getManager().getRepository(Ticket);
     const ticketsResponse = await ticketRepository.find({
-        where: tickets.map(thicket => ({uuid: thicket.uuid}))
+        where: tickets.map(thicket => ({uuid: thicket.uuid})),
+        relations: ["event"]
     });
+
+    if (ticketsResponse.length !== 0) {
+        for (const ticket of ticketsResponse) {
+            delete ticket.event.title;
+            delete ticket.event.description;
+            delete ticket.event.organisation;
+            delete ticket.event.artist;
+            delete ticket.event.dateEvent;
+            delete ticket.event.image;
+            delete ticket.event.saleStatus;
+        }
+    }
     // console.log(ticketsResponse);
 
     return ticketsResponse;
