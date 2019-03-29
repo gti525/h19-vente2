@@ -39,18 +39,6 @@ export class CartComponent implements OnInit {
 		});
 	}
 
-	tempAdd() {
-		let event: Event = new Event();
-		event.id = 2;
-		this.cartService.addTicket(event).subscribe(data => {
-      if (!("error" in data)) {
-        this.getCart();
-      } else {
-      	console.log(data);
-      }
-    });
-	}
-
 	calculateTotal() {
 		this.total = 0;
 

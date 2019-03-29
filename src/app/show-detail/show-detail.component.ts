@@ -47,6 +47,8 @@ export class ShowDetailComponent implements OnInit {
     this.cartService.addTicket(this.event).subscribe(data => {
       if (!("error" in data)) {
         this.router.navigate(['/cart']);
+      } else {
+        console.log(data);
       }
     });
   }
