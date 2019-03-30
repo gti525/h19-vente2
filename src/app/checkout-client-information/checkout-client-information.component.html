@@ -1,4 +1,5 @@
-<li class="list-group-item">   
+<li class="list-group-item">
+   
 
         <div class="container py-3">
             <div class="row">
@@ -27,7 +28,7 @@
                                 <div class="form-group row">
                                     <label class="col-lg-3 col-form-label form-control-label">Email</label>
                                     <div class="col-lg-9">
-                                        <input class="form-control" type="email" value="">
+                                        <input class="form-control" type="email" value="" formControlName="email">
                                     </div>
                                 </div>
                                 <div class="form-group row">
@@ -72,13 +73,12 @@
                                 </div>
                             </form>
                         </div>
-                        <h3 class="ml-xl-0 ml-4 text-center">-------OR-------</h3>
-                        <button mat-raised-button class="mat-success" (click)="openDialog()">Plateforme social authentification</button>
                     </div>
-                    
                     <!-- /form user info -->
                 </div>
-                
             </div>
         </div>
+
+
 </li>
+<button mat-raised-button (click)="openDialog()">Plateforme social authentification</button>

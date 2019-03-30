@@ -47,11 +47,13 @@ export class CheckoutCreditComponent implements OnInit {
     1, 
     'Jean-Michel', 
     'Benoit', FALSE, NULL, 'jmb@tecsys.com') */
-    var tmpCreditCard =  new CreditCard(this.creditCardFormGroup.value);
-    
-    console.log(tmpCreditCard);
-    this.checkoutPassService.setPreauthCredit(tmpCreditCard);
-    this.checkoutPassService.creditCard = tmpCreditCard;
-    this.router.navigate(["checkout-recap"]);
+    if (this.creditCardFormGroup.valid) {
+      var tmpCreditCard =  new CreditCard(this.creditCardFormGroup.value);
+      
+      console.log(tmpCreditCard);
+      this.checkoutPassService.setPreauthCredit(tmpCreditCard);
+      this.checkoutPassService.creditCard = tmpCreditCard;
+      this.router.navigate(["checkout-recap"]);
+    }
   }
 }

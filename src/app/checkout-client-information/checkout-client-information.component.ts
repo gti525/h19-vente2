@@ -25,14 +25,14 @@ export class CheckoutClientInformationComponent implements OnInit {
     private router: Router,
     private fb: FormBuilder,
     public dialog: MatDialog) {
-    this.userFormGroup = this.fb.group({
-      name: new FormControl(''),
-      firstName: new FormControl(''),
-      email: new FormControl(),
-      civicAddress: new FormControl(''),
-      city: new FormControl(''),
-      province: new FormControl(''),
-      postalCode: new FormControl(''),
+    this.userFormGroup = new FormGroup({
+      name: new FormControl('', Validators.required),
+      firstName: new FormControl('', Validators.required),
+      email: new FormControl('', Validators.required),
+      civicAddress: new FormControl('', Validators.required),
+      city: new FormControl('', Validators.required),
+      province : new FormControl('', Validators.required),
+      postalCode : new FormControl('', Validators.required)
     });
   }
 
@@ -52,20 +52,10 @@ export class CheckoutClientInformationComponent implements OnInit {
   }
 
   onSoumettre() {
-    
-
-    // this.userFormGroup = this.fb.group({
-    //   name: ['', Validators.required],
-    //   firstName: ['', Validators.required],
-    //   email: ['', Validators.required],
-    //   civicAddress: ['', Validators.required],
-    //   city: ['', Validators.required],
-    //   firsprovince : ['', Validators.required],
-    //   postalCode : ['', Validators.required]
-    // });
-
-    this.checkoutPassService.user = new User(this.userFormGroup.value);
-    this.router.navigate(["checkout-credit"]);
+    if (this.userFormGroup.valid) {
+      this.checkoutPassService.user = new User(this.userFormGroup.value);
+      this.router.navigate(["checkout-credit"]);
+    }
   }
 
   ngOnInit() {
