@@ -91,6 +91,16 @@ export const AppRoutes = [
         action: cartController.removeTicket
     },
     {
+        path: "/cart/expire",
+        method: "get",
+        action: cartController.cartExpire
+    },
+    {
+        path: "/cart/time",
+        method: "get",
+        action: cartController.getRemainingTime
+    },
+    {
         path: "/social/client/login",
         method: "post",
         action: socialController.login

@@ -6,6 +6,7 @@ import { CheckoutPassService } from "../services/checkout-pass.service";
 import { Event } from '../models/event';
 import { Ticket } from '../models/ticket';
 import { HeaderUpdateService } from '../header-update.service';
+import { CartUpdateService } from '../cart-update.service';
 
 @Component({
 	selector: 'app-cart',
@@ -22,11 +23,17 @@ export class CartComponent implements OnInit {
 		public checkoutPassService: CheckoutPassService,
 		private cartService: CartService,
 		private headerUpdateService: HeaderUpdateService,
+		private cartUpdateService: CartUpdateService,
 		private router: Router
 	) { }
 
 	ngOnInit() {
 		this.getCart();
+
+		// Update the cart infos if notified
+  	this.cartUpdateService.updates.subscribe(() => {
+  		this.getCart();
+  	});
 	}
 
 	getCart() {

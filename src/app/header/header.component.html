@@ -20,6 +20,6 @@
 			</ul>
 		</div>
 	</nav>
-	<div *ngIf="cart" id="cartAlert" class="alert alert-info text-center">Vous avez des billets réservés. Il vous reste 20:00 pour confirmer votre commande.</div>
+	<div *ngIf="remainingTime >= 0 && cart" id="cartAlert" class="alert alert-info text-center">Vous avez des billets réservés. Il vous reste {{remainingTime | minuteSeconds}} pour confirmer votre commande.</div>
 	<div id="errorAlert" class="alert alert-danger text-center d-none"></div>
 </header>

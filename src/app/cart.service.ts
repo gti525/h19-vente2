@@ -28,4 +28,12 @@ export class CartService {
   public removeTicket(ticketId: number) {
   	return this.httpClient.delete(this.apiURL + `/${ticketId}`);
   }
+
+  public getRemainingTime() {
+    return this.httpClient.get(this.apiURL + "/time");
+  }
+
+  public cartExpire() {
+    return this.httpClient.get(this.apiURL + "/expire");
+  }
 }

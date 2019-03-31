@@ -28,6 +28,7 @@ import { LoginSocialComponent } from './login-social/login-social.component';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModule } from './material.module';
+import { MinuteSecondsPipe } from './header/minute-seconds.pipe';
 
 
 const appRoutes : Routes = [
@@ -47,7 +48,8 @@ const appRoutes : Routes = [
     CheckoutCreditComponent,
     LoginComponent,
     BilletsComponent,
-    LoginSocialComponent
+    LoginSocialComponent,
+    MinuteSecondsPipe
   ],
   imports: [
     BrowserModule,
