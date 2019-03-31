@@ -41,6 +41,7 @@ export class LoginSocialComponent implements OnInit {
 
     this.loginSocialService.postLogin(this.loginSocial)
       .then(res => {
+        console.log(res);
         this.user = res.data;
         this.dialogRef.close(this.user);
       })

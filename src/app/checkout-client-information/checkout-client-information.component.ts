@@ -62,7 +62,7 @@ export class CheckoutClientInformationComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result){
-        console.log("from client-information : ", result);
+        console.log("from login-social-component : ", result);
         this.checkoutPassService.setUserSocial(result) ;
         this.router.navigate(["checkout-credit"]);
       }
