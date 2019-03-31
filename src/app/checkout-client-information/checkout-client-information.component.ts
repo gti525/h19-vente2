@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from "@angular/router";
-import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, FormControl, Validators, EmailValidator } from '@angular/forms';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { CheckoutPassService } from "../services/checkout-pass.service";
 import { LoginSocialComponent } from "../login-social/login-social.component";
@@ -18,21 +18,41 @@ export class CheckoutClientInformationComponent implements OnInit {
   user: User;
   userFormGroup: FormGroup;
   userSocial: any;
-
+  submitted:boolean = false;
 
   constructor(
     public checkoutPassService: CheckoutPassService,
     private router: Router,
-    private fb: FormBuilder,
+    private formBuilder: FormBuilder,
     public dialog: MatDialog) {
-    this.userFormGroup = new FormGroup({
-      name: new FormControl('', Validators.required),
-      firstName: new FormControl('', Validators.required),
-      email: new FormControl('', Validators.required),
-      civicAddress: new FormControl('', Validators.required),
-      city: new FormControl('', Validators.required),
-      province : new FormControl('', Validators.required),
-      postalCode : new FormControl('', Validators.required)
+    
+  }
+
+  ngOnInit() {
+    this.userFormGroup = this.formBuilder.group({
+      name: ['', [ 
+        Validators.required,
+        Validators.minLength(3)
+      ]],
+      firstName: ['', [ 
+        Validators.required,
+        Validators.minLength(3)
+      ]],
+      email: ['', [ 
+        Validators.required,
+        Validators.pattern(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)
+      ]],
+      civicAddress: ['',  [  
+        Validators.required,
+        //Validators.pattern(/^-?(0|[1-9]\d*)?$/)
+
+      ]],
+      city:['', [ Validators.required]],
+      province : ['', [ Validators.required]],
+      postalCode : ['',  [
+        Validators.required,
+        Validators.pattern(/^[A-Za-z]\d[A-Za-z][ -]?\d[A-Za-z]\d$/)
+      ]]
     });
   }
 
@@ -52,14 +72,18 @@ export class CheckoutClientInformationComponent implements OnInit {
   }
 
   onSoumettre() {
+    this.submitted = true;
+
+    if (this.userFormGroup.invalid) {
+      return;
+  }
+
     if (this.userFormGroup.valid) {
       this.checkoutPassService.user = new User(this.userFormGroup.value);
       this.router.navigate(["checkout-credit"]);
     }
   }
 
-  ngOnInit() {
-    
-  }
+  
 
 }

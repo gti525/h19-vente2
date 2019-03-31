@@ -14,8 +14,15 @@
                                 <div class="form-group row">
                                     <label class="col-lg-3 col-form-label form-control-label">Prénom </label>
                                     <div class="col-lg-9">
-                                        <input class="form-control" type="text" value="" formControlName="firstName"
-                                            required>
+                                        <input class="form-control" type="text" value="" formControlName="firstName"  />
+                                    </div>
+                                </div>
+                                <div *ngIf="userFormGroup.controls['firstName'].invalid && (userFormGroup.controls['firstName'].dirty || userFormGroup.controls['firstName'].touched)" class="alert alert-danger">
+                                    <div *ngIf="userFormGroup.controls['firstName'].errors.required">
+                                        Prénom est requis.
+                                    </div>
+                                    <div *ngIf="userFormGroup.controls['firstName'].errors.minlength">
+                                        Prénom est trop court.
                                     </div>
                                 </div>
                                 <div class="form-group row">
@@ -25,17 +32,43 @@
                                             required>
                                     </div>
                                 </div>
+                                <div *ngIf="userFormGroup.controls['name'].invalid && (userFormGroup.controls['name'].dirty || userFormGroup.controls['name'].touched)" class="alert alert-danger">
+                                    <div *ngIf="userFormGroup.controls['name'].errors.required">
+                                        Nom est requis.
+                                    </div>
+                                    <div *ngIf="userFormGroup.controls['name'].errors.minlength">
+                                        Nom est trop court.
+                                    </div>
+                                </div>
                                 <div class="form-group row">
                                     <label class="col-lg-3 col-form-label form-control-label">Email</label>
                                     <div class="col-lg-9">
                                         <input class="form-control" type="email" value="" formControlName="email">
                                     </div>
                                 </div>
+                                <div *ngIf="userFormGroup.controls['email'].invalid && (userFormGroup.controls['email'].dirty || userFormGroup.controls['email'].touched)" class="alert alert-danger">
+                                    <div *ngIf="userFormGroup.controls['email'].errors.required">
+                                        Email est requis.
+                                    </div>
+                                    <div *ngIf="userFormGroup.controls['email'].errors.pattern">
+                                        Email est invalide.
+                                    </div>
+                                </div>
+
+
                                 <div class="form-group row">
                                     <label class="col-lg-3 col-form-label form-control-label">Adresse </label>
                                     <div class="col-lg-9">
                                         <input class="form-control" type="text" value="" formControlName="civicAddress"
                                             required>
+                                    </div>
+                                </div>
+                                <div *ngIf="userFormGroup.controls['civicAddress'].invalid && (userFormGroup.controls['civicAddress'].dirty || userFormGroup.controls['civicAddress'].touched)" class="alert alert-danger">
+                                    <div *ngIf="userFormGroup.controls['civicAddress'].errors.required">
+                                        Addresse est requis.
+                                    </div>
+                                    <div *ngIf="userFormGroup.controls['civicAddress'].errors.pattern">
+                                        Addresse est invalide.
                                     </div>
                                 </div>
 
@@ -46,12 +79,28 @@
                                             required>
                                     </div>
                                 </div>
+                                <div *ngIf="userFormGroup.controls['city'].invalid && (userFormGroup.controls['city'].dirty || userFormGroup.controls['city'].touched)" class="alert alert-danger">
+                                    <div *ngIf="userFormGroup.controls['city'].errors.required">
+                                        Ville est requis.
+                                    </div>
+                                    <div *ngIf="userFormGroup.controls['city'].errors.pattern">
+                                        Ville est invalide.
+                                    </div>
+                                </div>
 
                                 <div class="form-group row">
                                     <label class="col-lg-3 col-form-label form-control-label">Province </label>
                                     <div class="col-lg-9">
                                         <input class="form-control" type="text" value="" formControlName="province"
                                             required>
+                                    </div>
+                                </div>
+                                <div *ngIf="userFormGroup.controls['province'].invalid && (userFormGroup.controls['province'].dirty || userFormGroup.controls['province'].touched)" class="alert alert-danger">
+                                    <div *ngIf="userFormGroup.controls['province'].errors.required">
+                                        Province est requis.
+                                    </div>
+                                    <div *ngIf="userFormGroup.controls['province'].errors.pattern">
+                                        Province est invalide.
                                     </div>
                                 </div>
 
@@ -62,13 +111,22 @@
                                             required>
                                     </div>
                                 </div>
+                                <div *ngIf="userFormGroup.controls['postalCode'].invalid && (userFormGroup.controls['postalCode'].dirty || userFormGroup.controls['postalCode'].touched)" class="alert alert-danger">
+                                    <div *ngIf="userFormGroup.controls['postalCode'].errors.required">
+                                        Code postal est requis.
+                                    </div>
+                                    <div *ngIf="userFormGroup.controls['postalCode'].errors.pattern">
+                                        Code postal est invalide.
+                                    </div>
+                                </div>
 
                                 <div class="form-group row">
-                                    <label class="col-lg-3 col-form-label form-control-label"></label>
-                                    <div class="col-lg-9">
-                                        <input type="reset" class="btn btn-secondary" value="Cancel">
-
-                                        <input type="submit" class="btn btn-success" value="Soumettre">
+                                    <label class="col-lg-9 col-form-label form-control-label"></label>
+                                    <div class="col-lg-3">
+                                        <input type="submit" class="btn btn-success submit-button" value="Soumettre">
+                                        <div *ngIf="submitted && userFormGroup.invalid" class="alert alert-danger">
+                                            Veuillez vérifier vos entrées de champs.
+                                        </div>
                                     </div>
                                 </div>
                             </form>
