@@ -21,6 +21,7 @@ export class CheckoutPassService {
   private transactionPreAuth: any;
 
   apiURL = 'https://h19-passerelle.herokuapp.com/api/v1';
+  MERCHANT_API_KEY = "HJoMststlPWjtosFtFG85Q3DdS5/v/8Db2jjPkssN6U=";
 
   constructor() {
    
@@ -45,19 +46,19 @@ export class CheckoutPassService {
     return this.userSocial;
   }
 
-  setPreauthCredit(crediCard: CreditCard) {
+  preauthCredit(crediCard: CreditCard) {
     /* exemple credit-card
 
     Jean-Michel
     Benoit
-    5105 8235 0509 6154
+    5105749559146043
     1
     2020
     123
     */
     var postData: any =
     {
-      "MERCHANT_API_KEY": "HJoMststlPWjtosFtFG85Q3DdS5/v/8Db2jjPkssN6U=",
+      "MERCHANT_API_KEY": this.MERCHANT_API_KEY,
       "amount": 100,
       "purchase_desc": "PURCHASE/ Vente2 ",
       "credit_card": {
@@ -73,32 +74,18 @@ export class CheckoutPassService {
     };
     console.log(postData);
 
-    axios.post(this.apiURL + '/transaction/create', postData)
-      .then(res => {
-        console.log("response : ", res);
-        this.transactionPreAuth = res.data;
-        
-        /* exemple response :
-          {
-            "transaction_number": "3330382145",
-            "result": "SUCCESS"
-          }
-        */
-      })
-      .catch(err => {
-        console.log("error : ", err);
-      });
+    return axios.post(this.apiURL + '/transaction/create', postData)
 
   }
 
-  confirmTransaction() {
+  commitTransaction() {
 
     var postData: any =
     {
-      "transaction_number": "3330382145", //this.transactionPreAuth.transaction_number,
-      "action": "CONFIRM",
-      "MERCHANT_API_KEY": "HJoMststlPWjtosFtFG85Q3DdS5/v/8Db2jjPkssN6U="
-    };
+      "transaction_number": this.transactionPreAuth.transaction_number , //this.transactionPreAuth.transaction_number,
+      "action": "COMMIT",
+      "MERCHANT_API_KEY": this.MERCHANT_API_KEY
+    };  
 
     console.log(postData);
 
@@ -112,5 +99,8 @@ export class CheckoutPassService {
 
   }
 
+  setPreauthCredit(preauth : any){
+    this.preAuthCredit = preauth;
+  }
 
 }

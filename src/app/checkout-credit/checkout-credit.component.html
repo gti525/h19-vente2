@@ -156,6 +156,9 @@
 					<div *ngIf="submitted && creditCardFormGroup.invalid" class="alert alert-danger">
 						Veuillez vérifier vos entrées de champs.
 					</div>
+					<div *ngIf="errorMessage" class="alert alert-danger">
+						{{errorMessage}}
+					</div>
 				</div>
 			</div>
 		</form>

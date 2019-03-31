@@ -46,7 +46,7 @@ export class CheckoutRecapComponent implements OnInit {
 
   onConfirm() {
     console.log("onConfirm");
-    var confirmation = this.checkoutPassService.confirmTransaction();
+    var confirmation = this.checkoutPassService.commitTransaction();
     if(confirmation){
       this.postTicketToSocial();
     }
