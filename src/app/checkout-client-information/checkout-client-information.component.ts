@@ -43,15 +43,13 @@ export class CheckoutClientInformationComponent implements OnInit {
         Validators.pattern(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)
       ]],
       civicAddress: ['',  [  
-        Validators.required,
-        //Validators.pattern(/^-?(0|[1-9]\d*)?$/)
-
+        Validators.required
       ]],
       city:['', [ Validators.required]],
       province : ['', [ Validators.required]],
       postalCode : ['',  [
         Validators.required,
-        Validators.pattern(/^[A-Za-z]\d[A-Za-z][ -]?\d[A-Za-z]\d$/)
+        Validators.pattern(/^[ABCEGHJ-NPRSTVXY][0-9][ABCEGHJ-NPRSTV-Z][0-9][ABCEGHJ-NPRSTV-Z][0-9]$/)
       ]]
     });
   }
@@ -64,7 +62,7 @@ export class CheckoutClientInformationComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result){
-        console.log("from client-information : ", result);
+        console.log("from login-social-component : ", result);
         this.checkoutPassService.setUserSocial(result) ;
         this.router.navigate(["checkout-credit"]);
       }

@@ -11,8 +11,10 @@ import { Ticket } from 'webserver/src/entity/Ticket';
 })
 export class LoginSocialService {
 
-  apiURL = 'https://vente2-gti525.herokuapp.com/api';
+  //apiURL = 'https://vente2-gti525.herokuapp.com/api';
   //apiURL = 'http://localhost:8080/api';
+  apiURL = 'https://core-api-525.herokuapp.com/api';
+  
 
   private axiosClient: AxiosInstance;
 
@@ -62,7 +64,7 @@ export class LoginSocialService {
   */
   public postLogin(loginSocial: LoginSocial) {
     
-    return this.axiosClient.post(this.apiURL + '/social/client/login', {
+    return this.axiosClient.post(this.apiURL + '/client/login', {
       email: loginSocial.email,
       password: loginSocial.password
     })
@@ -70,14 +72,14 @@ export class LoginSocialService {
 
   public postTicket(ticket: Ticket, userSocial: any ){
     
-    return this.axiosClient.post('https://core-api-525.herokuapp.com/api/social/client/login', {
+    return this.axiosClient.post('https://core-api-525.herokuapp.com/api/Ticket', {
       
       "EventName":ticket.event.title,
       "Artist":ticket.event.artist,
       "Date":ticket.event.dateEvent,
       "Location":ticket.event.venue.address,
       "ClientId":userSocial.id,
-      "uuid": this.makeid(10)
+      "uuid": ticket.uuid
     })
   }
 
