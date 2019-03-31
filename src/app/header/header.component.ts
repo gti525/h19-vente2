@@ -29,7 +29,6 @@ export class HeaderComponent implements OnInit {
 
   	// Update the cart infos if notified
   	this.headerUpdateService.updates.subscribe(() => {
-  		this.remainingTime = -1;
   		this.getCart();
   	});
   }

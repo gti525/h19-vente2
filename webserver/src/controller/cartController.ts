@@ -17,6 +17,7 @@ class Cart {
 let carts = new Map();
 let ticketsInCart = [];
 let cartExpirationDelay = 1200; // Seconds
+//let cartExpirationDelay = 10; // To test
 
 export async function getCart(request: Request, response: Response) {
 	cleanup();
@@ -199,10 +200,15 @@ export async function removeTicket(request: Request, response: Response) {
 }
 
 export async function cartExpire(request: Request, response: Response) {
-	if (carts.has(request.session.id)) {
+	removeCart(request.session.id);
+	response.json({"success": 0, "description": "Cart was removed."});
+}
+
+export function removeCart(id: number) {
+	if (carts.has(id)) {
 		let ticketsToDelete = []
 		let indicesTicketsToDelete = []
-		let cart = carts.get(request.session.id);
+		let cart = carts.get(id);
 
 		// Get tickets ids to remove
 		for (let i = 0; i < cart.tickets.length; i++) {
@@ -222,10 +228,8 @@ export async function cartExpire(request: Request, response: Response) {
 		}
 
 		// Remove cart
-		carts.delete(request.session.id);
+		carts.delete(id);
 	}
-
-	response.json({"success": 0, "description": "Cart was removed."});
 }
 
 export async function getRemainingTime(request: Request, response: Response) {
