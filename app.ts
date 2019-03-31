@@ -109,7 +109,8 @@ createConnection(<ConnectionOptions>{
   app.use(session({
     secret: 'keyboard cat', // Probably not secure hehe
     resave: false,
-    saveUninitialized: true
+    saveUninitialized: true,
+    cookie: { sameSite: false }
   }))
 
   // FIN DES ROUTES API
