@@ -29,7 +29,7 @@ import { LoginSocialComponent } from './login-social/login-social.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModule } from './material.module';
 import { MinuteSecondsPipe } from './header/minute-seconds.pipe';
-
+import { CreditCardDirectivesModule } from 'angular-cc-library';
 
 const appRoutes : Routes = [
 ];
@@ -60,6 +60,7 @@ const appRoutes : Routes = [
     MatFormFieldModule, // or SharedModule that exports MatFormFieldModule,
     MaterialModule,
     BrowserAnimationsModule,
+    CreditCardDirectivesModule,
     RouterModule.forRoot(appRoutes)
   ],
   providers: [

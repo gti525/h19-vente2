@@ -28,7 +28,10 @@ export class LoginSocialService {
       }
     });
 
-  }/*
+  }
+  /* 
+    Notre compte dans la bd de social: 
+
   {
     "email": "vente2@vente.com",
     "password": "123",
@@ -83,6 +86,7 @@ export class LoginSocialService {
     })
   }
 
+  //Pour si on veut tester avec des faux uuid.
   private makeid(length) {
     var text = "";
     var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";

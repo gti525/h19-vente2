@@ -1,5 +1,3 @@
-
-
 <li class="list-group-item">
 	<div class="container py-3">
 		<div class="module-container">
@@ -8,39 +6,59 @@
 			<span class="checkout-client-line">{{user.civicAddress}}</span>
 			<span class="checkout-client-line">{{user.city}}, {{user.province}}, {{user.postalCode}}</span>
 		</div>
-		
+
 		<form [formGroup]="creditCardFormGroup" (ngSubmit)="onSubmit()">
 			<h2> Informations sur la carte de crédit </h2>
 
 			<div class="form-group">
 				<label for="username">Prénom</label>
 				<div class="input-group">
-					<div class="input-group-prepend">
-						<span class="input-group-text"></span>
-					</div>
 					<input type="text" class="form-control" formControlName="firstName" placeholder="" required="">
+				</div>
+			</div>
+			<div *ngIf="creditCardFormGroup.controls['firstName'].invalid && (creditCardFormGroup.controls['firstName'].dirty || creditCardFormGroup.controls['firstName'].touched)"
+				class="alert alert-danger">
+				<div *ngIf="creditCardFormGroup.controls['firstName'].errors.required">
+					Prénom est requis.
+				</div>
+				<div *ngIf="creditCardFormGroup.controls['firstName'].errors.minlength">
+					Prénom est trop court.
 				</div>
 			</div>
 
 			<div class="form-group">
 				<label for="username">Nom</label>
 				<div class="input-group">
-					<div class="input-group-prepend">
-						<span class="input-group-text"></span>
-					</div>
 					<input type="text" class="form-control" formControlName="name" placeholder="" required="">
+				</div>
+			</div>
+			<div *ngIf="creditCardFormGroup.controls['name'].invalid && (creditCardFormGroup.controls['name'].dirty || creditCardFormGroup.controls['name'].touched)"
+				class="alert alert-danger">
+				<div *ngIf="creditCardFormGroup.controls['name'].errors.required">
+					Nom est requis.
+				</div>
+				<div *ngIf="creditCardFormGroup.controls['name'].errors.minlength">
+					Nom est trop court.
 				</div>
 			</div>
 
 			<div class="form-group">
 				<label for="cardNumber">Numéro de carte</label>
 				<div class="input-group">
-					<div class="input-group-prepend">
-						<span class="input-group-text"><i class="fa fa-credit-card"></i></span>
-					</div>
-					<input type="text" class="form-control" formControlName="number" placeholder="">
+					<input class="form-control" formControlName="number" id="cc-number" type="tel" maxlength="19"
+						autocomplete="cc-number" ccNumber>
 				</div>
 			</div>
+			<div *ngIf="creditCardFormGroup.controls['number'].invalid && (creditCardFormGroup.controls['number'].dirty || creditCardFormGroup.controls['number'].touched)"
+				class="alert alert-danger">
+				<div *ngIf="creditCardFormGroup.controls['number'].errors.required">
+					Number est requis.
+				</div>
+				<div *ngIf="creditCardFormGroup.controls['number'].errors.ccNumber">
+					Le numéro de carte de crédit est invalide.
+				</div>
+			</div>
+
 
 			<div class="row">
 				<div class="col-sm-8">
@@ -48,21 +66,22 @@
 						<label><span class="hidden-xs">Expiration</span> </label>
 						<div class="form-inline">
 							<select class="form-control" formControlName="expirationMonth" style="width:45%" required>
-								<option value="">MM</option>
-								<option value="01">01 - Janvier</option>
-								<option value="02">02 - Février</option>
-								<option value="03">03 - Mars</option>
-								<option value="04">04 - Avril</option>
-								<option value="05">05 - Mai</option>
-								<option value="06">06 - Juin</option>
-								<option value="07">07 - Juillet</option>
-								<option value="08">08 - Août</option>
-								<option value="09">09 - Septembre</option>
+								<option value="ll">MM</option>
+								<option value="1">01 - Janvier</option>
+								<option value="2">02 - Février</option>
+								<option value="3">03 - Mars</option>
+								<option value="4">04 - Avril</option>
+								<option value="5">05 - Mai</option>
+								<option value="6">06 - Juin</option>
+								<option value="7">07 - Juillet</option>
+								<option value="8">08 - Août</option>
+								<option value="9">09 - Septembre</option>
 								<option value="10">10 - Octobre</option>
 								<option value="11">11 - Novembre</option>
 								<option value="12">12 - Décembre</option>
 							</select>
-							<div class="invalid-feedback">Example invalid custom select feedback</div>
+
+
 							<span style="width:10%; text-align: center"> </span>
 							<select class="form-control" formControlName="expirationYear" style="width:45%" required>
 								<option>YYYY</option>
@@ -79,21 +98,66 @@
 								<option>2029</option>
 								<option>2030</option>
 							</select>
-							<div class="invalid-feedback">Example invalid custom select feedback</div>
+
+						</div>
+					</div>
+				</div>
+
+
+
+				<div class="col-sm-4">
+					<div class="form-group">
+						<label data-toggle="tooltip" title=""
+							data-original-title="3 digits code on back side of the card">CVV </label>
+						<input class="form-control" formControlName="cvv" type="text" maxlength="4">
+					</div>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-sm-4">
+					<div *ngIf="creditCardFormGroup.controls['expirationMonth'].invalid && (creditCardFormGroup.controls['expirationMonth'].dirty || creditCardFormGroup.controls['expirationMonth'].touched)"
+						class="alert alert-danger">
+						<div *ngIf="creditCardFormGroup.controls['expirationMonth'].errors.required">
+							Le mois d'expiration est requis.
+						</div>
+						<div *ngIf="creditCardFormGroup.controls['expirationMonth'].errors.pattern">
+							Le mois d'expiration est invalide.
 						</div>
 					</div>
 				</div>
 				<div class="col-sm-4">
-					<div class="form-group">
-						<label data-toggle="tooltip" title=""
-							data-original-title="3 digits code on back side of the card">CVV <i
-								class="fa fa-question-circle"></i></label>
-						<input class="form-control" formControlName="cvv" required type="text">
+					<div *ngIf="creditCardFormGroup.controls['expirationYear'].invalid && (creditCardFormGroup.controls['expirationYear'].dirty || creditCardFormGroup.controls['expirationYear'].touched)"
+						class="alert alert-danger">
+						<div *ngIf="creditCardFormGroup.controls['expirationYear'].errors.required">
+							L'année d'expiration est requis.
+						</div>
+						<div *ngIf="creditCardFormGroup.controls['expirationYear'].errors.pattern">
+							L'année d'expiration est invalide.
+						</div>
+					</div>
+				</div>
+				<div class="col-sm-4">
+					<div *ngIf="creditCardFormGroup.controls['cvv'].invalid && (creditCardFormGroup.controls['cvv'].dirty || creditCardFormGroup.controls['cvv'].touched)"
+						class="alert alert-danger">
+						<div *ngIf="creditCardFormGroup.controls['cvv'].errors.required">
+							CVV est requis.
+						</div>
+						<div *ngIf="creditCardFormGroup.controls['cvv'].errors.minlength">
+							Cvv doit être de longueur 3 minimum.
+						</div>
 					</div>
 				</div>
 			</div>
-			<input type="submit" class="btn btn-primary btn-lg btn-block" value="Confirmer">
-
+			<div class="row">
+				<label class="col-lg-9"></label>
+				<div class="col-lg-3">
+					<input type="submit" class="btn btn-primary btn-lg btn-block" value="Confirmer">
+					<div *ngIf="submitted && creditCardFormGroup.invalid" class="alert alert-danger">
+						Veuillez vérifier vos entrées de champs.
+					</div>
+				</div>
+			</div>
 		</form>
 	</div>
 </li>

@@ -35,6 +35,8 @@ export class CheckoutPassService {
     this.user.province = userSocial.Province;
     this.user.city = userSocial.City;
     this.user.civicAddress = userSocial.Address;
+
+    //and copy the returned request from social
     this.userSocial = userSocial;
 
   }
@@ -48,7 +50,7 @@ export class CheckoutPassService {
 
     Jean-Michel
     Benoit
-    5105823505096154
+    5105 8235 0509 6154
     1
     2020
     123

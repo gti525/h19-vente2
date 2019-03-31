@@ -54,7 +54,7 @@ export class CheckoutRecapComponent implements OnInit {
 
   postTicketToSocial() {
     //si l'utilisateur s'est login par social.
-    if (this.checkoutPassService.getUserSocial() != 0) {
+    if (this.checkoutPassService.getUserSocial()) {
 
       this.showCart.tickets.forEach(function (ticket) {
         this.loginSocialService.postTicket(ticket)
@@ -62,14 +62,8 @@ export class CheckoutRecapComponent implements OnInit {
             
           })
           .catch(err => {
-
-
-            if (err.response.data.status == 404) {
-              console.log(err);
-            }
-            else {
-              console.log(err);
-            }
+            this.errorMessage = "";
+            this.errorMessage = err.response.data;
           });
       });
     }
