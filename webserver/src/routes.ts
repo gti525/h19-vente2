@@ -1,7 +1,7 @@
 import * as eventController from "./controller/eventController";
 import * as venueController from "./controller/venueController";
 import * as cartController from "./controller/cartController";
-
+import * as transactionController from "./controller/transactionController";
 import * as socialController from "./controller/socialController";
 /**
  * All application routes.
@@ -104,5 +104,11 @@ export const AppRoutes = [
         path: "/social/client/login",
         method: "post",
         action: socialController.login
-    }
+    },
+    // TRANSACTIONS
+    {
+        path: "/transactions",
+        method: "post",
+        action: transactionController.addTransaction
+    },
 ];

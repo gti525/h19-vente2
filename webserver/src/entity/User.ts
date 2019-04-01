@@ -3,6 +3,12 @@ import { Transaction } from "./Transaction";
 
 @Entity()
 export class User {
+  static example: object = {
+    name: "Bod Fido",
+    surname: "GOD_EHT",
+    socialLink: "SOCIALLINK"
+  };
+
   @PrimaryGeneratedColumn({
     type: "integer",
     name: "id"

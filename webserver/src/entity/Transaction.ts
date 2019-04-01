@@ -11,6 +11,19 @@ import { Ticket } from "./Ticket";
 
 @Entity()
 export class Transaction {
+  static example: object = {
+    transactionConfirmation: "CONFIRMATION_NUMBER",
+    tickets: [
+      {
+        uuid: "e7c21e8d-6801-4433-aa36-b8d416978afc"
+      },
+      {
+        uuid: "123e4567-e89b-12d3-a456-426655440000"
+      }
+    ],
+    user: User.example
+  };
+
   @PrimaryGeneratedColumn({
     type: "integer",
     name: "id"
@@ -33,7 +46,7 @@ export class Transaction {
   transactionConfirmation: string;
 
   @Column({
-    type: "date",
+    type: "timestamp with time zone",
     nullable: false,
     name: "dateTransaction"
   })
