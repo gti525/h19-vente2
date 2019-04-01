@@ -78,7 +78,7 @@ export class CheckoutPassService {
     var postData: any =
     {
       "MERCHANT_API_KEY": this.MERCHANT_API_KEY,
-      "amount": (this.cart.calculateTotal() || 100.00),
+      "amount": this.calculateTotal(this.cart),
       "purchase_desc": "PURCHASE/ Vente2 ",
       "credit_card": {
         "first_name": crediCard.firstName,
@@ -178,5 +178,16 @@ export class CheckoutPassService {
   setPreauthCredit(preauth: any) {
     this.preAuthCredit = preauth;
   }
+
+  calculateTotal(cart) {
+		var total = 0;
+		if (cart.tickets) {
+			cart.tickets.forEach(function (ticket) {
+				total += Number(ticket.price);
+			})
+		}
+
+		return total;
+	}
 
 }
