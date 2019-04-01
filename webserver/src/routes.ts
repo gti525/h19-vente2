@@ -34,6 +34,11 @@ export const AppRoutes = [
         action: eventController.replaceEventById
     },
     {
+        path: "/events/:eventId",
+        method: "patch",
+        action: eventController.updateEvent
+    },
+    {
         path: "/events/:eventId/tickets",
         method: "get",
         action: eventController.getTicketsFromEventById
@@ -57,6 +62,11 @@ export const AppRoutes = [
         path: "/events/:eventId/_terminate",
         method: "post",
         action: eventController.terminateEventById
+    },
+    {
+        path: "/events/:eventId/image",
+        method: "patch",
+        action: eventController.updateEventImage
     },
     // VENUES
     {
