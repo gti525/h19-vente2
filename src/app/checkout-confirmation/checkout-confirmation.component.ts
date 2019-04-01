@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CONFIRMATION } from '../mock/mock-confirmation';
+import { CheckoutPassService } from '../services/checkout-pass.service';
 
 
 @Component({
@@ -9,12 +10,17 @@ import { CONFIRMATION } from '../mock/mock-confirmation';
 })
 export class CheckoutConfirmationComponent implements OnInit {
 
-  social = true;
-  confirmation = CONFIRMATION;
+  social = false;
+  confirmation;
 
-  constructor() { }
+  constructor(
+    public checkoutPassService: CheckoutPassService
+  ) { }
 
   ngOnInit() {
+    this.confirmation = this.checkoutPassService.transaction.transactionConfirmation;
+    if(this.checkoutPassService.getUserSocial()){
+      this.social = true;
+    }
   }
-
 }

@@ -21,11 +21,11 @@ export class CheckoutPassService {
   private preAuthCredit: any;
   private axiosClient: AxiosInstance;
   private transactionPreAuth: any;
-  private transaction: Transaction;
+  transaction: Transaction;
 
-  passerelleApiURL = 'https://h19-passerelle.herokuapp.com/api/v1';
-  ourApiURL = "http://vente2-gti525.herokuapp.com/api";
-  MERCHANT_API_KEY = "HJoMststlPWjtosFtFG85Q3DdS5/v/8Db2jjPkssN6U=";
+  private passerelleApiURL = 'https://h19-passerelle.herokuapp.com/api/v1';
+  private ourApiURL = "http://vente2-gti525.herokuapp.com/api";
+  private MERCHANT_API_KEY = "HJoMststlPWjtosFtFG85Q3DdS5/v/8Db2jjPkssN6U=";
 
   constructor() {
 
