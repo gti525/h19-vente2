@@ -9,22 +9,27 @@ export async function adminLogin(request: Request, response: Response) {
   console.log(`POST /admins/_login`);
   const adminRepository = getManager().getRepository(Admin);
 
-  if (!request.body.username || !request.body.password) {
-    response.status(400);
+  let auth: string = request.header("Authorization");
+  if (!auth) {
+    response.status(401);
     response.json({
-      message: "Le corps de la requête est incomplet.",
-      example: Admin.example
+      message: "Il manque les données d'authorisation dans l'en-tête."
     });
     response.end();
     return;
   }
+  auth = auth.substring(auth.indexOf(" ") + 1);
+  const credentials = new Array<string>();
+  credentials.push(auth.substring(0, auth.indexOf(":")));
+  credentials.push(auth.substring(auth.indexOf(":") + 1));
+  // console.log(credentials);
 
   const admin = await adminRepository.findOne({
-    username: request.body.username
+    username: credentials[0]
   });
 
   if (!admin) {
-    response.status(404);
+    response.status(401);
     response.json({
       message: "Le nom d'usager ou le mot de passe est incorrecte.",
     });
@@ -32,9 +37,9 @@ export async function adminLogin(request: Request, response: Response) {
     return;
   }
 
-  const hashedPassword = hashPassword(request.body.password, admin.salt);
+  const hashedPassword = hashPassword(credentials[1], admin.salt);
   if (hashedPassword !== admin.hashedPassword) {
-    response.status(404);
+    response.status(401);
     response.json({
       message: "Le nom d'usager ou le mot de passe est incorrecte.",
     });
