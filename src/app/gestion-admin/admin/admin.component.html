@@ -1,0 +1,65 @@
+﻿<h1>
+  Page d'administration -
+  <a [routerLink]="['/login']">Déconnexion</a>
+</h1>
+<p>Page dédiée à la gestion des vignettes de spectacles.</p>
+<div>
+  Utilisateurs autorisés du point d'accès à l'API sécurisé:
+  <ul>
+    <font color="green"
+      ><li *ngFor="let user of users">
+        {{ user.firstName }} {{ user.lastName }}
+      </li></font
+    >
+  </ul>
+</div>
+
+<div class="module-container">
+  <h2 style="text-align:center">Liste des images de spectacles</h2>
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Aperçu vignette</th>
+        <th scope="col">Titre spectacle</th>
+        <th scope="col">Url</th>
+        <th scope="col">Option</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let spectacle of events; let i = index">
+        <th scope="row">{{ i + 1 }}</th>
+        <td>
+          <img class="card-img-top show-image" src="{{ spectacle.image }}" />
+        </td>
+        <td>{{ spectacle.title }}</td>
+        <td>
+          <input
+            type="text"
+            class="form-control"
+            name="urlIMG"
+            id="urlIMG"
+            (keydown)="onKey($event)"
+            placeholder="Entrez l'url de la nouvelle image"
+            aria-label="lienImage"
+            aria-describedby="basic-addon2"
+          />
+        </td>
+        <td>
+          <input
+            style="padding:6px;"
+            type="button"
+            value="Modifier l'image"
+            (click)="updateEvent(spectacle.id)"
+          />
+          <input
+            style="padding:6px;"
+            type="button"
+            value="Annuler"
+            (click)="annulerMAJ(spectacle.id)"
+          />
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

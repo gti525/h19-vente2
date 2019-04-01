@@ -6,7 +6,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
 import { HomeComponent } from './home/home.component';
-import { AdminComponent } from './gestion-admin/page-admin/page-admin.component';
+import { AdminComponent } from './gestion-admin/admin/admin.component';
 import { CheckoutRecapComponent } from './checkout-recap/checkout-recap.component';
 import { CheckoutConfirmationComponent } from './checkout-confirmation/checkout-confirmation.component';
 import { CartComponent } from './cart/cart.component';
@@ -23,7 +23,7 @@ import { MatFormFieldModule } from '@angular/material';
 // used to create fake backend
 // import { fakeBackendProvider } from './gestion-admin/_helpers';
 import { BasicAuthInterceptor, ErrorInterceptor } from './gestion-admin/_helpers';
-import { BilletsComponent } from './billets/billets.component';
+// import { BilletsComponent } from './billets/billets.component';
 import { LoginSocialComponent } from './login-social/login-social.component';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -47,7 +47,7 @@ const appRoutes : Routes = [
     ShowDetailComponent,
     CheckoutCreditComponent,
     LoginComponent,
-    BilletsComponent,
+    // BilletsComponent,
     LoginSocialComponent,
     MinuteSecondsPipe
   ],

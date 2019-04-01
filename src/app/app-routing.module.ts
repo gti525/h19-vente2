@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { AdminComponent } from './gestion-admin/page-admin/page-admin.component';
+import { AdminComponent } from './gestion-admin/admin/admin.component';
 import { HomeComponent } from './home/home.component';
 import { CheckoutRecapComponent } from './checkout-recap/checkout-recap.component';
 import { CheckoutConfirmationComponent } from './checkout-confirmation/checkout-confirmation.component';
@@ -23,10 +23,10 @@ const routes: Routes = [
   { path: 'checkout-client-information', component: CheckoutClientInformationComponent },
   { path: 'checkout-credit', component: CheckoutCreditComponent  },
   { path: "show/:id", component: ShowDetailComponent },
-  { path: "billets", component: BilletsComponent },
-  
+  //{ path: "billets", component: BilletsComponent },
+
   // otherwise redirect to home
-  
+
 ];
 
 @NgModule({
