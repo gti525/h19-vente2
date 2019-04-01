@@ -160,7 +160,7 @@ export class CheckoutPassService {
       postData.tickets.push({"uuid" : ticket.uuid});
     });
 
-    return axios.post(this.ourApiURL + '/OURAPI/', postData)
+    return axios.post(this.ourApiURL + '/transactions', postData)
   }
 
   //make an alpha-numeric string of lenth size

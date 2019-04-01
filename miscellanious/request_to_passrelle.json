@@ -1,0 +1,38 @@
+{
+    "MERCHANT_API_KEY": "HJoMststlPWjtosFtFG85Q3DdS5/v/8Db2jjPkssN6U=",
+    "amount": "122.0",
+    "purchase_desc": "PURCHASE/ Vente2 ",
+    "credit_card": {
+      "first_name": "Alfie-Lee",
+      "last_name": "May",
+      "number": "5105814861341102",
+      "cvv": "123",
+      "exp": {
+        "month": "1",
+        "year": "2020"
+      }
+    }
+  }
+
+
+  {
+    "MERCHANT_API_KEY": "HJoMststlPWjtosFtFG85Q3DdS5/v/8Db2jjPkssN6U=",
+    "amount": "122.0",
+    "purchase_desc": "PURCHASE/ Vente2 ",
+    "credit_card": {
+      "first_name": "Jean-Michel",
+      "last_name": "Benoit",
+      "number": "5105749559146043",
+      "cvv": "123",
+      "exp": {
+        "month": "1",
+        "year": "2020"
+      }
+    }
+  }
+
+  {
+	"transaction_number": "62091406", 
+	"action": "COMMIT",
+	"MERCHANT_API_KEY": "HJoMststlPWjtosFtFG85Q3DdS5/v/8Db2jjPkssN6U="
+}
