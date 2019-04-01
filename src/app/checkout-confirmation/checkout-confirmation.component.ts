@@ -11,7 +11,7 @@ import { CheckoutPassService } from '../services/checkout-pass.service';
 export class CheckoutConfirmationComponent implements OnInit {
 
   social = false;
-  confirmation;
+  confirmation = "";
 
   constructor(
     public checkoutPassService: CheckoutPassService
