@@ -21,7 +21,7 @@ import { MatFormFieldModule } from '@angular/material';
 
 
 // used to create fake backend
-import { fakeBackendProvider } from './gestion-admin/_helpers';
+// import { fakeBackendProvider } from './gestion-admin/_helpers';
 import { BasicAuthInterceptor, ErrorInterceptor } from './gestion-admin/_helpers';
 import { BilletsComponent } from './billets/billets.component';
 import { LoginSocialComponent } from './login-social/login-social.component';
@@ -68,7 +68,7 @@ const appRoutes : Routes = [
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
 
     // provider used to create fake backend
-    fakeBackendProvider
+    // fakeBackendProvider
   ],
   bootstrap: [AppComponent],
     entryComponents: [
