@@ -47,16 +47,22 @@ export class CheckoutRecapComponent implements OnInit {
   onConfirm() {
     console.log("onConfirm");
 
+    
+    //commit transaction in our DB
+    this.checkoutPassService.commitTransactionToOurAPI();
+
+    //commit the transaction with passerelle
     this.checkoutPassService.commitTransaction()
       .then(res => {
         console.log("response from commit to passerelle : ", res);
-        this.postTicketToSocial();
-        this.checkoutPassService.commitTransactionToOurAPI();
+        
       })
       .catch(err => {
         console.log("error from commit to passerelle: ", err);
       });
-
+      
+    //sends ticket to social
+    //this.postTicketToSocial();
   }
 
   postTicketToSocial() {
