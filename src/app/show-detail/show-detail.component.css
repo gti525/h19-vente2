@@ -12,3 +12,8 @@
     margin-top: 60px;
     text-align: center;
 }
+
+.event-title-padding{
+    margin-bottom: 60px;
+    padding-bottom: 25px;
+}

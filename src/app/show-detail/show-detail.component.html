@@ -7,7 +7,7 @@
       </div>
     </div>
     <div class="col">
-      <h2 class="h2-responsive text-center text-md-left product-name font-weight-bold dark-grey-text mb-1 ml-xl-0 ml-4">
+      <h2 class="h2-responsive text-center text-md-left product-name font-weight-bold dark-grey-text mb-1 ml-xl-0 ml-4 event-title-padding">
         <strong>{{event.title}}</strong>
       </h2>
       <p class="ml-xl-0 ml-4">
@@ -22,21 +22,21 @@
       <p class="ml-xl-0 ml-4">
         Venue: {{event.venue.name}}
       </p>
-      <p class="ml-xl-0 ml-4">
+      <div class="ml-xl-0 ml-4">
 
-        <div *ngIf="event.saleStatus==0">
+        <p *ngIf="event.saleStatus==0">
           Sale Status: Not on sale
-        </div>
-        <div *ngIf="event.saleStatus==1">
-          Sale Status: On sale
-        </div>
-        <div *ngIf="event.saleStatus==2">
-          Sale Status: All tickets sold
-        </div>
-
-        <p>
-          <input (click)="onAddClick()" type="button" value="Ajouter au panier" class="btn btn-primary button-add" />
         </p>
+        <p *ngIf="event.saleStatus==1">
+          Sale Status: On sale
+        </p>
+        <p *ngIf="event.saleStatus==2">
+          Sale Status: All tickets sold
+        </p>
+      </div>
+      <div class="ml-xl-0 ml-4">
+        <input (click)="onAddClick()" type="button" value="Ajouter au panier" class="btn btn-primary button-add" />
+      </div>
     </div>
   </div>
 </div>
