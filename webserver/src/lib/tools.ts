@@ -1,3 +1,4 @@
+import { SHA3 } from "sha3";
 
 // https://www.competa.com/blog/lets-find-duplicate-property-values-in-an-array-of-objects-in-javascript/
 export function checkDuplicateInObject(propertyName: string, inputArray: Array<any>) {
@@ -17,4 +18,13 @@ export function checkDuplicateInObject(propertyName: string, inputArray: Array<a
     });
 
     return seenDuplicate;
+  }
+
+  export function hashPassword(password: string, salt: string): string {
+    const hasher = new SHA3(512);
+    hasher.update(password.concat(salt));
+    const hashedPassword = hasher.digest("utf8");
+    hasher.reset();
+
+    return hashedPassword;
   }
