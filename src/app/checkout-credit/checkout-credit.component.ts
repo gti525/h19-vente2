@@ -83,7 +83,7 @@ export class CheckoutCreditComponent implements OnInit {
         .then(res => {
           console.log("response : ", res);
           this.checkoutPassService.setPreauthCredit(res.data);
-          console.log("response data : " + res.data);
+          console.log("response data : ", res.data);
           /* exemple response :
             {
               "transaction_number": "10341278",

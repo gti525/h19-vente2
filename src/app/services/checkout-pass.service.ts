@@ -20,7 +20,6 @@ export class CheckoutPassService {
   public showCart: ShowCart;
   private preAuthCredit: any;
   private axiosClient: AxiosInstance;
-  transactionPreAuth: any;
   transaction: Transaction;
 
   private passerelleApiURL = 'https://h19-passerelle.herokuapp.com/api/v1';
@@ -119,11 +118,9 @@ export class CheckoutPassService {
    */
   commitTransaction() {
 
-    console.log(this.transactionPreAuth);
-
     var postData: any =
     {
-      "transaction_number": this.transactionPreAuth.data.transaction_number, //this.transactionPreAuth.transaction_number,
+      "transaction_number": this.preAuthCredit.transaction_number, //this.transactionPreAuth.transaction_number,
       "action": "COMMIT",
       "MERCHANT_API_KEY": this.MERCHANT_API_KEY
     };
@@ -182,7 +179,7 @@ export class CheckoutPassService {
   }
 
   calculateTotal(cart) {
-		var total = 0;
+		var total = 0.0;
 		if (cart.tickets) {
 			cart.tickets.forEach(function (ticket) {
 				total += Number(ticket.price);
