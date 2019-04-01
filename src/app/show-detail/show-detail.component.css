@@ -3,9 +3,18 @@
     padding: 10px;
 }
 
-.crop {
-    width: 500px;
-    overflow: hidden;
+@media screen and (max-width: 992px) {
+    .crop {
+        width: 600px;
+        overflow: hidden;
+    }
+}
+
+@media screen and (max-width: 600px) {
+    .crop {
+        width: 95vw;
+        overflow: hidden;
+    }
 }
 
 .button-add {
@@ -13,7 +22,7 @@
     text-align: center;
 }
 
-.event-title-padding{
+.event-title-padding {
     margin-bottom: 60px;
     padding-bottom: 25px;
 }
