@@ -49,12 +49,12 @@ export class CheckoutRecapComponent implements OnInit {
 
     this.checkoutPassService.commitTransaction()
       .then(res => {
-        console.log("response : ", res);
+        console.log("response from commit to passerelle : ", res);
         this.postTicketToSocial();
         this.checkoutPassService.commitTransactionToOurAPI();
       })
       .catch(err => {
-        console.log("error : ", err);
+        console.log("error from commit to passerelle: ", err);
       });
 
   }
