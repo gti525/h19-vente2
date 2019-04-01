@@ -1,8 +1,9 @@
 import { Request, Response } from "express";
-import { getManager, IsNull, Any, Not } from "typeorm";
+import { getManager, IsNull, Any, Not, In } from "typeorm";
 import { Ticket } from "../entity/Ticket";
 import { Event } from "../entity/Event";
 import { tick } from "@angular/core/src/render3";
+import { anyNonNil } from "is-uuid";
 
 export async function getTicketsByEventId(request: Request, response: Response) {
 
@@ -117,5 +118,32 @@ export async function deleteTicketsForEvent(event: Event): Promise<number> {
     }
 
     return result;
+}
+
+export async function getTicketsByUuidArray(tickets: Ticket[]): Promise<Ticket[]> {
+    const ticketRepository = getManager().getRepository(Ticket);
+
+    const uuids = new Array<string>();
+    for (const ticket of tickets) {
+        if (!anyNonNil(ticket.uuid)) {
+            console.log(`getTicketsByUuidArray(): Invalid uuid: ${ticket.uuid}`);
+            return [];
+        }
+        uuids.push(ticket.uuid);
+    }
+    // console.log(uuids);
+    const dbTickets = await ticketRepository.find({
+        where: {
+            uuid: In(uuids),
+            transaction: IsNull()
+        }
+    });
+    if (dbTickets.length !== uuids.length) {
+        console.log(`Database only found ${dbTickets.length} matches, while the request had ${uuids.length}.`);
+        tickets = [];
+    }
+    tickets = dbTickets;
+
+    return tickets;
 }
 
