@@ -5,10 +5,6 @@ import { LoginSocialService } from '../services/login-social.service';
 import { LoginSocial } from '../models/login-social';
 import { Router } from '@angular/router';
 
-
-
-//import { DialogData } from '../DialogData';
-
 // guide on modals for angular 7
 // https://appdividend.com/2019/02/11/angular-modal-tutorial-with-example-angular-material-dialog/
 

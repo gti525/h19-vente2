@@ -21,7 +21,7 @@ export class CheckoutRecapComponent implements OnInit {
   userSocial;
   cart: Cart;
   showCart: ShowCart;
-  total:number;
+  total: number;
 
   constructor(
     public checkoutPassService: CheckoutPassService,
@@ -37,19 +37,26 @@ export class CheckoutRecapComponent implements OnInit {
   }
 
   calculateTotal() {
-		this.total = 0;
+    this.total = 0;
 
-		for (let i = 0; i < this.cart.tickets.length; i++) {
-			this.total += Number(this.cart.tickets[i].price);
-		}
-	}
+    for (let i = 0; i < this.cart.tickets.length; i++) {
+      this.total += Number(this.cart.tickets[i].price);
+    }
+  }
 
   onConfirm() {
     console.log("onConfirm");
-    var confirmation = this.checkoutPassService.commitTransaction();
-    if(confirmation){
-      this.postTicketToSocial();
-    }
+
+    this.checkoutPassService.commitTransaction()
+      .then(res => {
+        console.log("response : ", res);
+        this.postTicketToSocial();
+        //this.checkoutPassService.commitTransactionToOurAPI();
+      })
+      .catch(err => {
+        console.log("error : ", err);
+      });
+
   }
 
   postTicketToSocial() {
@@ -59,11 +66,10 @@ export class CheckoutRecapComponent implements OnInit {
       this.showCart.tickets.forEach(function (ticket) {
         this.loginSocialService.postTicket(ticket)
           .then(res => {
-            
+            console.log(res);
           })
           .catch(err => {
-            this.errorMessage = "";
-            this.errorMessage = err.response.data;
+            console.log("Error in post ticket to social :", err.response);
           });
       });
     }

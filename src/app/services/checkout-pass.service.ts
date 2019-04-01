@@ -1,9 +1,11 @@
 import { Injectable } from '@angular/core';
 import { CreditCard } from "../models/credit-card";
-import {  ShowCart, Cart } from '../models/cart';
+import { Transaction } from "../models/transaction";
+import { ShowCart, Cart } from '../models/cart';
 import { User } from "../models/user";
 import axios from "axios";
 import { AxiosInstance } from "axios";
+
 
 @Injectable({
   providedIn: 'root'
@@ -14,18 +16,29 @@ export class CheckoutPassService {
   public user: User;
   //private because must be set through setUserSocial
   private userSocial: any;
-  public cart : Cart;
+  public cart: Cart = new Cart();
   public showCart: ShowCart;
   private preAuthCredit: any;
   private axiosClient: AxiosInstance;
   private transactionPreAuth: any;
+  private transaction: Transaction;
 
-  apiURL = 'https://h19-passerelle.herokuapp.com/api/v1';
+  passerelleApiURL = 'https://h19-passerelle.herokuapp.com/api/v1';
+  ourApiURL = "http://vente2-gti525.herokuapp.com/api";
   MERCHANT_API_KEY = "HJoMststlPWjtosFtFG85Q3DdS5/v/8Db2jjPkssN6U=";
 
   constructor() {
-   
+
   }
+
+
+  /**
+   * Sets this userSocial for the rest of the process. 
+   * If a User is set from this method, the rest of the checkout will 
+   * take account for that by sending API calls to Saucial
+   * 
+   * @param userSocial 
+   */
 
   setUserSocial(userSocial: any) {
     //reset the user just in case
@@ -46,6 +59,12 @@ export class CheckoutPassService {
     return this.userSocial;
   }
 
+  /**
+   * Preauthorize the creditCard for the content of this.cart total
+   * 
+   * @param crediCard the credit card to preauthorize 
+   */
+
   preauthCredit(crediCard: CreditCard) {
     /* exemple credit-card
 
@@ -59,47 +78,104 @@ export class CheckoutPassService {
     var postData: any =
     {
       "MERCHANT_API_KEY": this.MERCHANT_API_KEY,
-      "amount": 100,
+      "amount": (this.cart.calculateTotal() || 100.00),
       "purchase_desc": "PURCHASE/ Vente2 ",
       "credit_card": {
         "first_name": crediCard.firstName,
         "last_name": crediCard.name,
-        "number": crediCard.number,
+        "number": Number(crediCard.number),
         "cvv": crediCard.cvv,
         "exp": {
-          "month": crediCard.expirationMonth,
-          "year": crediCard.expirationYear
+          "month": Number(crediCard.expirationMonth),
+          "year": Number(crediCard.expirationYear)
         }
       }
     };
+
+    /*
+    {
+  "MERCHANT_API_KEY": "2+++FhHMhnGTZnCRZZ7pSrqaOFz2FaO6wIv0ngvGGk0=",
+  "amount": 2.00,
+  "purchase_desc": "PURCHASE/ Simons ",
+  "credit_card": {
+    "first_name": "John",
+    "last_name": "Doe",
+    "number": 5105124723835766,
+    "cvv": "621",
+    "exp": {
+      "month": 3,
+      "year": 2021
+    }
+  }
+}
+    */
     console.log(postData);
 
-    return axios.post(this.apiURL + '/transaction/create', postData)
+    return axios.post(this.passerelleApiURL + '/transaction/create', postData)
 
   }
-
+  /**
+   * Sends the COMMIT to passerelle de paiement API to proceed with transaction
+   */
   commitTransaction() {
 
     var postData: any =
     {
-      "transaction_number": this.transactionPreAuth.transaction_number , //this.transactionPreAuth.transaction_number,
+      "transaction_number": this.transactionPreAuth.transaction_number, //this.transactionPreAuth.transaction_number,
       "action": "COMMIT",
       "MERCHANT_API_KEY": this.MERCHANT_API_KEY
-    };  
+    };
 
     console.log(postData);
 
-    return axios.post(this.apiURL + '/transaction/process', postData)
-      .then(res => {
-        console.log("response : ", res);
-      })
-      .catch(err => {
-        console.log("error : ", err);
-      });
-
+    return axios.post(this.passerelleApiURL + '/transaction/process', postData)
   }
 
-  setPreauthCredit(preauth : any){
+
+
+  /** commit the transaction to our api by creating a new transaction containing
+   *  the ticket
+   */
+  commitTransactionToOurAPI() {
+    
+    this.transaction = new Transaction();
+    this.transaction.transactionConfirmation = this.makeid(16);
+    this.transaction.dateTransaction = new Date(Date.now());
+    this.transaction.user = this.user;
+
+
+    var postData: any = {
+      "transactionConfirmation": this.transaction.transactionConfirmation,
+      "tickets": [],
+      "user": {
+        "name": this.user.firstName,
+        "surname": this.user.name
+      }
+    }
+
+    if(this.userSocial){
+      postData.user.socialLink = this.userSocial.Email;
+    }
+    
+    this.cart.tickets.forEach(ticket => {
+      postData.tickets.push({"uuid" : ticket.uuid});
+    });
+
+    return axios.post(this.ourApiURL + '/OURAPI/', postData)
+  }
+
+  //make an alpha-numeric string of lenth size 
+  private makeid(length) {
+    var text = "";
+    var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+  
+    for (var i = 0; i < length; i++)
+      text += possible.charAt(Math.floor(Math.random() * possible.length));
+  
+    return text;
+  }
+
+  setPreauthCredit(preauth: any) {
     this.preAuthCredit = preauth;
   }
 

@@ -12,4 +12,15 @@ export class ShowCart {
 export class Cart {
 	tickets: Ticket[];
 	date: Date;
+
+	calculateTotal() {
+		var total = 0;
+		if (this.tickets) {
+			this.tickets.forEach(function (ticket) {
+				total += Number(ticket.price);
+			})
+		}
+
+		return total;
+	}
 }
