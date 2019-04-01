@@ -6,6 +6,12 @@ import { User } from "../models/user";
 import axios from "axios";
 import { AxiosInstance } from "axios";
 
+let API_URL: string;
+if (process.env.API_URL) {
+  API_URL = process.env.API_URL;
+} else {
+  API_URL = "https://vente2-gti525.herokuapp.com/api";
+}
 
 @Injectable({
   providedIn: 'root'
@@ -24,7 +30,7 @@ export class CheckoutPassService {
   transaction: Transaction;
 
   private passerelleApiURL = 'https://h19-passerelle.herokuapp.com/api/v1';
-  private ourApiURL = "http://vente2-gti525.herokuapp.com/api";
+  private ourApiURL = API_URL;
   private MERCHANT_API_KEY = "HJoMststlPWjtosFtFG85Q3DdS5/v/8Db2jjPkssN6U=";
 
   constructor() {
@@ -33,11 +39,11 @@ export class CheckoutPassService {
 
 
   /**
-   * Sets this userSocial for the rest of the process. 
-   * If a User is set from this method, the rest of the checkout will 
+   * Sets this userSocial for the rest of the process.
+   * If a User is set from this method, the rest of the checkout will
    * take account for that by sending API calls to Saucial
-   * 
-   * @param userSocial 
+   *
+   * @param userSocial
    */
 
   setUserSocial(userSocial: any) {
@@ -61,8 +67,8 @@ export class CheckoutPassService {
 
   /**
    * Preauthorize the creditCard for the content of this.cart total
-   * 
-   * @param crediCard the credit card to preauthorize 
+   *
+   * @param crediCard the credit card to preauthorize
    */
 
   preauthCredit(crediCard: CreditCard) {
@@ -137,7 +143,7 @@ export class CheckoutPassService {
    *  the ticket
    */
   commitTransactionToOurAPI() {
-    
+
     this.transaction = new Transaction();
     this.transaction.transactionConfirmation = this.makeid(16);
     this.transaction.dateTransaction = new Date(Date.now());
@@ -156,7 +162,7 @@ export class CheckoutPassService {
     if(this.userSocial){
       postData.user.socialLink = this.userSocial.Email;
     }
-    
+
     this.cart.tickets.forEach(ticket => {
       postData.tickets.push({"uuid" : ticket.uuid});
     });
@@ -164,14 +170,14 @@ export class CheckoutPassService {
     return axios.post(this.ourApiURL + '/OURAPI/', postData)
   }
 
-  //make an alpha-numeric string of lenth size 
+  //make an alpha-numeric string of lenth size
   private makeid(length) {
     var text = "";
     var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-  
+
     for (var i = 0; i < length; i++)
       text += possible.charAt(Math.floor(Math.random() * possible.length));
-  
+
     return text;
   }
 

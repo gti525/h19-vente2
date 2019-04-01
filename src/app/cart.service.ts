@@ -4,12 +4,18 @@ import { Cart } from './models/cart';
 import { Event } from './models/event';
 import { Ticket } from './models/ticket';
 
+let API_URL: string;
+if (process.env.API_URL) {
+  API_URL = process.env.API_URL;
+} else {
+  API_URL = "https://vente2-gti525.herokuapp.com/api";
+}
+
 @Injectable({
   providedIn: 'root'
 })
 export class CartService {
-	apiURL = 'https://vente2-gti525.herokuapp.com/api/cart';
-  //apiURL = 'http://localhost:8080/api/cart';
+	apiURL = API_URL + "/cart";
 
   constructor(private httpClient: HttpClient) {}
 
