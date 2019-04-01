@@ -51,7 +51,7 @@ export class CheckoutRecapComponent implements OnInit {
       .then(res => {
         console.log("response : ", res);
         this.postTicketToSocial();
-        //this.checkoutPassService.commitTransactionToOurAPI();
+        this.checkoutPassService.commitTransactionToOurAPI();
       })
       .catch(err => {
         console.log("error : ", err);
