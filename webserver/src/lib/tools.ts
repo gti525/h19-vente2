@@ -23,7 +23,8 @@ export function checkDuplicateInObject(propertyName: string, inputArray: Array<a
   export function hashPassword(password: string, salt: string): string {
     const hasher = new SHA3(512);
     hasher.update(password.concat(salt));
-    const hashedPassword = hasher.digest("utf8");
+    const hashedPassword = hasher.digest("base64");
+    // console.log("hash: " + hashedPassword);
     hasher.reset();
 
     return hashedPassword;

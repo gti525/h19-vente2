@@ -70,7 +70,17 @@ export async function adminCreate(request: Request, response: Response) {
   admin.hashedPassword = hashedPassword;
   admin.salt = salt;
 
-  const dbResponse = await adminRepository.save(admin);
+  try {
+    const dbResponse = await adminRepository.save(admin);
+  } catch (error) {
+    response.status(500);
+    response.json({
+      message: "Probably an encoding error."
+    })
+    response.end();
+    return;
+  }
+
 
   response.status(201);
   response.end();

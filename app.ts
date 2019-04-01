@@ -42,9 +42,9 @@ createConnection(<ConnectionOptions>{
   ],
   subscribers: [],
   synchronize: true,
-  logging: "all",
+  logging: ["error"]
 }).then(async connection => {
-  
+
   console.log("Opened connection to database.");
 
   var app: express.Application = express();
@@ -60,7 +60,7 @@ createConnection(<ConnectionOptions>{
     resave: false,
     saveUninitialized: true
   }))
-  
+
   // Add headers
   app.use(function (req, res, next) {
 
@@ -80,7 +80,7 @@ createConnection(<ConnectionOptions>{
     // Pass to next layer of middleware
     next();
   });
-  
+
 
   var path = require("path");
   //var Event = require("./src/app/models/event");
@@ -94,7 +94,7 @@ createConnection(<ConnectionOptions>{
     res.json({ message: "Bienvenue suar l'API de vente2 GTI525" });
   });
 
- 
+
 
   // register all application routes
 
@@ -126,6 +126,6 @@ createConnection(<ConnectionOptions>{
   // on écoute sur process.env.port pour heroku et 8080 localement.
   app.listen(port);
   console.log("Listening on port : ", port );
-  
-//en cas d'erreur de connection à la DB 
+
+//en cas d'erreur de connection à la DB
 }).catch(error => console.log("TypeORM connection error: ", error));
