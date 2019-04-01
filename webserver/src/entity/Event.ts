@@ -56,7 +56,7 @@ export class Event {
   venue: Venue;
 
   @OneToMany(type => Ticket, ticket => ticket.event)
-  tickets: Ticket;
+  tickets: Ticket[];
 
   @Column({
     type: "character varying",

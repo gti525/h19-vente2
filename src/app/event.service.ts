@@ -1,16 +1,18 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Event } from './models/event';
+import { environment } from "src/environments/environment";
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class EventService {
 
-  apiURL = 'https://vente2-gti525.herokuapp.com/api'
+  apiURL = environment.API_URL;
 
   constructor(private httpClient: HttpClient) {}
-  
+
   public getEventById(id: number){
     return this.httpClient.get(`${this.apiURL}/events/${id}`);
   }
@@ -21,11 +23,11 @@ export class EventService {
 
   public updateEvent(id: number, newUrlImg: string) {
 
-    return this.httpClient.patch(`${this.apiURL}/events/${id}`, 
+    return this.httpClient.patch(`${this.apiURL}/events/${id}`,
                           {
                           "image":  newUrlImg
                           })
-                          .subscribe(data  => { 
+                          .subscribe(data  => {
                                     alert("Mise à jour réussie !");
                                     console.log("PATCH Request is successful ", data);
                           },

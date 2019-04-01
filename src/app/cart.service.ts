@@ -3,13 +3,13 @@ import { HttpClient } from '@angular/common/http';
 import { Cart } from './models/cart';
 import { Event } from './models/event';
 import { Ticket } from './models/ticket';
+import { environment } from "src/environments/environment";
 
 @Injectable({
   providedIn: 'root'
 })
 export class CartService {
-	apiURL = 'https://vente2-gti525.herokuapp.com/api/cart';
-  //apiURL = 'http://localhost:8080/api/cart';
+  apiURL = environment.API_URL + "/cart";
 
   constructor(private httpClient: HttpClient) {}
 

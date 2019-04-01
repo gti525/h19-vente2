@@ -1,28 +1,45 @@
-﻿import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { map } from 'rxjs/operators';
+﻿import { Injectable } from "@angular/core";
+import { HttpClient, HttpHeaders } from "@angular/common/http";
+import { tap } from "rxjs/operators";
+import { environment } from "src/environments/environment";
+import { Observable } from "rxjs";
 
-@Injectable({ providedIn: 'root' })
+@Injectable({ providedIn: "root" })
 export class AuthenticationService {
-    constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
-    login(username: string, password: string) {
-        return this.http.post<any>(`localhost:4200/users/authenticate`, { username, password })
-            .pipe(map(user => {
-                // login successful if there's a user in the response    ${config.apiUrl}
-                if (user) {
-                    // store user details and basic auth credentials in local storage 
-                    // to keep user logged in between page refreshes
-                    user.authdata = window.btoa(username + ':' + password);
-                    localStorage.setItem('currentUser', JSON.stringify(user));
-                }
+  login(username: string, password: string): Observable<any> {
+    const postHeaders: HttpHeaders = new HttpHeaders({
+      Authorization: `Basic ${username}:${password}`
+    });
+    return this.http
+      .post<any>(`${environment.API_URL}/admins/_login`, null, {
+        headers: postHeaders,
+        observe: "response"
+      })
+      .pipe(
+        tap(resp => {
+          const response: Response = resp;
+          if (response.status === 204) {
+            // display its headers
+            // const keys = resp.headers.keys();
+            // const headers = keys.map(key => `${key}: ${resp.headers.get(key)}`);
+            // access the body directly
+            // const body = { ... resp.body };
+            // console.log(headers);
+            const user = {};
+            user["authdata"] = window.btoa(username + ":" + password);
+            localStorage.setItem("currentUser", JSON.stringify(user));
+            return user;
+          } else {
+            return null;
+          }
+        })
+      );
+  }
 
-                return user;
-            }));
-    }
-
-    logout() {
-        // remove user from local storage to log user out
-        localStorage.removeItem('currentUser');
-    }
+  logout() {
+    // remove user from local storage to log user out
+    localStorage.removeItem("currentUser");
+  }
 }

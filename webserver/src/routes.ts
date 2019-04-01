@@ -3,6 +3,7 @@ import * as venueController from "./controller/venueController";
 import * as cartController from "./controller/cartController";
 import * as transactionController from "./controller/transactionController";
 import * as socialController from "./controller/socialController";
+import * as adminController from "./controller/adminController";
 /**
  * All application routes.
  */
@@ -34,6 +35,11 @@ export const AppRoutes = [
         action: eventController.replaceEventById
     },
     {
+        path: "/events/:eventId",
+        method: "patch",
+        action: eventController.updateEvent
+    },
+    {
         path: "/events/:eventId/tickets",
         method: "get",
         action: eventController.getTicketsFromEventById
@@ -57,6 +63,11 @@ export const AppRoutes = [
         path: "/events/:eventId/_terminate",
         method: "post",
         action: eventController.terminateEventById
+    },
+    {
+        path: "/events/:eventId/image",
+        method: "patch",
+        action: eventController.updateEventImage
     },
     // VENUES
     {
@@ -110,5 +121,16 @@ export const AppRoutes = [
         path: "/transactions",
         method: "post",
         action: transactionController.addTransaction
+    },
+    // ADMIN
+    {
+      path: "/admins/_create",
+      method: "post",
+      action: adminController.adminCreate
+    },
+    {
+      path: "/admins/_login",
+      method: "post",
+      action: adminController.adminLogin
     },
 ];
