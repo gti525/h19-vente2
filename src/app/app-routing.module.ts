@@ -10,7 +10,7 @@ import { CheckoutClientInformationComponent } from './checkout-client-informatio
 import { CheckoutCreditComponent } from './checkout-credit/checkout-credit.component'
 import { LoginComponent } from './login/login.component';
 import { AuthGuard } from './gestion-admin/_guards';
-import { BilletsComponent } from './billets/billets.component';
+// import { BilletsComponent } from './billets/billets.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home' , pathMatch:'full'},
