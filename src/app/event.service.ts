@@ -1,20 +1,15 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Event } from './models/event';
+import { environment } from "src/environments/environment";
 
-let API_URL: string;
-if (process.env.API_URL) {
-  API_URL = process.env.API_URL;
-} else {
-  API_URL = "https://vente2-gti525.herokuapp.com/api";
-}
 
 @Injectable({
   providedIn: 'root'
 })
 export class EventService {
 
-  apiURL = API_URL;
+  apiURL = environment.API_URL;
 
   constructor(private httpClient: HttpClient) {}
 

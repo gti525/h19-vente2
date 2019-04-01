@@ -1,13 +1,7 @@
 ﻿import { Injectable } from "@angular/core";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { map } from "rxjs/operators";
-
-let API_URL: string;
-if (process.env.API_URL) {
-  API_URL = process.env.API_URL;
-} else {
-  API_URL = "https://vente2-gti525.herokuapp.com/api";
-}
+import { environment } from "src/environments/environment.prod";
 
 @Injectable({ providedIn: "root" })
 export class AuthenticationService {
@@ -18,7 +12,7 @@ export class AuthenticationService {
       Authorizaton: `Basic ${username}:${password}`
     });
     return this.http
-      .post<any>(`${API_URL}/admins/_login`, null, { headers: request_headers })
+      .post<any>(`${environment.API_URL}/admins/_login`, null, { headers: request_headers })
       .pipe(
         map(user => {
           // login successful if there's a user in the response    ${config.apiUrl}

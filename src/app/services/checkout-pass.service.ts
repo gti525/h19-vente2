@@ -5,13 +5,7 @@ import { ShowCart, Cart } from '../models/cart';
 import { User } from "../models/user";
 import axios from "axios";
 import { AxiosInstance } from "axios";
-
-let API_URL: string;
-if (process.env.API_URL) {
-  API_URL = process.env.API_URL;
-} else {
-  API_URL = "https://vente2-gti525.herokuapp.com/api";
-}
+import { environment } from "src/environments/environment";
 
 @Injectable({
   providedIn: 'root'
@@ -30,7 +24,7 @@ export class CheckoutPassService {
   transaction: Transaction;
 
   private passerelleApiURL = 'https://h19-passerelle.herokuapp.com/api/v1';
-  private ourApiURL = API_URL;
+  private ourApiURL = environment.API_URL;
   private MERCHANT_API_KEY = "HJoMststlPWjtosFtFG85Q3DdS5/v/8Db2jjPkssN6U=";
 
   constructor() {

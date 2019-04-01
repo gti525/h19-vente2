@@ -3,19 +3,13 @@ import { HttpClient } from '@angular/common/http';
 import { Cart } from './models/cart';
 import { Event } from './models/event';
 import { Ticket } from './models/ticket';
-
-let API_URL: string;
-if (process.env.API_URL) {
-  API_URL = process.env.API_URL;
-} else {
-  API_URL = "https://vente2-gti525.herokuapp.com/api";
-}
+import { environment } from "src/environments/environment";
 
 @Injectable({
   providedIn: 'root'
 })
 export class CartService {
-	apiURL = API_URL + "/cart";
+  apiURL = environment.API_URL + "/cart";
 
   constructor(private httpClient: HttpClient) {}
 
