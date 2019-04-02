@@ -57,21 +57,24 @@ export class CheckoutRecapComponent implements OnInit {
 
     this.spinner.show();
     //commit transaction in our DB
-    Promise.all([this.checkoutPassService.commitTransactionToOurAPI(),
-                 this.checkoutPassService.commitTransaction(),
-    ])
-      .then(function ([res1, res2]) {
-        // Both requests are now complete
-        console.log("response from commit to our API: ", res1);
-        console.log("response from commit to passerelle : ", res2);
-        this.spinner.hide();
-        this.router.navigate(["checkout-confirmation"]);
+    this.checkoutPassService.commitTransactionToOurAPI()
+      .then(res => {
+        console.log("response from commit to our API: ", res);
+
       })
-      .catch(function ([err1, err2]) {
-        console.log("response from commit to our API: ", err1);
-        console.log("response from commit to passerelle : ", err2);
-        this.spinner.hide();
-        this.router.navigate(["checkout-confirmation"]);
+      .catch(err => {
+        console.log("error from commit to our API: ", err);
+      });
+
+
+    //commit the transaction with passerelle
+    this.checkoutPassService.commitTransaction()
+      .then(res => {
+        console.log("response from commit to passerelle : ", res);
+
+      })
+      .catch(err => {
+        console.log("error from commit to passerelle: ", err);
       });
 
     //sends ticket to social
