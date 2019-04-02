@@ -84,7 +84,13 @@ export class LoginSocialService {
       "ClientId":userSocial.id,
       "uuid": ticket.uuid
     };
-    
+    this.axiosClient = axios.create({
+      // timeout: 3000,
+       headers: {
+         "Authorization":  `Bearer ${userSocial.Token}`,
+         "Content-Type": "application/json"
+       }
+     });
     console.log("Posting to social : ", postData);
 
     return this.axiosClient.post('https://core-api-525.herokuapp.com/api/Ticket', 
