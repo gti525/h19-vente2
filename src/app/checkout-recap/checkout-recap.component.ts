@@ -79,10 +79,24 @@ export class CheckoutRecapComponent implements OnInit {
 
     //sends ticket to social
     this.postTicketToSocial();
-    this.cartService.cartExpire();
+    try {
+      this.cartService.cartExpire()
+        .subscribe(data => {
+          if (!("error" in data)) {
 
-    
-    //this.router.navigate(["checkout-confirmation"]);
+            console.log("deleted cart", data);
+          } else {
+
+            console.log("could not delete cart", data);
+          }
+        });
+    }
+    catch{
+      console.log("err biggy");
+    }
+
+
+    this.router.navigate(["checkout-confirmation"]);
   }
 
   postTicketToSocial() {
