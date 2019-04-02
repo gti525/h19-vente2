@@ -22,7 +22,7 @@ export class LoginSocialService {
   constructor() {
 
     this.axiosClient = axios.create({
-      timeout: 3000,
+     // timeout: 3000,
       headers: {
         "Content-Type": "application/json"
       }
@@ -75,15 +75,20 @@ export class LoginSocialService {
 
   public postTicket(ticket: Ticket, userSocial: any ){
     
-    return this.axiosClient.post('https://core-api-525.herokuapp.com/api/Ticket', {
-      
+    var postData: any =
+    {
       "EventName":ticket.event.title,
       "Artist":ticket.event.artist,
       "Date":ticket.event.dateEvent,
       "Location": "21 jumpstreet",
       "ClientId":userSocial.id,
       "uuid": ticket.uuid
-    })
+    };
+    
+    console.log("Posting to social : ", postData);
+
+    return this.axiosClient.post('https://core-api-525.herokuapp.com/api/Ticket', 
+      postData);
   }
 
   //Pour si on veut tester avec des faux uuid.

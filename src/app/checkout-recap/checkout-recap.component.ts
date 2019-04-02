@@ -82,7 +82,6 @@ export class CheckoutRecapComponent implements OnInit {
   postTicketToSocial() {
     //si l'utilisateur s'est login par social.
     if (this.checkoutPassService.getUserSocial()) {
-      console.log("Sending to saucial");
       for (let ticket of this.cart.tickets) {
         this.loginSocialService.postTicket(ticket,
           this.checkoutPassService.getUserSocial())
