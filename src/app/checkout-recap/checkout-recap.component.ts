@@ -70,7 +70,7 @@ export class CheckoutRecapComponent implements OnInit {
       });
 
     //sends ticket to social
-    //this.postTicketToSocial();
+    this.postTicketToSocial();
   }
 
   postTicketToSocial() {
@@ -80,7 +80,7 @@ export class CheckoutRecapComponent implements OnInit {
       this.showCart.tickets.forEach(function (ticket) {
         this.loginSocialService.postTicket(ticket)
           .then(res => {
-            console.log(res);
+            console.log("Saucial says its all good : ", res);
           })
           .catch(err => {
             console.log("Error in post ticket to social :", err.response);

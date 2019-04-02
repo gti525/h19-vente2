@@ -91,23 +91,6 @@ export class CheckoutPassService {
       }
     };
 
-    /*
-    {
-  "MERCHANT_API_KEY": "2+++FhHMhnGTZnCRZZ7pSrqaOFz2FaO6wIv0ngvGGk0=",
-  "amount": 2.00,
-  "purchase_desc": "PURCHASE/ Simons ",
-  "credit_card": {
-    "first_name": "John",
-    "last_name": "Doe",
-    "number": 5105124723835766,
-    "cvv": "621",
-    "exp": {
-      "month": 3,
-      "year": 2021
-    }
-  }
-}
-    */
     console.log(postData);
 
     return axios.post(this.passerelleApiURL + '/transaction/create', postData)
