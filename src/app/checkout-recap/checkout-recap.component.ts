@@ -8,6 +8,7 @@ import { ShowCart, Cart } from '../models/cart';
 import { LoginSocialService } from '../services/login-social.service';
 import { Ticket } from '../models/ticket';
 import { Router } from '@angular/router';
+import { Event } from '../models/event';
 
 @Component({
   selector: 'app-checkout-recap',
@@ -74,7 +75,7 @@ export class CheckoutRecapComponent implements OnInit {
 
     //sends ticket to social
     this.postTicketToSocial();
-    
+
     this.router.navigate(["checkout-confirmation"]);
     //this.router.navigate(["checkout-confirmation"]);
   }
@@ -83,17 +84,35 @@ export class CheckoutRecapComponent implements OnInit {
     //si l'utilisateur s'est login par social.
     if (this.checkoutPassService.getUserSocial()) {
       for (let ticket of this.cart.tickets) {
-        this.loginSocialService.postTicket(ticket,
-          this.checkoutPassService.getUserSocial())
+
+        var eventReceived : Event;
+
+        this.loginSocialService.getEvent(ticket)
           .then(res => {
-            console.log("Saucial says its all good : ", res);
+            console.log("Our Api sent this event: ", res);
+            eventReceived = res.data;
+
+            this.loginSocialService.postTicket(ticket,
+              eventReceived,
+              this.checkoutPassService.getUserSocial())
+              .then(res => {
+                console.log("Saucial says its all good : ", res);
+              })
+              .catch(err => {
+                console.log("Error in post ticket to social :", err.response);
+              });
+
           })
           .catch(err => {
-            console.log("Error in post ticket to social :", err.response);
+            console.log("Error in get event :", err.response);
           });
+
+
+
+        
       }
     }
-    else{
+    else {
       console.log("its not a saucial : ", this.checkoutPassService.getUserSocial());
     }
   }

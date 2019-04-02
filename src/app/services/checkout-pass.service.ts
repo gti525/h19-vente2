@@ -51,7 +51,6 @@ export class CheckoutPassService {
 
     //and copy the returned request from social
     this.userSocial = userSocial;
-
   }
 
   getUserSocial() {

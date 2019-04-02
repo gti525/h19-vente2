@@ -4,6 +4,7 @@ import { LoginSocial } from '../models/login-social';
 import axios from "axios";
 import { AxiosInstance } from "axios";
 import { Ticket } from '../models/ticket';
+import { Event } from '../models/event';
 import { environment } from 'src/environments/environment';
 
 
@@ -68,37 +69,34 @@ export class LoginSocialService {
   */
   public postLogin(loginSocial: LoginSocial) {
 
+    this.axiosClient = axios.create({
+      // timeout: 3000,
+      headers: {
+        "Content-Type": "application/json"
+      }
+    });
+
     return this.axiosClient.post(this.apiURL + '/client/login', {
       email: loginSocial.email,
       password: loginSocial.password
     })
   }
 
-  public postTicket(ticket: Ticket, userSocial: any) {
-
-    var eventreceived;
-
-    this.axiosClient.get(this.ourApiURL + "/events/" + ticket.event.id)
-      .then(res => {
-        console.log("received event from our API : ", res);
-        eventreceived = res.data;
-
-
-
-
-
-      })
-      .catch(err => {
-        console.log("Did not receive event from our API : ", err);
-      });
-
+  public getEvent(ticket: Ticket) {
+    return this.axiosClient.get(this.ourApiURL + "/events/" + ticket.event.id);
       
+
+  }
+
+  public postTicket(ticket: Ticket, eventReceived : Event , userSocial: any) {
+
+
     var postData: any =
     {
       "EventName": ticket.event.title,
       "Artist": ticket.event.artist,
       "Date": ticket.event.dateEvent,
-      "Location": eventreceived.venue.id,
+      "Location": eventReceived.venue.id,
       "ClientId": userSocial.id,
       "uuid": ticket.uuid
     };
@@ -114,6 +112,7 @@ export class LoginSocialService {
 
     return this.axiosClient.post('https://core-api-525.herokuapp.com/api/Ticket',
       postData);
+
   }
 
   //Pour si on veut tester avec des faux uuid.
