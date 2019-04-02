@@ -6,6 +6,7 @@ import { CreditCard } from "../models/credit-card";
 import { User } from "../models/user";
 import { ShowCart, Cart } from '../models/cart';
 import { LoginSocialService } from '../services/login-social.service';
+import { Ticket } from '../models/ticket';
 
 @Component({
   selector: 'app-checkout-recap',
@@ -79,15 +80,16 @@ export class CheckoutRecapComponent implements OnInit {
     //si l'utilisateur s'est login par social.
     if (this.checkoutPassService.getUserSocial()) {
       console.log("Sending to saucial");
-      this.showCart.tickets.forEach(function (ticket) {
-        this.loginSocialService.postTicket(ticket)
+      for (let ticket of this.cart.tickets) {
+        this.loginSocialService.postTicket(ticket,
+          this.checkoutPassService.getUserSocial())
           .then(res => {
             console.log("Saucial says its all good : ", res);
           })
           .catch(err => {
             console.log("Error in post ticket to social :", err.response);
           });
-      });
+      }
     }
     else{
       console.log("its not a saucial : ", this.checkoutPassService.getUserSocial());

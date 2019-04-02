@@ -3,7 +3,7 @@ import { LoginSocial } from '../models/login-social';
 
 import axios from "axios";
 import { AxiosInstance } from "axios";
-import { Ticket } from 'webserver/src/entity/Ticket';
+import { Ticket } from '../models/ticket';
 
 
 @Injectable({
