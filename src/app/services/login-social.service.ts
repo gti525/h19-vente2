@@ -76,7 +76,7 @@ export class LoginSocialService {
 
   public postTicket(ticket: Ticket, userSocial: any) {
 
-    var event;
+    var eventreceived;
 
     this.axiosClient.get(this.ourApiURL + "/events/" + ticket.event.id)
       .then(res => {
@@ -93,7 +93,7 @@ export class LoginSocialService {
       "EventName": ticket.event.title,
       "Artist": ticket.event.artist,
       "Date": ticket.event.dateEvent,
-      "Location": event.venue.id,
+      "Location": eventreceived.venue.id,
       "ClientId": userSocial.id,
       "uuid": ticket.uuid
     };
