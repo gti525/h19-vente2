@@ -981,7 +981,7 @@ export async function deleteTicketsFromEventById(
   response.end();
 }
 
-export async function updateEvent(request: Request, response: Response) {
+export async function updateEventImage(request: Request, response: Response) {
   console.log(`PATCH /events/${request.params.eventId}/image`);
 
   const eventRepository = getManager().getRepository(Event);
@@ -1042,7 +1042,7 @@ export async function updateEvent(request: Request, response: Response) {
  * Update an event from the database
  */
 
-export async function updateEvent5555(request: Request, response: Response) {
+export async function updateEvent(request: Request, response: Response) {
   console.log(`PATCH /events/${request.params.eventId}`);
 
   // const eventRepository = getManager().getRepository(Event);
