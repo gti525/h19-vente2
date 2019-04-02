@@ -96,8 +96,8 @@ export class LoginSocialService {
       "EventName": ticket.event.title,
       "Artist": ticket.event.artist,
       "Date": ticket.event.dateEvent,
-      "Location": eventReceived.venue.id,
-      "ClientId": userSocial.id,
+      "Location": eventReceived.venue.address,
+      "ClientId": userSocial.Id,
       "uuid": ticket.uuid
     };
 

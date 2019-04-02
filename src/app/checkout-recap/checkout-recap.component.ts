@@ -106,10 +106,6 @@ export class CheckoutRecapComponent implements OnInit {
           .catch(err => {
             console.log("Error in get event :", err.response);
           });
-
-
-
-        
       }
     }
     else {
