@@ -28,15 +28,13 @@ export class AdminComponent implements OnInit {
 
   updateEvent(idSpectacle) {
     //this.getSingleEventById(idSpectacle, this.urlValue);
-    //alert(this.urlValue);
-    console.log("new imageURL : ", this.urlValue);
+    alert(this.urlValue);
     this.eventService.updateEvent(idSpectacle, this.urlValue);
   }
 
   onKey(event) {
     if (event.key === "Enter") {
       this.urlValue = event.target.value;
-      alert(this.urlValue);
     }
   }
 
