@@ -80,7 +80,7 @@ export class LoginSocialService {
       "EventName":ticket.event.title,
       "Artist":ticket.event.artist,
       "Date":ticket.event.dateEvent,
-      "Location":ticket.event.venue.address,
+      "Location": "21 jumpstreet",
       "ClientId":userSocial.id,
       "uuid": ticket.uuid
     })
