@@ -28,7 +28,7 @@ export class AdminComponent implements OnInit {
 
   updateEvent(idSpectacle) {
     //this.getSingleEventById(idSpectacle, this.urlValue);
-    //alert(idSpectacle);
+    alert(this.urlValue);
     this.eventService.updateEvent(idSpectacle, this.urlValue);
   }
 
