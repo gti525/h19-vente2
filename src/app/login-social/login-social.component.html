@@ -1,28 +1,30 @@
 <h1 mat-dialog-title>Authentification à la platforme social </h1>
 <div mat-dialog-content>
   <li class="list-group-item">
-  <mat-form-field>
-    <input matInput name="email" type="email" [(ngModel)]="loginSocial.email" placeholder="email" required>
-  </mat-form-field>
-  <br />
-  <mat-form-field>
-    <input matInput type="password" [(ngModel)]="loginSocial.password" placeholder="mot de passe" required>
-  </mat-form-field>
+    <mat-form-field class="mat-input-wrapper">
+      <input matInput  name="email" type="email" [(ngModel)]="loginSocial.email" placeholder="email" required>
+    </mat-form-field>
+    <br />
+    <mat-form-field class="mat-input-wrapper">
+      <input matInput  type="password" [(ngModel)]="loginSocial.password" placeholder="mot de passe" required>
+    </mat-form-field>
 
-  <div *ngIf="errorMessage" class="row mt-4">
+    <div *ngIf="errorMessage" class="row mt-4">
       <div class="alert alert-danger" role="alert">
-          {{errorMessage}}
-        </div>
-  </div>
-</li>
+        {{errorMessage}}
+      </div>
+    </div>
+  </li>
 </div>
 <div mat-dialog-actions>
   <div class="container">
-    <div class="col-sm">
-      <button mat-button (click)="onNoClick()">Annuler</button>
+    <div class="row">
+      <div class="col-lg-3 col-sm-3">
+        <button mat-button (click)="onNoClick()">Annuler</button>
+      </div>
+      <div class="col-lg-3 col-sm-3">
+        <button mat-button (click)="onConnect()" cdkFocusInitial>Se connecter</button>
+      </div>
     </div>
-    <div class="col-sm">
-      <button mat-button (click)="onConnect()" cdkFocusInitial>Se connecter</button>
-    </div>
-   </div>
+  </div>
 </div>

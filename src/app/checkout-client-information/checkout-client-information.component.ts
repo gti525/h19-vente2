@@ -56,7 +56,7 @@ export class CheckoutClientInformationComponent implements OnInit {
 
   openDialog(): void {
     const dialogRef = this.dialog.open(LoginSocialComponent, {
-      width: '600px',
+      width: '500px',
       data: {}
     });
 
@@ -75,7 +75,7 @@ export class CheckoutClientInformationComponent implements OnInit {
         }
         else{
           console.log("Did not save to userSocial ", this.checkoutPassService.getUserSocial());
-        }
+        } 
         
         this.router.navigate(["checkout-credit"]);
       }
