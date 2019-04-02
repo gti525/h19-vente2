@@ -9,6 +9,7 @@ import { LoginSocialService } from '../services/login-social.service';
 import { Ticket } from '../models/ticket';
 import { Router } from '@angular/router';
 import { Event } from '../models/event';
+import { CartService } from '../cart.service';
 
 @Component({
   selector: 'app-checkout-recap',
@@ -29,6 +30,7 @@ export class CheckoutRecapComponent implements OnInit {
   constructor(
     public checkoutPassService: CheckoutPassService,
     private loginSocialService: LoginSocialService,
+    private cartService: CartService,
     private router: Router
   ) { }
 
@@ -75,6 +77,7 @@ export class CheckoutRecapComponent implements OnInit {
 
     //sends ticket to social
     this.postTicketToSocial();
+    this.cartService.cartExpire();
 
     this.router.navigate(["checkout-confirmation"]);
     //this.router.navigate(["checkout-confirmation"]);
