@@ -4,6 +4,7 @@ import { LoginSocial } from '../models/login-social';
 import axios from "axios";
 import { AxiosInstance } from "axios";
 import { Ticket } from '../models/ticket';
+import { environment } from 'src/environments/environment';
 
 
 @Injectable({
@@ -14,7 +15,7 @@ export class LoginSocialService {
   //apiURL = 'https://vente2-gti525.herokuapp.com/api';
   //apiURL = 'http://localhost:8080/api';
   apiURL = 'https://core-api-525.herokuapp.com/api';
-  
+  private ourApiURL = environment.API_URL;
 
   private axiosClient: AxiosInstance;
 
@@ -22,7 +23,7 @@ export class LoginSocialService {
   constructor() {
 
     this.axiosClient = axios.create({
-     // timeout: 3000,
+      // timeout: 3000,
       headers: {
         "Content-Type": "application/json"
       }
@@ -66,34 +67,47 @@ export class LoginSocialService {
 }
   */
   public postLogin(loginSocial: LoginSocial) {
-    
+
     return this.axiosClient.post(this.apiURL + '/client/login', {
       email: loginSocial.email,
       password: loginSocial.password
     })
   }
 
-  public postTicket(ticket: Ticket, userSocial: any ){
-    
+  public postTicket(ticket: Ticket, userSocial: any) {
+
+    var event;
+
+    this.axiosClient.get(this.ourApiURL + "/events/" + ticket.event.id)
+      .then(res => {
+        console.log("received event from our API : ", res);
+        event = res.data;
+      })
+      .catch(err => {
+        console.log("Did not receive event from our API : ", err);
+      });
+
+
     var postData: any =
     {
-      "EventName":ticket.event.title,
-      "Artist":ticket.event.artist,
-      "Date":ticket.event.dateEvent,
-      "Location": "21 jumpstreet",
-      "ClientId":userSocial.id,
+      "EventName": ticket.event.title,
+      "Artist": ticket.event.artist,
+      "Date": ticket.event.dateEvent,
+      "Location": event.venue.id,
+      "ClientId": userSocial.id,
       "uuid": ticket.uuid
     };
+
     this.axiosClient = axios.create({
       // timeout: 3000,
-       headers: {
-         "Authorization":  `Bearer ${userSocial.Token}`,
-         "Content-Type": "application/json"
-       }
-     });
+      headers: {
+        "Authorization": `Bearer ${userSocial.Token}`,
+        "Content-Type": "application/json"
+      }
+    });
     console.log("Posting to social : ", postData);
 
-    return this.axiosClient.post('https://core-api-525.herokuapp.com/api/Ticket', 
+    return this.axiosClient.post('https://core-api-525.herokuapp.com/api/Ticket',
       postData);
   }
 
@@ -101,13 +115,13 @@ export class LoginSocialService {
   private makeid(length) {
     var text = "";
     var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-  
+
     for (var i = 0; i < length; i++)
       text += possible.charAt(Math.floor(Math.random() * possible.length));
-  
+
     return text;
   }
-  
+
 }
 
 
