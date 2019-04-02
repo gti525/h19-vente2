@@ -84,37 +84,36 @@ export class LoginSocialService {
         eventreceived = res.data;
 
 
-        var postData: any =
-        {
-          "EventName": ticket.event.title,
-          "Artist": ticket.event.artist,
-          "Date": ticket.event.dateEvent,
-          "Location": eventreceived.venue.id,
-          "ClientId": userSocial.id,
-          "uuid": ticket.uuid
-        };
 
-        this.axiosClient = axios.create({
-          // timeout: 3000,
-          headers: {
-            "Authorization": `Bearer ${userSocial.Token}`,
-            "Content-Type": "application/json"
-          }
-        });
-        console.log("Posting to social : ", postData);
-
-        return this.axiosClient.post('https://core-api-525.herokuapp.com/api/Ticket',
-          postData);
 
 
       })
       .catch(err => {
         console.log("Did not receive event from our API : ", err);
       });
-    
+
       
+    var postData: any =
+    {
+      "EventName": ticket.event.title,
+      "Artist": ticket.event.artist,
+      "Date": ticket.event.dateEvent,
+      "Location": eventreceived.venue.id,
+      "ClientId": userSocial.id,
+      "uuid": ticket.uuid
+    };
 
+    this.axiosClient = axios.create({
+      // timeout: 3000,
+      headers: {
+        "Authorization": `Bearer ${userSocial.Token}`,
+        "Content-Type": "application/json"
+      }
+    });
+    console.log("Posting to social : ", postData);
 
+    return this.axiosClient.post('https://core-api-525.herokuapp.com/api/Ticket',
+      postData);
   }
 
   //Pour si on veut tester avec des faux uuid.
