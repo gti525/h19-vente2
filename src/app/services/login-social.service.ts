@@ -81,13 +81,18 @@ export class LoginSocialService {
     this.axiosClient.get(this.ourApiURL + "/events/" + ticket.event.id)
       .then(res => {
         console.log("received event from our API : ", res);
-        event = res.data;
+        eventreceived = res.data;
+
+
+
+
+
       })
       .catch(err => {
         console.log("Did not receive event from our API : ", err);
       });
 
-
+      
     var postData: any =
     {
       "EventName": ticket.event.title,
