@@ -204,7 +204,7 @@ export async function cartExpire(request: Request, response: Response) {
 	response.json({"success": 0, "description": "Cart was removed."});
 }
 
-export function removeCart(id: number) {
+export function removeCart(id: string) {
 	if (carts.has(id)) {
 		let ticketsToDelete = []
 		let indicesTicketsToDelete = []
