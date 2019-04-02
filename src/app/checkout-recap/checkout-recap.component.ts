@@ -10,6 +10,7 @@ import { Ticket } from '../models/ticket';
 import { Router } from '@angular/router';
 import { Event } from '../models/event';
 import { CartService } from '../cart.service';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-checkout-recap',
@@ -31,7 +32,8 @@ export class CheckoutRecapComponent implements OnInit {
     public checkoutPassService: CheckoutPassService,
     private loginSocialService: LoginSocialService,
     private cartService: CartService,
-    private router: Router
+    private router: Router,
+    private spinner: NgxSpinnerService
   ) { }
 
   ngOnInit() {
@@ -53,33 +55,30 @@ export class CheckoutRecapComponent implements OnInit {
   onConfirm() {
     console.log("onConfirm");
 
-
+    this.spinner.show();
     //commit transaction in our DB
-    this.checkoutPassService.commitTransactionToOurAPI()
-      .then(res => {
-        console.log("response from commit to our API: ", res);
-
+    Promise.all([this.checkoutPassService.commitTransactionToOurAPI(),
+                 this.checkoutPassService.commitTransaction(),
+    ])
+      .then(function ([res1, res2]) {
+        // Both requests are now complete
+        console.log("response from commit to our API: ", res1);
+        console.log("response from commit to passerelle : ", res2);
+        this.spinner.hide();
+        this.router.navigate(["checkout-confirmation"]);
       })
-      .catch(err => {
-        console.log("error from commit to our API: ", err);
-      });
-
-
-    //commit the transaction with passerelle
-    this.checkoutPassService.commitTransaction()
-      .then(res => {
-        console.log("response from commit to passerelle : ", res);
-
-      })
-      .catch(err => {
-        console.log("error from commit to passerelle: ", err);
+      .catch(function ([err1, err2]) {
+        console.log("response from commit to our API: ", err1);
+        console.log("response from commit to passerelle : ", err2);
+        this.spinner.hide();
+        this.router.navigate(["checkout-confirmation"]);
       });
 
     //sends ticket to social
     this.postTicketToSocial();
     this.cartService.cartExpire();
 
-    this.router.navigate(["checkout-confirmation"]);
+    
     //this.router.navigate(["checkout-confirmation"]);
   }
 
@@ -88,8 +87,8 @@ export class CheckoutRecapComponent implements OnInit {
     if (this.checkoutPassService.getUserSocial()) {
       for (let ticket of this.cart.tickets) {
 
-        var eventReceived : Event;
-
+        var eventReceived: Event;
+        this.spinner.show();
         this.loginSocialService.getEvent(ticket)
           .then(res => {
             console.log("Our Api sent this event: ", res);
@@ -104,6 +103,7 @@ export class CheckoutRecapComponent implements OnInit {
               .catch(err => {
                 console.log("Error in post ticket to social :", err.response);
               });
+            this.spinner.hide();
 
           })
           .catch(err => {

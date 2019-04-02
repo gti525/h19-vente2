@@ -5,6 +5,7 @@ import { CreditCard } from "../models/credit-card";
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { User } from '../models/user';
 import { CreditCardValidator } from 'angular-cc-library';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-checkout-credit',
@@ -25,7 +26,8 @@ export class CheckoutCreditComponent implements OnInit {
   constructor(
     public checkoutPassService: CheckoutPassService,
     private router: Router,
-    private formBuilder: FormBuilder) {
+    private formBuilder: FormBuilder,
+    private spinner: NgxSpinnerService) {
     this.creditCardFormGroup = this.formBuilder.group({
       name: ['', [
         Validators.required,
@@ -77,22 +79,26 @@ export class CheckoutCreditComponent implements OnInit {
     'Jean-Michel', 
     'Benoit', FALSE, NULL, 'jmb@tecsys.com') */
     if (this.creditCardFormGroup.valid) {
+      this.spinner.show();
       var tmpCreditCard = new CreditCard(this.creditCardFormGroup.value);
 
       this.checkoutPassService.preauthCredit(tmpCreditCard)
         .then(res => {
-          console.log("response : ", res);
-          this.checkoutPassService.setPreauthCredit(res.data);
-          console.log("response data : ", res.data);
-          /* exemple response :
-            {
-              "transaction_number": "10341278",
-              "result": "SUCCESS"
-            }
-          */
-          this.creditCardPreauthPassed = true;
-          this.checkoutPassService.creditCard = tmpCreditCard;
-          this.router.navigate(["checkout-recap"]);
+          this.spinner.hide();
+
+          console.log("response data from credit : ", res.data);
+          if (res.data.result != "ACCEPTED") {
+            this.errorMessage = res.data.result;
+          }
+          else {
+            this.checkoutPassService.setPreauthCredit(res.data);
+
+            this.creditCardPreauthPassed = true;
+            this.checkoutPassService.creditCard = tmpCreditCard;
+
+            this.router.navigate(["checkout-recap"]);
+          }
+
         })
         .catch(err => {
           if (err.response.status == 400) {
@@ -102,7 +108,9 @@ export class CheckoutCreditComponent implements OnInit {
           else {
             this.errorMessage = "Unknown error";
           }
+          this.spinner.hide();
         });
+
     }
   }
 }
