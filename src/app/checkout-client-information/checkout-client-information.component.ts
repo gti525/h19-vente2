@@ -63,7 +63,20 @@ export class CheckoutClientInformationComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if (result){
         console.log("from login-social-component : ", result);
+        if(this.checkoutPassService.getUserSocial()){
+          console.log("before send true to userSocial ", this.checkoutPassService.getUserSocial());
+        }
+        else{
+          console.log("before send false to userSocial ", this.checkoutPassService.getUserSocial());
+        }
         this.checkoutPassService.setUserSocial(result);
+        if(this.checkoutPassService.getUserSocial()){
+          console.log("Saved to userSocial ", this.checkoutPassService.getUserSocial());
+        }
+        else{
+          console.log("Did not save to userSocial ", this.checkoutPassService.getUserSocial());
+        }
+        
         this.router.navigate(["checkout-credit"]);
       }
     });

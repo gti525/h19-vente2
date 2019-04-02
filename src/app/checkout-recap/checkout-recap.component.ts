@@ -71,12 +71,14 @@ export class CheckoutRecapComponent implements OnInit {
 
     //sends ticket to social
     this.postTicketToSocial();
+    
+    //this.router.navigate(["checkout-confirmation"]);
   }
 
   postTicketToSocial() {
     //si l'utilisateur s'est login par social.
     if (this.checkoutPassService.getUserSocial()) {
-
+      console.log("Sending to saucial");
       this.showCart.tickets.forEach(function (ticket) {
         this.loginSocialService.postTicket(ticket)
           .then(res => {
@@ -86,6 +88,9 @@ export class CheckoutRecapComponent implements OnInit {
             console.log("Error in post ticket to social :", err.response);
           });
       });
+    }
+    else{
+      console.log("its not a saucial : ", this.checkoutPassService.getUserSocial());
     }
   }
 
