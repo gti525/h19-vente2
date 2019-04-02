@@ -1043,26 +1043,9 @@ export async function updateEventImage(request: Request, response: Response) {
  */
 
 export async function updateEvent(request: Request, response: Response) {
-  //console.log(`PATCH /events/${request.params.eventId}`);
+  console.log(`PATCH /events/${request.params.eventId}`);
 
-  const eventRepository = getManager().getRepository(Event);
-
-  var event = request.events.get({"id": request.id});
-
-  // Example showing a change in the location
-  event.image = request.imageUrl;
-
-  var request = request.events.patch({
-      'id': request.id,
-      'resource': event
-  });
-
-  request.execute(function (event) {
-      console.log(event);
-      response.status(200);
-      response.end();
-      return;
-  });
+  // const eventRepository = getManager().getRepository(Event);
 
   response.status(501);
   response.end();
