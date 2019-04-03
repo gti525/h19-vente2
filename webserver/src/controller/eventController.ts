@@ -1063,6 +1063,11 @@ export async function updateEvent(request: Request, response: Response) {
       json: true
     };
       return request(options, function(err, response, data) {
+        //const dbResponse = await eventRepository.save(event);
+        console.log(eventRepository.save(event));
+        response.status(204);
+        response.end();
+        return;
     });
 
 
