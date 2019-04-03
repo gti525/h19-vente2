@@ -1045,12 +1045,12 @@ export async function updateEventImage(request: Request, response: Response) {
 
 export async function updateEvent(request: Request, response: Response) {
 
- // console.log(`PATCH /events/${request.params.eventId}`);
+ console.log(`PATCH /events/${request.params.eventId}`);
   var jsonpatch = require('fast-json-patch')
 
   const eventRepository = getManager().getRepository(Event);
   const event = await eventRepository.findOne(request.params.eventId);
-
+  console.log(event);
   var operation = { op: "replace", path: "/image", value: request.body.imageUrl };
   var document = jsonpatch.applyOperation(event, operation).newDocument;
   console.log(document);
