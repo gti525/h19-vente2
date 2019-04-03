@@ -36,6 +36,7 @@
     "express-session": "^1.15.6",
     "is-url": "^1.2.4",
     "is-uuid": "^1.0.2",
+    "ngx-spinner": "^7.0.0",
     "pg": "^7.8.1",
     "pg-connection-string": "^2.0.0",
     "reflect-metadata": "^0.1.10",

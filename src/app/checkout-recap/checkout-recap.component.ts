@@ -8,6 +8,9 @@ import { ShowCart, Cart } from '../models/cart';
 import { LoginSocialService } from '../services/login-social.service';
 import { Ticket } from '../models/ticket';
 import { Router } from '@angular/router';
+import { Event } from '../models/event';
+import { CartService } from '../cart.service';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-checkout-recap',
@@ -28,7 +31,9 @@ export class CheckoutRecapComponent implements OnInit {
   constructor(
     public checkoutPassService: CheckoutPassService,
     private loginSocialService: LoginSocialService,
-    private router: Router
+    private cartService: CartService,
+    private router: Router,
+    private spinner: NgxSpinnerService
   ) { }
 
   ngOnInit() {
@@ -50,7 +55,7 @@ export class CheckoutRecapComponent implements OnInit {
   onConfirm() {
     console.log("onConfirm");
 
-
+    this.spinner.show();
     //commit transaction in our DB
     this.checkoutPassService.commitTransactionToOurAPI()
       .then(res => {
@@ -74,26 +79,56 @@ export class CheckoutRecapComponent implements OnInit {
 
     //sends ticket to social
     this.postTicketToSocial();
-    
+    try {
+      this.cartService.cartExpire()
+        .subscribe(data => {
+          if (!("error" in data)) {
+
+            console.log("deleted cart", data);
+          } else {
+
+            console.log("could not delete cart", data);
+          }
+        });
+    }
+    catch{
+      console.log("err biggy");
+    }
+
+
     this.router.navigate(["checkout-confirmation"]);
-    //this.router.navigate(["checkout-confirmation"]);
   }
 
   postTicketToSocial() {
     //si l'utilisateur s'est login par social.
     if (this.checkoutPassService.getUserSocial()) {
       for (let ticket of this.cart.tickets) {
-        this.loginSocialService.postTicket(ticket,
-          this.checkoutPassService.getUserSocial())
+
+        var eventReceived: Event;
+        this.spinner.show();
+        this.loginSocialService.getEvent(ticket)
           .then(res => {
-            console.log("Saucial says its all good : ", res);
+            console.log("Our Api sent this event: ", res);
+            eventReceived = res.data;
+
+            this.loginSocialService.postTicket(ticket,
+              eventReceived,
+              this.checkoutPassService.getUserSocial())
+              .then(res => {
+                console.log("Saucial says its all good : ", res);
+              })
+              .catch(err => {
+                console.log("Error in post ticket to social :", err.response);
+              });
+            this.spinner.hide();
+
           })
           .catch(err => {
-            console.log("Error in post ticket to social :", err.response);
+            console.log("Error in get event :", err.response);
           });
       }
     }
-    else{
+    else {
       console.log("its not a saucial : ", this.checkoutPassService.getUserSocial());
     }
   }

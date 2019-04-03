@@ -30,6 +30,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModule } from './material.module';
 import { MinuteSecondsPipe } from './header/minute-seconds.pipe';
 import { CreditCardDirectivesModule } from 'angular-cc-library';
+import { NgxSpinnerModule } from 'ngx-spinner';
+
 
 const appRoutes : Routes = [
 ];
@@ -49,7 +51,7 @@ const appRoutes : Routes = [
     LoginComponent,
     // BilletsComponent,
     LoginSocialComponent,
-    MinuteSecondsPipe
+    MinuteSecondsPipe,
   ],
   imports: [
     BrowserModule,
@@ -61,6 +63,7 @@ const appRoutes : Routes = [
     MaterialModule,
     BrowserAnimationsModule,
     CreditCardDirectivesModule,
+    NgxSpinnerModule,
     RouterModule.forRoot(appRoutes)
   ],
   providers: [

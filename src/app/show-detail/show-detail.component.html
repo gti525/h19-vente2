@@ -24,13 +24,13 @@
       </p>
       <div class="ml-xl-0 ml-4">
 
-        <p *ngIf="event.saleStatus==0">
+        <p *ngIf="event.saleStatus==0" class="alert alert-danger">
           Sale Status: Not on sale
         </p>
         <p *ngIf="event.saleStatus==1">
           Sale Status: On sale
         </p>
-        <p *ngIf="event.saleStatus==2">
+        <p *ngIf="event.saleStatus==2" class="alert alert-danger">
           Sale Status: All tickets sold
         </p>
       </div>
