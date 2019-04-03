@@ -1053,6 +1053,7 @@ export async function updateEvent(request: Request, response: Response) {
 
   var operation = { op: "replace", path: "/image", value: request.body.imageUrl };
   var document = jsonpatch.applyOperation(event, operation).newDocument;
+  console.log(document);
   // document == { firstName: "Joachim", contactDetails: { phoneNumbers: [] }}
 
   // const eventRepository = getManager().getRepository(Event);
