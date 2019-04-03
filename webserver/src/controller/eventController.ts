@@ -1043,6 +1043,30 @@ export async function updateEventImage(request: Request, response: Response) {
  */
 
 export async function updateEvent(request: Request, response: Response) {
+
+    const eventRepository = getManager().getRepository(Event);
+    const event = await eventRepository.findOne(request.params.eventId, {relations: ["venue"]});
+    var options, patch;
+
+    patch = [
+      {
+        "id": request.body.id,
+        "image": event.image
+      }, {
+        "image": request.body.imageUrl
+      }
+    ];
+    options = {
+      method: 'PATCH',
+      uri: "/events/" + request.body.id,
+      body: patch,
+      json: true
+    };
+      return request(options, function(err, response, data) {
+    });
+
+
+  /*
   console.log(`PATCH /events/${request.params.eventId}`);
 
   // const eventRepository = getManager().getRepository(Event);
@@ -1050,4 +1074,5 @@ export async function updateEvent(request: Request, response: Response) {
   response.status(501);
   response.end();
   return;
+  */
 }
