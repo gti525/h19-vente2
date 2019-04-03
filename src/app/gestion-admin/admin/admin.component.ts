@@ -1,4 +1,6 @@
 ﻿import { Component, OnInit } from "@angular/core";
+import { Router } from "@angular/router";
+import { AuthenticationService } from "../_services";
 import { EventService } from "src/app/event.service";
 import { Event } from "src/app/models/event";
 
@@ -11,9 +13,11 @@ export class AdminComponent implements OnInit {
   public events: Event[] = [];
   public event: Event;
   urlValue: any;
+  private oldUrlImg: string;
 
   constructor(
-    private eventService: EventService
+    private authenticationService: AuthenticationService,
+    private eventService: EventService,
   ) {}
 
   ngOnInit() {
@@ -23,6 +27,8 @@ export class AdminComponent implements OnInit {
   }
 
   updateEvent(idSpectacle) {
+    //this.getSingleEventById(idSpectacle, this.urlValue);
+    //alert(this.urlValue);
     this.eventService.updateEvent(idSpectacle, this.urlValue);
   }
 
@@ -32,4 +38,16 @@ export class AdminComponent implements OnInit {
     }
   }
 
+  getSingleEventById(id: number, newURL: string) {
+    this.eventService.getEventById(id).subscribe((res: Event) => {
+      console.log("res : ", res);
+      this.oldUrlImg = res.image;
+      res.image = newURL;
+      this.event = res;
+    });
+  }
+
+  annulerMAJ(id) {
+    alert(id);
+  }
 }
