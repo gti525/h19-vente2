@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Event } from './models/event';
 import { environment } from "src/environments/environment";
 
 
@@ -32,7 +31,7 @@ export class EventService {
                                     console.log("PATCH Request is successful ", data);
                           },
                           error  => {
-                          console.log("Que se passe-t-il ? ", error);
+                            console.log("Que se passe-t-il ? ", error);
                         }
                         );
   }
