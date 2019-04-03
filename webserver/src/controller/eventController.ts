@@ -15,6 +15,7 @@ import {
 } from "./ticketController";
 import { getVenueForEventWithRelation, deleteVenueForEventWithRelation } from "./venueController";
 import { APIToken } from "../authorization/api-token";
+import { applyOperation } from 'fast-json-patch'
 
 /**
  * Loads all events from the database.
@@ -1044,12 +1045,21 @@ export async function updateEventImage(request: Request, response: Response) {
 
 export async function updateEvent(request: Request, response: Response) {
 
-  console.log(`PATCH /events/${request.params.eventId}`);
+ // console.log(`PATCH /events/${request.params.eventId}`);
+  var jsonpatch = require('fast-json-patch')
+
+  const eventRepository = getManager().getRepository(Event);
+  const event = await eventRepository.findOne(request.params.eventId);
+
+  var operation = { op: "replace", path: "/image", value: request.body.imageUrl };
+  var document = jsonpatch.applyOperation(event, operation).newDocument;
+  // document == { firstName: "Joachim", contactDetails: { phoneNumbers: [] }}
 
   // const eventRepository = getManager().getRepository(Event);
-
+/*
   response.status(501);
   response.end();
   return;
+  */
   
 }
