@@ -981,63 +981,6 @@ export async function deleteTicketsFromEventById(
   response.end();
 }
 
-export async function updateEventImage(request: Request, response: Response) {
-  console.log(`PATCH /events/${request.params.eventId}/image`);
-
-  const eventRepository = getManager().getRepository(Event);
-
-  if (!request.params.evenId || !request.body.imageUrl) {
-    response.status(400);
-    response.json({
-      message: "Le format de la requête n'est pas correct.",
-      example: {
-        eventId: "35",
-        imageUrl: "https://host.tld/path/to/image.png"
-      }
-    });
-    response.end();
-    return;
-  }
-  const event = await eventRepository.findOne(request.params.eventId);
-
-  // 404
-  if (!event) {
-    response.status(404);
-    response.json({
-      message: `Un spectacle avec l'Id (${request.params.eventId}) soumis n'a pas été trouvé.`
-    });
-    response.end();
-    return;
-  }
-
-  try {
-
-    if (isUrl(request.body.imageUrl)) {
-      event.image = request.body.imageUrl;
-    } else {
-      event.image =
-        "https://vente2-gti525.herokuapp.com/assets/images/placeholder-image-icon-21.jpg"; // Placeholder image
-    }
-
-    const dbResponse = await eventRepository.save(event);
-    console.log(dbResponse);
-    response.status(204);
-    response.end();
-    return;
-
-  } catch (err) {
-
-    console.log(err);
-    response.status(501);
-    response.json({
-      message: "Something went terribly wrong."
-    });
-    response.end();
-    return;
-
-  }
-}
-
 /**
  * Update an event from the database
  */
@@ -1046,11 +989,23 @@ export async function updateEvent(request: Request, response: Response) {
 
     console.log(`PATCH /events/${request.params.eventId}`);
 
-    const eventRepository = getManager().getRepository(Event);
-    const event = await eventRepository.findOne(request.params.eventId);
+    if (isUrl(request.body.image)) {
+        const eventRepository = getManager().getRepository(Event);
+        const event = await eventRepository.findOne(request.params.eventId);
 
-    event.image = request.body.image;
-    eventRepository.save(event);
-    response.redirect("/admin");
+        event.image = request.body.image;
+        eventRepository.save(event);
+        response.send(event);
+    } else {
+        response.status(400);
+        response.json({
+          message:
+            "L'url que vous avez saisie n'est pas valide",
+          example: "https://vente2-gti525.herokuapp.com/assets/images/placeholder-image-icon-21.jpg"
+        });
+        response.send();
+        return;
+    }
+    
   
 }
