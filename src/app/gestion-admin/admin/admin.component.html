@@ -34,24 +34,23 @@
         </td>
         <td>{{ spectacle.title }}</td>
         <td>
-          <input
-            type="text"
-            class="form-control"  
-            name="urlIMG"
-            id="urlIMG_{{spectacle.id}}"
-            (keydown)="onKey($event)"
-            placeholder="Entrez l'url de la nouvelle image"
-            aria-label="lienImage"
-            aria-describedby="basic-addon2"
-          />
+          <input type="text" class="form-control" name="urlIMG" id="urlIMG_{{spectacle.id}}" (keydown)="onKey($event)"
+            placeholder="Entrez l'url de la nouvelle image" aria-label="lienImage" aria-describedby="basic-addon2" />
         </td>
         <td>
-          <input
-            style="padding:6px;"
-            type="button"
-            value="Modifier l'image"
-            (click)="updateEvent(spectacle.id, 'urlIMG_'+ spectacle.id)"
-          />
+          <div class="row">
+            <div class="col-lg-3">
+              <input type="button" class="btn btn-primary" value="Modifier l'image"
+                (click)="updateEvent(spectacle.id, 'urlIMG_'+ spectacle.id)" />
+            </div>
+            <div class="col-lg-9">
+              <div class="custom-file">
+                <input type="file" class="custom-file-input" (change)="onFileChanged($event, spectacle.id)"
+                  id="customFile_{{spectacle.id}}" name="myImage" value="téléverser">
+                <label class="custom-file-label" for="customFile_{{spectacle.id}}" >Choisir une fichier d'image...</label>
+              </div>
+            </div>
+            </div>
         </td>
       </tr>
     </tbody>

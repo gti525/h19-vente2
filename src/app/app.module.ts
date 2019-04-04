@@ -32,8 +32,7 @@ import { MinuteSecondsPipe } from './header/minute-seconds.pipe';
 import { CreditCardDirectivesModule } from 'angular-cc-library';
 import { NgxSpinnerModule } from 'ngx-spinner';
 
-
-const appRoutes : Routes = [
+const appRoutes: Routes = [
 ];
 
 @NgModule({
@@ -74,8 +73,8 @@ const appRoutes : Routes = [
     // fakeBackendProvider
   ],
   bootstrap: [AppComponent],
-    entryComponents: [
-      LoginSocialComponent,
-    ],
+  entryComponents: [
+    LoginSocialComponent,
+  ],
 })
 export class AppModule { }

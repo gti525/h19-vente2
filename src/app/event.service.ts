@@ -54,15 +54,9 @@ export class EventService {
     return this.httpClient.patch(`${this.apiURL}/events/${id}`,
       {
         "image": newUrlImg
-      })
-      .subscribe(data => {
-        alert("Mise à jour réussie !");
-        console.log("PATCH Request is successful ", data);
-      },
-        error => {
-          console.log("Que se passe-t-il ? ", error);
-        }
-      );
+      });
   }
+
+  
 
 }
