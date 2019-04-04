@@ -27,7 +27,7 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let spectacle of events; let i = index; trackBy: trackByFn">
+      <tr *ngFor="let spectacle of events; let i = index">
         <th scope="row">{{ i + 1 }}</th>
         <td>
           <img class="card-img-top show-image" src="{{ spectacle.image }}" />
@@ -43,7 +43,6 @@
             placeholder="Entrez l'url de la nouvelle image"
             aria-label="lienImage"
             aria-describedby="basic-addon2"
-            [(ngModel)]="events[i].url"
           />
         </td>
         <td>

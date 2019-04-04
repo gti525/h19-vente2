@@ -24,14 +24,8 @@ export class AdminComponent implements OnInit {
 
   updateEvent(idSpectacle, inputid) {
 
-    var inpuTxt = document.getElementById(inputid);
-    console.log('input txt : ', inpuTxt);
-    this.eventService.updateEvent(idSpectacle, this.urlValue);
-  }
-
-  trackByFn(index: any, item: any) {
-    console.log(item);
-    return index;
+    var inpuTxt = document.getElementById(inputid) as HTMLInputElement;
+    this.eventService.updateEvent(idSpectacle, inpuTxt.value);
   }
 
   onKey(event) {
