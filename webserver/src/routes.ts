@@ -69,11 +69,6 @@ export const AppRoutes = [
         method: "post",
         action: eventController.terminateEventById
     },
-    {
-        path: "/events/:eventId/image",
-        method: "patch",
-        action: eventController.updateEventImage
-    },
     // VENUES
     {
         path: "/venues",
