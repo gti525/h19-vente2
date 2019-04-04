@@ -31,45 +31,35 @@ export async function getAllEvents(request: Request, response: Response) {
   response.send(events);
 }
 
-/** Search events in the database
- * 
- * @param request 
- * @param response 
+/** 
+ * Search events in the database
  */
-
-
 export async function searchEvents(request: Request, response: Response) {
   console.log(`GET /events/search?`);
   console.log(request.query);
 
-  var requestedQuery = "";
+  var requestedTerm = "";
   var events={};
   
+  //there is a query
   if (request.query.term != '') {
   
-    requestedQuery = request.query.term;
+    requestedTerm = request.query.term;
 
     const eventRepository = getManager().getRepository(Event);
 
-    requestedQuery = "title ILIKE '%" + requestedQuery + "%'"
-    console.log(requestedQuery);
-    
+    var requestedQuery = "title ILIKE '%" + requestedTerm + "%' OR artist ILIKE '%" + requestedTerm + "%'";
+
     events = await eventRepository.find(
       { where: requestedQuery }
     );
   }
-  //there was no query, return em all
+
+  //there was no query, return em all by going to getAll
   else{
     getAllEvents(request, response);
     return;
   }
-
-  
-
-  // const events = await eventRepository
-  //   .createQueryBuilder("event")
-  //   .where("lower(event.title) like :query", { query: '%' + requestedQuery + '%' })
-  //   .getMany();
 
   // return loaded events
   response.send(events);
