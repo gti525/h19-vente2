@@ -14,7 +14,7 @@ export class AdminComponent implements OnInit {
 
   constructor(
     private eventService: EventService
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.eventService.getEvents().subscribe((res: Event[]) => {
@@ -22,17 +22,17 @@ export class AdminComponent implements OnInit {
     });
   }
 
-  updateEvent(idSpectacle, url) {
-    console.log("url : ", url);
-    var containputiner = document.querySelector("#"+url);
-    console.log("containputiner : ",containputiner);
+  updateEvent(idSpectacle, inputid) {
+
+    var inpuTxt = document.getElementById(inputid);
+    console.log('input txt : ', inpuTxt);
     this.eventService.updateEvent(idSpectacle, this.urlValue);
   }
 
   trackByFn(index: any, item: any) {
     console.log(item);
     return index;
-   } 
+  }
 
   onKey(event) {
     if (event.key === "Enter") {
