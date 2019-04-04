@@ -38,7 +38,7 @@
             type="text"
             class="form-control"
             name="urlIMG"
-            id="urlIMG"
+            id="urlIMG_{{spectacle.id}}"
             (keydown)="onKey($event)"
             placeholder="Entrez l'url de la nouvelle image"
             aria-label="lienImage"
@@ -50,7 +50,7 @@
             style="padding:6px;"
             type="button"
             value="Modifier l'image"
-            (click)="updateEvent(spectacle.id)"
+            (click)="updateEvent(spectacle.id, printValue('urlIMG_'+spectacle.id))"
           />
         </td>
       </tr>

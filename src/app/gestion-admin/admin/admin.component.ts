@@ -22,7 +22,10 @@ export class AdminComponent implements OnInit {
     });
   }
 
-  updateEvent(idSpectacle) {
+  updateEvent(idSpectacle, url) {
+    console.log("url : ", url);
+    var containputiner = document.querySelector("#"+url);
+    console.log(containputiner.url);
     this.eventService.updateEvent(idSpectacle, this.urlValue);
   }
 
