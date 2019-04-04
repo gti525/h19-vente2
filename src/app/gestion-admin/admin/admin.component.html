@@ -27,7 +27,7 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let spectacle of events; let i = index">
+      <tr *ngFor="let spectacle of events; let i = index; trackBy: trackByFn">
         <th scope="row">{{ i + 1 }}</th>
         <td>
           <img class="card-img-top show-image" src="{{ spectacle.image }}" />
@@ -36,13 +36,14 @@
         <td>
           <input
             type="text"
-            class="form-control"
+            class="form-control"  
             name="urlIMG"
             id="urlIMG_{{spectacle.id}}"
             (keydown)="onKey($event)"
             placeholder="Entrez l'url de la nouvelle image"
             aria-label="lienImage"
             aria-describedby="basic-addon2"
+            [(ngModel)]="events[i].url"
           />
         </td>
         <td>

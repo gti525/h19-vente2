@@ -25,9 +25,14 @@ export class AdminComponent implements OnInit {
   updateEvent(idSpectacle, url) {
     console.log("url : ", url);
     var containputiner = document.querySelector("#"+url);
-    console.log(containputiner.url);
+    console.log("containputiner : ",containputiner);
     this.eventService.updateEvent(idSpectacle, this.urlValue);
   }
+
+  trackByFn(index: any, item: any) {
+    console.log(item);
+    return index;
+   } 
 
   onKey(event) {
     if (event.key === "Enter") {
