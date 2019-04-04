@@ -101,14 +101,19 @@ export class CheckoutCreditComponent implements OnInit {
 
         })
         .catch(err => {
-          if (err.response.status == 400) {
-            console.log("error : ", err.response);
-            this.errorMessage = "Carte de crédit non valide ou inexistante";
+          this.spinner.hide();
+          if (err.response) {
+            if (err.response.status == 400) {
+              console.log("error : ", err.response);
+              this.errorMessage = "Carte de crédit non valide ou inexistante";
+            }
+            else {
+              this.errorMessage = "Unknown error";
+            }
           }
           else {
             this.errorMessage = "Unknown error";
           }
-          this.spinner.hide();
         });
 
     }
