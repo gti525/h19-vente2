@@ -57,43 +57,51 @@ export class CheckoutRecapComponent implements OnInit {
 
     this.spinner.show();
     //commit transaction in our DB
-    this.checkoutPassService.commitTransactionToOurAPI()
-      .then(res => {
-        console.log("response from commit to our API: ", res);
-
-      })
-      .catch(err => {
-        console.log("error from commit to our API: ", err);
-      });
 
 
-    //commit the transaction with passerelle
     this.checkoutPassService.commitTransaction()
       .then(res => {
         console.log("response from commit to passerelle : ", res);
+        this.checkoutPassService.commitTransactionToOurAPI()
+          .then(res => {
+            console.log("response from commit to our API: ", res);
+            this.postTicketToSocial();
+            try {
+              this.cartService.cartExpire()
+                .subscribe(data => {
+                  if (!("error" in data)) {
+                    this.spinner.hide();
+                    console.log("deleted cart", data);
+                  } else {
+                    this.spinner.hide();
+                    console.log("could not delete cart", data);
+                  }
+                });
+            }
+            catch{
+              this.spinner.hide();
+              console.log("err biggy");
+            }
+          })
+          .catch(err => {
+            this.spinner.hide();
+            console.log("error from commit to our API: ", err);
+          });
 
       })
       .catch(err => {
+        this.spinner.hide();
         console.log("error from commit to passerelle: ", err);
       });
 
+
+
+
+    //commit the transaction with passerelle
+
+
     //sends ticket to social
-    this.postTicketToSocial();
-    try {
-      this.cartService.cartExpire()
-        .subscribe(data => {
-          if (!("error" in data)) {
 
-            console.log("deleted cart", data);
-          } else {
-
-            console.log("could not delete cart", data);
-          }
-        });
-    }
-    catch{
-      console.log("err biggy");
-    }
 
 
     this.router.navigate(["checkout-confirmation"]);
