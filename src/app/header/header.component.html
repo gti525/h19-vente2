@@ -4,9 +4,17 @@
 			<img src="favicon.ico" width="30" height="30" class="d-inline-block align-top">
 			Vente2
 		</a>
-		<form class="form-inline">
-			<input class="form-control mr-2" type="search" placeholder="Recherche" aria-label="Search">
-			<button class="btn btn-light" type="submit">Rechercher</button>
+		<form [formGroup]="searchGroup" (ngSubmit)="onSearch()" class="form-inline">
+			<div class="input-group mb-3">
+				<input class="form-control" type="text" value="" placeholder="Rechercher" formControlName="search">
+				<div class="input-group-append">
+					<button type="submit" class="btn btn-light search-button">
+						<i class="material-icons searchIcon">
+							search
+						</i>
+					</button>
+				</div>
+			</div>
 		</form>
 		<div>
 			<ul class="navbar-nav">
@@ -16,10 +24,11 @@
 						Panier
 						<span *ngIf="count > 0" id="cartBadge" class="badge badge-primary cartBadge">{{count}}</span>
 					</a>
-				</li>	
+				</li>
 			</ul>
 		</div>
 	</nav>
-	<div *ngIf="remainingTime >= 0 && cart" id="cartAlert" class="alert alert-info text-center">Vous avez des billets réservés. Il vous reste {{remainingTime | minuteSeconds}} pour confirmer votre commande.</div>
+	<div *ngIf="remainingTime >= 0 && cart" id="cartAlert" class="alert alert-info text-center">Vous avez des billets
+		réservés. Il vous reste {{remainingTime | minuteSeconds}} pour confirmer votre commande.</div>
 	<div id="errorAlert" class="alert alert-danger text-center d-none"></div>
 </header>

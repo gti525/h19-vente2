@@ -4,11 +4,12 @@ import { CartService } from '../cart.service';
 import { HeaderUpdateService } from '../header-update.service';
 import { CartUpdateService } from '../cart-update.service';
 import { Router } from '@angular/router';
+import { FormGroup, FormBuilder } from '@angular/forms';
 
 @Component({
-  selector: 'app-header',
-  templateUrl: './header.component.html',
-  styleUrls: ['./header.component.css']
+	selector: 'app-header',
+	templateUrl: './header.component.html',
+	styleUrls: ['./header.component.css']
 })
 export class HeaderComponent implements OnInit {
 
@@ -17,23 +18,29 @@ export class HeaderComponent implements OnInit {
 	public remainingTime: number = -1;
 	private intervalId: number;
 
-  constructor(
-  	private cartService: CartService, 
-  	private headerUpdateService: HeaderUpdateService,
-  	private cartUpdateService: CartUpdateService,
-  	private router: Router
-  ) { }
+	private searchGroup: FormGroup;
 
-  ngOnInit() {
-  	this.getCart();
+	constructor(
+		private cartService: CartService,
+		private headerUpdateService: HeaderUpdateService,
+		private cartUpdateService: CartUpdateService,
+		private formBuilder: FormBuilder,
+		private router: Router
+	) { }
 
-  	// Update the cart infos if notified
-  	this.headerUpdateService.updates.subscribe(() => {
-  		this.getCart();
-  	});
-  }
+	ngOnInit() {
+		this.getCart();
 
-  getCart() {
+		// Update the cart infos if notified
+		this.headerUpdateService.updates.subscribe(() => {
+			this.getCart();
+		});
+		this.searchGroup = this.formBuilder.group({
+			search: ['', ]
+		});
+	}
+
+	getCart() {
 		this.cartService.getCart().subscribe(data => {
 			if (!("error" in data)) {
 				this.cart = data as Cart;
@@ -41,17 +48,17 @@ export class HeaderComponent implements OnInit {
 
 				clearInterval(this.intervalId);
 				let self = this;
-		  	this.intervalId = window.setInterval(function() {
-		  		self.cartService.getRemainingTime().subscribe(data => {
-		  			if (!("error" in data)) {
-		  				self.remainingTime = data["remainingTime"];
-		  			} else {
-		  				self.remainingTime = 0;
-		  				clearInterval(self.intervalId);
-		  				self.cartUpdateService.updateCart();
-		  			}
-		  		})
-		  	}, 1000);
+				this.intervalId = window.setInterval(function () {
+					self.cartService.getRemainingTime().subscribe(data => {
+						if (!("error" in data)) {
+							self.remainingTime = data["remainingTime"];
+						} else {
+							self.remainingTime = 0;
+							clearInterval(self.intervalId);
+							self.cartUpdateService.updateCart();
+						}
+					})
+				}, 1000);
 			} else {
 				this.cart = null;
 				this.count = 0;
@@ -59,6 +66,10 @@ export class HeaderComponent implements OnInit {
 				console.log(data);
 			}
 		});
+	}
+
+	onSearch(){
+		console.log("onSearch");
 	}
 
 }

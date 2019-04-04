@@ -10,3 +10,14 @@
 .cartBadge {
 	margin-left: 5px;
 }
+
+.searchIcon{
+	margin-right: 5px;
+	margin-left: 5px;
+	padding: 0px;
+}
+
+.search-button{
+	margin : 0px;
+	padding: 0px;
+}
