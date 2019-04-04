@@ -43,7 +43,6 @@ export class AdminComponent implements OnInit {
     var inpuTxt = document.getElementById(inputid) as HTMLInputElement;
     this.eventService.updateEvent(idSpectacle, inpuTxt.value).subscribe(
       data => {
-        alert("Mise à jour réussie !");
         this.getEvents();
       },
       error => {
@@ -74,7 +73,6 @@ export class AdminComponent implements OnInit {
       var response: any = res as any;
       this.eventService.updateEvent(idSpectacle, response.data.link).subscribe(
         data => {
-          alert("Mise à jour réussie !");
           this.getEvents();
         },
         error => {
