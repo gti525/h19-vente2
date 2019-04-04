@@ -20,7 +20,7 @@ export class HeaderComponent implements OnInit {
 	public remainingTime: number = -1;
 	private intervalId: number;
 
-	private searchGroup: FormGroup;
+	public searchGroup: FormGroup;
 
 	constructor(
 		private cartService: CartService,
