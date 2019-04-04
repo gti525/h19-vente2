@@ -15,6 +15,11 @@ export const AppRoutes = [
         action: eventController.getAllEvents
     },
     {
+        path: "/events/search?",
+        method: "get",
+        action: eventController.searchEvents
+    },
+    {
         path: "/events",
         method: "post",
         action: eventController.addEvent

@@ -31,6 +31,50 @@ export async function getAllEvents(request: Request, response: Response) {
   response.send(events);
 }
 
+/** Search events in the database
+ * 
+ * @param request 
+ * @param response 
+ */
+
+
+export async function searchEvents(request: Request, response: Response) {
+  console.log(`GET /events/search?`);
+  console.log(request.query);
+
+  var requestedQuery = "";
+  var events={};
+  
+  if (request.query.term != '') {
+  
+    requestedQuery = request.query.term;
+
+    const eventRepository = getManager().getRepository(Event);
+
+    requestedQuery = "title ILIKE '%" + requestedQuery + "%'"
+    console.log(requestedQuery);
+    
+    events = await eventRepository.find(
+      { where: requestedQuery }
+    );
+  }
+  //there was no query, return em all
+  else{
+    getAllEvents(request, response);
+    return;
+  }
+
+  
+
+  // const events = await eventRepository
+  //   .createQueryBuilder("event")
+  //   .where("lower(event.title) like :query", { query: '%' + requestedQuery + '%' })
+  //   .getMany();
+
+  // return loaded events
+  response.send(events);
+}
+
 /**
  * Loads one event from the database
  */
@@ -138,8 +182,8 @@ export async function addEvent(request: Request, response: Response) {
           "https://vente2-gti525.herokuapp.com/assets/images/placeholder-image-icon-21.jpg"; // Placeholder image
       }
     } else {
-        event.image =
-          "https://vente2-gti525.herokuapp.com/assets/images/placeholder-image-icon-21.jpg"; // Placeholder image
+      event.image =
+        "https://vente2-gti525.herokuapp.com/assets/images/placeholder-image-icon-21.jpg"; // Placeholder image
     }
     event.dateEvent = new Date(request.body.date);
     event.saleStatus = 0; // Not one sale
@@ -188,9 +232,9 @@ export async function addEvent(request: Request, response: Response) {
       const result = await verifyTicketsFromArray(tickets);
       if (result.length !== 0) {
         for (const item of result) {
-            delete item.id;
-            // console.log(ticket);
-          }
+          delete item.id;
+          // console.log(ticket);
+        }
         response.status(409);
         response.json({
           message: "Les billets suivants sont déjà dans le système.",
@@ -265,7 +309,7 @@ export async function deleteEventById(request: Request, response: Response) {
   // get a event repository to perform operations with event
   const eventRepository = getManager().getRepository(Event);
 
-  const event = await eventRepository.findOne(request.params.eventId, {relations: ["venue"]});
+  const event = await eventRepository.findOne(request.params.eventId, { relations: ["venue"] });
 
   // if event was not found return 404 to the client
   if (!event) {
@@ -343,7 +387,7 @@ export async function replaceEventById(request: Request, response: Response) {
 
   const eventRepository = getManager().getRepository(Event);
 
-  const event = await eventRepository.findOne(request.params.eventId, {relations: ["venue"]});
+  const event = await eventRepository.findOne(request.params.eventId, { relations: ["venue"] });
 
   // 404
   if (!event) {
@@ -370,7 +414,7 @@ export async function replaceEventById(request: Request, response: Response) {
   if (event.saleStatus === 2) {
     response.status(403);
     response.json({
-          message: "Le spectacle ne peut être remplacé; des billets ont été vendus.",
+      message: "Le spectacle ne peut être remplacé; des billets ont été vendus.",
     });
     response.end();
     return;
@@ -409,7 +453,7 @@ export async function replaceEventById(request: Request, response: Response) {
     }
 
     // Get Venue
-    venue =  await getVenueForEventWithRelation(event);
+    venue = await getVenueForEventWithRelation(event);
     venue.name = request.body.venue.name;
     venue.address = request.body.venue.address;
     venue.capacity = request.body.venue.capacity;
@@ -430,8 +474,8 @@ export async function replaceEventById(request: Request, response: Response) {
           "https://vente2-gti525.herokuapp.com/assets/images/placeholder-image-icon-21.jpg"; // Placeholder image
       }
     } else {
-        event.image =
-          "https://vente2-gti525.herokuapp.com/assets/images/placeholder-image-icon-21.jpg"; // Placeholder image
+      event.image =
+        "https://vente2-gti525.herokuapp.com/assets/images/placeholder-image-icon-21.jpg"; // Placeholder image
     }
     event.dateEvent = new Date(request.body.date);
     event.saleStatus = 0; // Not one sale
@@ -482,9 +526,9 @@ export async function replaceEventById(request: Request, response: Response) {
       const result = await verifyTicketsFromArray(tickets);
       if (result.length !== 0) {
         for (const item of result) {
-            delete item.id;
-            // console.log(ticket);
-          }
+          delete item.id;
+          // console.log(ticket);
+        }
         response.status(409);
         response.json({
           message: "Les billets suivants sont déjà dans le système.",
@@ -1044,13 +1088,13 @@ export async function updateEventImage(request: Request, response: Response) {
 
 export async function updateEvent(request: Request, response: Response) {
 
-    console.log(`PATCH /events/${request.params.eventId}`);
+  console.log(`PATCH /events/${request.params.eventId}`);
 
-    const eventRepository = getManager().getRepository(Event);
-    const event = await eventRepository.findOne(request.params.eventId);
+  const eventRepository = getManager().getRepository(Event);
+  const event = await eventRepository.findOne(request.params.eventId);
 
-    event.image = request.body.image;
-    eventRepository.save(event);
-    response.redirect("/admin");
-  
+  event.image = request.body.image;
+  eventRepository.save(event);
+  response.redirect("/admin");
+
 }
