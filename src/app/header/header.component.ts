@@ -1,10 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { Cart } from '../models/cart';
+import { Event } from '../models/event';
 import { CartService } from '../cart.service';
 import { HeaderUpdateService } from '../header-update.service';
 import { CartUpdateService } from '../cart-update.service';
 import { Router } from '@angular/router';
 import { FormGroup, FormBuilder } from '@angular/forms';
+import { EventService } from '../event.service';
 
 @Component({
 	selector: 'app-header',
@@ -25,6 +27,7 @@ export class HeaderComponent implements OnInit {
 		private headerUpdateService: HeaderUpdateService,
 		private cartUpdateService: CartUpdateService,
 		private formBuilder: FormBuilder,
+		private eventService : EventService,
 		private router: Router
 	) { }
 
@@ -69,7 +72,14 @@ export class HeaderComponent implements OnInit {
 	}
 
 	onSearch(){
-		console.log("onSearch");
+		var term = this.searchGroup.get("search").value;
+		console.log("onSearch : ", term);
+		this.eventService.searchEvents(term).subscribe((res : Event[])=>{
+			this.eventService.setSearchResult(res);
+			console.log("onSearch : ", res);
+			this.router.navigate(['/home', res]);;
+		});
+		
 	}
 
 }
