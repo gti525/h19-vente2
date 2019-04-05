@@ -10,7 +10,6 @@ import { CheckoutClientInformationComponent } from './checkout-client-informatio
 import { CheckoutCreditComponent } from './checkout-credit/checkout-credit.component'
 import { LoginComponent } from './login/login.component';
 import { AuthGuard } from './gestion-admin/_guards';
-// import { BilletsComponent } from './billets/billets.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home' , pathMatch:'full'},
@@ -21,12 +20,8 @@ const routes: Routes = [
   { path: 'checkout-confirmation', component: CheckoutConfirmationComponent },
   { path: "cart", component: CartComponent },
   { path: 'checkout-client-information', component: CheckoutClientInformationComponent },
-  { path: 'checkout-credit', component: CheckoutCreditComponent  },
-  { path: "show/:id", component: ShowDetailComponent },
-  //{ path: "billets", component: BilletsComponent },
-
-  // otherwise redirect to home
-
+  { path: 'checkout-credit', component: CheckoutCreditComponent },
+  { path: "show/:id", component: ShowDetailComponent }
 ];
 
 @NgModule({
