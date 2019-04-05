@@ -39,7 +39,7 @@ export class CheckoutCreditComponent implements OnInit {
       ]],
       number: ['', [
         Validators.required,
-        CreditCardValidator.validateCCNumber
+       // CreditCardValidator.validateCCNumber
       ]],
       cvv: ['', [
         Validators.required,
