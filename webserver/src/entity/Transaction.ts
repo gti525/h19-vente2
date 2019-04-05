@@ -11,7 +11,7 @@ import {
 import { User } from "./User";
 import { Ticket } from "./Ticket";
 
-enum transactionStatus {
+export enum transactionStatuses {
     VALID = 0,
     CANCELLED = 1
 }
@@ -56,9 +56,9 @@ export class Transaction {
     type: "integer",
     nullable: false,
     name: "transactionStatus",
-    default: transactionStatus.VALID
+    default: transactionStatuses.VALID
   })
-  transactionStatus: transactionStatus  | transactionStatus.VALID;
+  transactionStatus: transactionStatuses  | transactionStatuses.VALID;
 
   @CreateDateColumn({
     type: "timestamp with time zone"

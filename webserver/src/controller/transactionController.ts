@@ -1,9 +1,10 @@
 import { getManager } from "typeorm";
-import { Transaction } from "../entity/Transaction";
+import { Transaction, transactionStatuses } from "../entity/Transaction";
 import { Request, Response } from "express";
 import { addUser } from "./userController";
-import { getTicketsByUuidArray } from "./ticketController";
+import { getTicketsByUuidArray, cancelTickets } from "./ticketController";
 import { isArray } from "util";
+import { Ticket } from "../entity/Ticket";
 
 /**
  * Add a transaction to the DB, from a ticket & user.
@@ -15,7 +16,7 @@ export async function addTransaction(request: Request, response: Response) {
     const transaction = new Transaction();
     try {
         // 400
-        if (!request.body.transactionConfirmation){
+        if (!request.body.transactionConfirmation) {
             throw new Error("confirmation");
         }
         if (!isArray(request.body.tickets)) {
@@ -35,11 +36,13 @@ export async function addTransaction(request: Request, response: Response) {
         transaction.transactionConfirmation = request.body.transactionConfirmation;
         const user = await addUser(request.body.user.name, request.body.user.surname, request.body.user.socialLink || null);
         if (!user) {
-            response.status(409);
+            response.status(500);
             response.json({
                 message:
-                  "Plus d'un usager match celui fournit."
+                  "Le serveur n'a pu trouver ou créer l'usager."
             });
+            response.end();
+            return;
         }
         transaction.user = user;
 
@@ -84,7 +87,8 @@ export async function cancelTransaction(request: Request, response: Response) {
         const transaction = await transactionRepository.findOne({
             where: {
                 transactionConfirmation: request.params.confirmationNumber
-            }
+            },
+            relations: ["tickets"]
         });
         if (!transaction) {
             response.status(404);
@@ -92,10 +96,15 @@ export async function cancelTransaction(request: Request, response: Response) {
             return;
         }
         const difference = (new Date()).valueOf() - transaction.createdAt.valueOf();
-        console.log(difference);
-        // 1 minute
+        // console.log(difference);
+        // 1 minute = 60000 ms
         if (difference <= 60000) {
-            console.log("YEAHHH!");
+            transaction.transactionStatus = transactionStatuses.CANCELLED;
+            transaction.tickets = null;
+            await transactionRepository.save(transaction);
+            response.status(204);
+            response.end();
+            return;
         } else {
             response.status(403);
             response.json({
