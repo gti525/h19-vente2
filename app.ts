@@ -26,6 +26,7 @@ console.log("process.env.DATABASE_URL: " + process.env.DATABASE_URL);
 console.log("DATABASE_URL: " + DATABASE_URL);
 console.log("LOCALHOST_SSL: " + LOCALHOST_SSL);
 // Create a new express application instancenpm
+console.log("Creating connection to database...");
 createConnection(<ConnectionOptions>{
   type: "postgres",
 
@@ -47,7 +48,7 @@ createConnection(<ConnectionOptions>{
 
   console.log("Opened connection to database.");
 
-  var app: express.Application = express();
+  const app: express.Application = express();
   //var cors = require('cors')
   //app.use(cors()) // Use this after the variable declaration
   app.use(bodyParser.json());

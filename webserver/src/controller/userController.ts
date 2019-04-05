@@ -1,29 +1,33 @@
-import { User } from "../entity/User";
 import { getManager } from "typeorm";
+import { User } from "../entity/User";
 
 export async function addUser(name: string, surname: string, socialLink: string): Promise<User> {
+    // console.log("name: " + name, " surname: " + surname, " socialLink: " + socialLink);
 
-    const userRepository = getManager().getRepository(User);
+    try {
+        const userRepository = getManager().getRepository(User);
 
-    let user = new User();
-    user.name = name;
-    user.surname = surname;
-    user.socialLink = socialLink;
-
-    const dbUser = await userRepository.find({
-        where: {
-            // name: user.name,
-            // surname: user.surname,
-            socialLink: user.socialLink
+        const newUser: User = new User();
+        newUser.name = name;
+        newUser.surname = surname;
+        newUser.socialLink = socialLink;
+        if (socialLink) {
+            const dbUser = await userRepository.findOne({
+                where: {
+                    socialLink: newUser.socialLink
+                }
+            });
+            if (!dbUser) {
+                const dbResponse = await userRepository.save(newUser);
+                return newUser;
+            }
+            return dbUser;
+        } else {
+            const dbResponse = await userRepository.save(newUser);
+            return newUser;
         }
-    });
-    if (dbUser.length === 0){
-        const dbResponse = await userRepository.save(user);
-    } else if (dbUser.length === 1) {
-        user = dbUser[0];
-    } else {
-        user = null;
+    } catch (error) {
+        // console.log(error);
+        return null;
     }
-
-    return user;
 }

@@ -4,10 +4,17 @@ import {
   PrimaryGeneratedColumn,
   JoinColumn,
   ManyToOne,
-  OneToMany
+  OneToMany,
+  UpdateDateColumn,
+  CreateDateColumn
 } from "typeorm";
 import { User } from "./User";
 import { Ticket } from "./Ticket";
+
+export enum transactionStatuses {
+    VALID = 0,
+    CANCELLED = 1
+}
 
 @Entity()
 export class Transaction {
@@ -46,9 +53,20 @@ export class Transaction {
   transactionConfirmation: string;
 
   @Column({
-    type: "timestamp with time zone",
+    type: "integer",
     nullable: false,
-    name: "dateTransaction"
+    name: "transactionStatus",
+    default: transactionStatuses.VALID
   })
-  dateTransaction: Date;
+  transactionStatus: transactionStatuses  | transactionStatuses.VALID;
+
+  @CreateDateColumn({
+    type: "timestamp with time zone"
+  })
+  createdAt: Date;
+
+  @UpdateDateColumn({
+    type: "timestamp with time zone"
+  })
+  updatedAt: Date;
 }

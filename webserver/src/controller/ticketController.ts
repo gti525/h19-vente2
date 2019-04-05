@@ -2,7 +2,6 @@ import { Request, Response } from "express";
 import { getManager, IsNull, Any, Not, In } from "typeorm";
 import { Ticket } from "../entity/Ticket";
 import { Event } from "../entity/Event";
-import { tick } from "@angular/core/src/render3";
 import { anyNonNil } from "is-uuid";
 
 export async function getTicketsByEventId(request: Request, response: Response) {
