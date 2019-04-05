@@ -31,6 +31,8 @@ import { MaterialModule } from './material.module';
 import { MinuteSecondsPipe } from './header/minute-seconds.pipe';
 import { CreditCardDirectivesModule } from 'angular-cc-library';
 import { NgxSpinnerModule } from 'ngx-spinner';
+import { GoogleMapsComponent } from './google-maps/google-maps.component';
+import { AgmCoreModule } from "@agm/core";
 
 const appRoutes: Routes = [
 ];
@@ -51,6 +53,7 @@ const appRoutes: Routes = [
     // BilletsComponent,
     LoginSocialComponent,
     MinuteSecondsPipe,
+    GoogleMapsComponent,
   ],
   imports: [
     BrowserModule,
@@ -63,6 +66,10 @@ const appRoutes: Routes = [
     BrowserAnimationsModule,
     CreditCardDirectivesModule,
     NgxSpinnerModule,
+    AgmCoreModule.forRoot({
+      apiKey: "AIzaSyDgYa9bQDXokyb1ypbpbTWtnfuTXNDCJNM",
+      libraries: ["places"]
+    }),
     RouterModule.forRoot(appRoutes)
   ],
   providers: [
