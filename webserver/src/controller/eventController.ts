@@ -687,7 +687,7 @@ export async function terminateEventById(request: Request, response: Response) {
   // 200
   if (event.saleStatus === 1) {
     const soldTickets = await getSoldTicketsForEvent(event);
-
+    event.saleStatus = 0;
     if (soldTickets.length !== 0) {
       event.saleStatus = 2;
       for (const ticket of soldTickets) {
@@ -696,8 +696,7 @@ export async function terminateEventById(request: Request, response: Response) {
         // console.log(ticket);
       }
     }
-    event.saleStatus = 0;
-    eventRepository.save(event);
+    await eventRepository.save(event);
     const freeTickets = await getFreeTicketsForEvent(event);
     if (freeTickets.length !== 0) {
       for (const ticket of freeTickets) {
