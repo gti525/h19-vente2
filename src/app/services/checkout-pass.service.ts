@@ -6,6 +6,7 @@ import { User } from "../models/user";
 import axios from "axios";
 import { AxiosInstance } from "axios";
 import { environment } from "src/environments/environment";
+import { CheckoutConfirmationComponent } from '../checkout-confirmation/checkout-confirmation.component';
 
 @Injectable({
   providedIn: 'root'
@@ -25,12 +26,13 @@ export class CheckoutPassService {
   private passerelleApiURL = 'https://h19-passerelle.herokuapp.com/api/v1';
   private ourApiURL = environment.API_URL;
   private MERCHANT_API_KEY = "HJoMststlPWjtosFtFG85Q3DdS5/v/8Db2jjPkssN6U=";
+  private checkoutConfirmationComponent;
 
   constructor() {
 
   }
 
-
+  
   /**
    * Sets this userSocial for the rest of the process.
    * If a User is set from this method, the rest of the checkout will
@@ -169,6 +171,14 @@ export class CheckoutPassService {
 		}
 
 		return total;
-	}
+  }
+  
+  setCheckoutConfirmationComponent(checkoutConfirmationComponent : CheckoutConfirmationComponent ){
+    this.checkoutConfirmationComponent = checkoutConfirmationComponent;
+  }
+
+  notifiyCheckoutConfirmationComponent(message){
+    this.checkoutConfirmationComponent.notify(message);
+  }
 
 }

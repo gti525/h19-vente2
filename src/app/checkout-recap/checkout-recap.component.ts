@@ -57,7 +57,7 @@ export class CheckoutRecapComponent implements OnInit {
 
     this.spinner.show();
     //commit transaction in our DB
-
+    var message = ""; 
 
     this.checkoutPassService.commitTransaction()
       .then(res => {
@@ -65,49 +65,48 @@ export class CheckoutRecapComponent implements OnInit {
         this.checkoutPassService.commitTransactionToOurAPI()
           .then(res => {
             console.log("response from commit to our API: ", res);
-            this.postTicketToSocial();
+            message += this.postTicketToSocial();
             try {
               this.cartService.cartExpire()
                 .subscribe(data => {
                   if (!("error" in data)) {
                     this.spinner.hide();
                     console.log("deleted cart", data);
+                    this.checkoutPassService.notifiyCheckoutConfirmationComponent(message);
                   } else {
                     this.spinner.hide();
+                    this.checkoutPassService.notifiyCheckoutConfirmationComponent(message);
                     console.log("could not delete cart", data);
                   }
                 });
             }
             catch{
+              
               this.spinner.hide();
+              this.checkoutPassService.notifiyCheckoutConfirmationComponent(message);
               console.log("err biggy");
             }
           })
           .catch(err => {
+            message += err;
             this.spinner.hide();
+            this.checkoutPassService.notifiyCheckoutConfirmationComponent(message);
             console.log("error from commit to our API: ", err);
           });
 
       })
       .catch(err => {
+        message += err;
         this.spinner.hide();
+        this.checkoutPassService.notifiyCheckoutConfirmationComponent(message);
         console.log("error from commit to passerelle: ", err);
       });
-
-
-
-
-    //commit the transaction with passerelle
-
-
-    //sends ticket to social
-
-
 
     this.router.navigate(["checkout-confirmation"]);
   }
 
   postTicketToSocial() {
+    var message = '';
     //si l'utilisateur s'est login par social.
     if (this.checkoutPassService.getUserSocial()) {
       for (let ticket of this.cart.tickets) {
@@ -126,13 +125,18 @@ export class CheckoutRecapComponent implements OnInit {
                 console.log("Saucial says its all good : ", res);
               })
               .catch(err => {
+                message += err;
+                
                 console.log("Error in post ticket to social :", err.response);
+                return message;
               });
             this.spinner.hide();
 
           })
           .catch(err => {
+            message += err;
             console.log("Error in get event :", err.response);
+            return message;
           });
       }
     }

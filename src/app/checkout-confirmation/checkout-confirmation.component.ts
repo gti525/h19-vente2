@@ -18,9 +18,21 @@ export class CheckoutConfirmationComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.getinfos();
+    this.checkoutPassService.setCheckoutConfirmationComponent(this);
+  }
+
+  getinfos(){
     this.confirmation = this.checkoutPassService.transaction.transactionConfirmation;
     if(this.checkoutPassService.getUserSocial()){
       this.social = true;
     }
   }
+
+
+  notify(message){
+    this.getinfos();
+    alert(message);
+  }
+
 }
