@@ -51,8 +51,8 @@
     <div class="module-container">
       <h2>Carte de Crédit</h2>
       <span class="checkout-client-line">{{creditCard.firstName}} {{creditCard.name}}</span>
-      <span class="checkout-client-line">{{creditCard.number}}</span>
-      <span class="checkout-client-line">{{creditCard.cvv}}</span>
+      <span class="checkout-client-line">**** **** **** {{creditCard.number | slice:12:16  }}</span>
+      <span class="checkout-client-line">***</span>
       <span class="checkout-client-line">{{creditCard.expirationMonth}} / {{creditCard.expirationYear}} </span>
     </div>
 
