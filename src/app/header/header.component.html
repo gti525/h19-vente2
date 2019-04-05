@@ -4,8 +4,8 @@
 			<img src="favicon.ico" width="30" height="30" class="d-inline-block align-top">
 			Vente2
 		</a>
-		<form [formGroup]="searchGroup" (ngSubmit)="onSearch()" class="form-inline">
-			<div class="input-group mb-3">
+		<form [formGroup]="searchGroup" (ngSubmit)="onSearch()" class="form-inline search-bar">
+			<div class="input-group search-bar-in">
 				<input class="form-control" type="text" value="" placeholder="Rechercher" formControlName="search">
 				<div class="input-group-append">
 					<button type="submit" class="btn btn-light search-button">
