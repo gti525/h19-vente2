@@ -107,12 +107,11 @@ export class CartComponent implements OnInit {
 		let obj = Object.assign({}, ticket.ticket);
 		obj["add"] = false;
 		this.cartService.editTicket(obj).subscribe(data => {
-			if (!("error" in data)) {
-				this.getCart();
-			} else if (data["error"] == 4) {
+			if ("error" in data && data["error"] == 4) {
       	this.headerUpdateService.changeErrorMessage("Le panier a expiré.");
-      	this.getCart();
       }
+
+      this.getCart();
 		})
 	}
 

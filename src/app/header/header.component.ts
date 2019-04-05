@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, HostListener } from '@angular/core';
 import { Cart } from '../models/cart';
 import { Event } from '../models/event';
 import { CartService } from '../cart.service';
@@ -22,6 +22,10 @@ export class HeaderComponent implements OnInit {
 	private intervalId: number;
 
 	public searchGroup: FormGroup;
+
+	private userActivity;
+	private inactivityStarted: boolean = false;
+	private TIMEOUT_TIME: number = 600000;
 
 	constructor(
 		private cartService: CartService,
@@ -50,12 +54,27 @@ export class HeaderComponent implements OnInit {
 		});
 	}
 
+	startInactivityTimer() {
+		this.userActivity = setTimeout(() => {
+			this.cartService.cartExpire().subscribe(data => {
+				console.log(data);
+			});
+		}, this.TIMEOUT_TIME);
+	}
+
+	@HostListener('window:mousemove')
+	refreshInactivityState() {
+		clearTimeout(this.userActivity);
+		this.startInactivityTimer();
+	}
+
 	getCart() {
 		this.cartService.getCart().subscribe(data => {
 			if (!("error" in data)) {
 				this.cart = data as Cart;
 				this.count = this.cart.tickets.length;
 
+				// Server expiration
 				clearInterval(this.intervalId);
 				let self = this;
 				this.intervalId = window.setInterval(function () {
@@ -69,6 +88,12 @@ export class HeaderComponent implements OnInit {
 						}
 					})
 				}, 1000);
+
+				// Inactivity expiration
+				if (!this.inactivityStarted) {
+					this.startInactivityTimer();
+					this.inactivityStarted = true;
+				}
 			} else {
 				this.cart = null;
 				this.count = 0;
