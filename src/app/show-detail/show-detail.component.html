@@ -14,7 +14,7 @@
         Artist: {{event.artist}}
       </p>
       <p class="ml-xl-0 ml-4">
-        Date: {{event.dateEvent}}
+        Date :   {{event.dateEvent | date :  "yyyy /  MM / dd  HH:mm" }}
       </p>
       <p class="ml-xl-0 ml-4">
         Description: {{event.description}}
