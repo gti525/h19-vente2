@@ -18,6 +18,7 @@ export class HeaderComponent implements OnInit {
 	public cart: Cart;
 	public count: number = 0;
 	public remainingTime: number = -1;
+	public errorMessage: string = "";
 	private intervalId: number;
 
 	public searchGroup: FormGroup;
@@ -38,6 +39,12 @@ export class HeaderComponent implements OnInit {
 		this.headerUpdateService.updates.subscribe(() => {
 			this.getCart();
 		});
+
+		// Update error message if needed
+		this.headerUpdateService.errorMessage.subscribe(message => {
+			this.errorMessage = message;
+		});
+
 		this.searchGroup = this.formBuilder.group({
 			search: ['', ]
 		});
@@ -71,7 +78,7 @@ export class HeaderComponent implements OnInit {
 		});
 	}
 
-	onSearch(){
+	onSearch() {
 		var term = this.searchGroup.get("search").value;
 		console.log("onSearch : ", term);
 		this.eventService.searchEvents(term).subscribe((res : Event[])=>{
@@ -79,7 +86,10 @@ export class HeaderComponent implements OnInit {
 			console.log("onSearch : ", res);
 			this.router.navigate(['/home', res]);;
 		});
-		
+	}
+
+	onCloseErrorClick() {
+		this.errorMessage = "";
 	}
 
 }

@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Event } from '../models/event';
 import { EventService } from '../event.service';
 import { CartService } from '../cart.service';
+import { HeaderUpdateService } from '../header-update.service';
 
 @Component({
   selector: 'app-show-detail',
@@ -18,7 +19,8 @@ export class ShowDetailComponent implements OnInit {
 
   constructor(
     private eventService: EventService,
-    private cartService: CartService, 
+    private cartService: CartService,
+    private headerUpdateService: HeaderUpdateService,
     private route: ActivatedRoute,
     private router : Router
   ) { }
@@ -45,10 +47,12 @@ export class ShowDetailComponent implements OnInit {
 
   onAddClick() {
     this.cartService.addTicket(this.event).subscribe(data => {
-      if (!("error" in data)) {
+      if (!("error" in data) || data["error"] == 2) {
         this.router.navigate(['/cart']);
-      } else {
-        console.log(data);
+      } else if (data["error"] == 1) {
+        this.headerUpdateService.changeErrorMessage("Le panier est plein (6 billets maximum).");
+      } else if (data["error"] == 3) {
+        this.headerUpdateService.changeErrorMessage("Il n'y a présentement plus de billets disponibles pour le spectacle. Veuillez réessayer plus tard.");
       }
     });
   }

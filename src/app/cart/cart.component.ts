@@ -92,9 +92,14 @@ export class CartComponent implements OnInit {
 		this.cartService.editTicket(obj).subscribe(data => {
 			if (!("error" in data)) {
 				this.getCart();
-			} else {
-				console.log(data);
-			}
+			} else if (data["error"] == 1) {
+        this.headerUpdateService.changeErrorMessage("Le panier est plein (6 billets maximum).");
+      } else if (data["error"] == 3) {
+        this.headerUpdateService.changeErrorMessage("Il n'y a présentement plus de billets disponibles pour le spectacle. Veuillez réessayer plus tard.");
+      } else if (data["error"] == 4) {
+      	this.headerUpdateService.changeErrorMessage("Le panier a expiré.");
+      	this.getCart();
+      }
 		})
 	}
 
@@ -104,15 +109,20 @@ export class CartComponent implements OnInit {
 		this.cartService.editTicket(obj).subscribe(data => {
 			if (!("error" in data)) {
 				this.getCart();
-			} else {
-				console.log(data);
-			}
+			} else if (data["error"] == 4) {
+      	this.headerUpdateService.changeErrorMessage("Le panier a expiré.");
+      	this.getCart();
+      }
 		})
 	}
 
 	onRemoveClick(ticket: CartTicket) {
 		this.cartService.removeTicket(ticket.ticket.id).subscribe(data => {
-			this.getCart();
+			if ("error" in data && data["error"] == 4) {
+      	this.headerUpdateService.changeErrorMessage("Le panier a expiré.");
+      }
+
+      this.getCart();
 		})
 	}
 

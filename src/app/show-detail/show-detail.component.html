@@ -34,7 +34,7 @@
           Sale Status: All tickets sold
         </p>
       </div>
-      <div class="ml-xl-0 ml-4">
+      <div *ngIf="event.saleStatus == 1" class="ml-xl-0 ml-4">
         <input (click)="onAddClick()" type="button" value="Ajouter au panier" class="btn btn-primary button-add" />
       </div>
     </div>
