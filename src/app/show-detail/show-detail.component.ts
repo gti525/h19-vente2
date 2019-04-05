@@ -14,8 +14,8 @@ declare var ol: any;
 })
 export class ShowDetailComponent implements OnInit {
 
-  latitude: number = 18.5204;
-  longitude: number = 73.8567;
+  latitude: number = 45.39845035297867;
+  longitude: number = -435.65624839067453;
 
   map: any;
 
@@ -110,6 +110,8 @@ export class ShowDetailComponent implements OnInit {
       var lat = lonlat[1];
       alert(`lat: ${lat} long: ${lon}`);
     });
+
+    this.setCenter();
   }
 
   setCenter() {
