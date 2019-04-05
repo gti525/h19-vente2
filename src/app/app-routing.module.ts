@@ -12,16 +12,17 @@ import { LoginComponent } from './login/login.component';
 import { AuthGuard } from './gestion-admin/_guards';
 
 const routes: Routes = [
-  { path: '', redirectTo: 'home' , pathMatch:'full'},
+  { path: '', redirectTo: 'home' , pathMatch:'full' },
   { path: 'home', component: HomeComponent },
-  { path: 'login',component: LoginComponent },
+  { path: 'login', component: LoginComponent },
   { path: 'admin', component: AdminComponent, canActivate: [AuthGuard] },
   { path: 'checkout-recap', component: CheckoutRecapComponent },
   { path: 'checkout-confirmation', component: CheckoutConfirmationComponent },
   { path: "cart", component: CartComponent },
   { path: 'checkout-client-information', component: CheckoutClientInformationComponent },
   { path: 'checkout-credit', component: CheckoutCreditComponent },
-  { path: "show/:id", component: ShowDetailComponent }
+  { path: "show/:id", component: ShowDetailComponent },
+  { path: '**', redirectTo: 'home' }
 ];
 
 @NgModule({

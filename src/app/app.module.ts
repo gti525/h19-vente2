@@ -33,9 +33,6 @@ import { CreditCardDirectivesModule } from 'angular-cc-library';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { FooterComponent } from './footer/footer.component';
 
-const appRoutes: Routes = [
-];
-
 @NgModule({
   declarations: [
     AppComponent,
@@ -49,7 +46,6 @@ const appRoutes: Routes = [
     ShowDetailComponent,
     CheckoutCreditComponent,
     LoginComponent,
-    // BilletsComponent,
     LoginSocialComponent,
     FooterComponent,
     MinuteSecondsPipe,
@@ -65,7 +61,6 @@ const appRoutes: Routes = [
     BrowserAnimationsModule,
     CreditCardDirectivesModule,
     NgxSpinnerModule,
-    RouterModule.forRoot(appRoutes)
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: BasicAuthInterceptor, multi: true },
