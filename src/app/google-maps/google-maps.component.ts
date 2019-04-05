@@ -48,13 +48,11 @@ export class GoogleMapsComponent implements OnInit {
   }
 
   placeResultCallback = function (placeResult: google.maps.places.PlaceResult[],
-                                  placeServiceStatus: google.maps.places.PlacesServiceStatus): number[]  {
+                                  placeServiceStatus: google.maps.places.PlacesServiceStatus)  {
     if (placeResult.length !== 0 && placeServiceStatus === google.maps.places.PlacesServiceStatus.OK) {
       const result = [placeResult[0].geometry.location.lat(), placeResult[0].geometry.location.lng()];
       console.log(result[0], result[1]);
-      return result;
     }
-    return [];
   };
 
 }
