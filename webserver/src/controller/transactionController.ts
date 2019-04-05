@@ -30,7 +30,6 @@ export async function addTransaction(request: Request, response: Response) {
             throw new Error("user");
         }
 
-        transaction.dateTransaction = new Date();
         transaction.transactionConfirmation = request.body.transactionConfirmation;
 
         transaction.transactionConfirmation = request.body.transactionConfirmation;
@@ -79,8 +78,36 @@ export async function addTransaction(request: Request, response: Response) {
 export async function cancelTransaction(request: Request, response: Response) {
     console.log(`POST /transactions/${request.params.confirmationNumber}/_cancel`);
 
-    response.status(501);
-    response.end();
-    return;
+    const transactionRepository = getManager().getRepository(Transaction);
+    try {
+
+        const transaction = await transactionRepository.findOne({
+            where: {
+                transactionConfirmation: request.params.confirmationNumber
+            }
+        });
+        if (!transaction) {
+            response.status(404);
+            response.end();
+            return;
+        }
+        const difference = (new Date()).valueOf() - transaction.createdAt.valueOf();
+        console.log(difference);
+        // 1 minute
+        if (difference <= 60000) {
+            console.log("YEAHHH!");
+        } else {
+            response.status(403);
+            response.json({
+                message: "Trop de temps a passé pour que la transaction puisse être annulée."
+            });
+            response.end();
+            return;
+        }
+    } catch (error) {
+        response.status(500);
+        response.end();
+        return;
+    }
 
 }
