@@ -2,9 +2,8 @@ import { getManager } from "typeorm";
 import { Transaction, transactionStatuses } from "../entity/Transaction";
 import { Request, Response } from "express";
 import { addUser } from "./userController";
-import { getTicketsByUuidArray, cancelTickets } from "./ticketController";
+import { getTicketsByUuidArray } from "./ticketController";
 import { isArray } from "util";
-import { Ticket } from "../entity/Ticket";
 
 /**
  * Add a transaction to the DB, from a ticket & user.
