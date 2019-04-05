@@ -31,6 +31,7 @@ import { MaterialModule } from './material.module';
 import { MinuteSecondsPipe } from './header/minute-seconds.pipe';
 import { CreditCardDirectivesModule } from 'angular-cc-library';
 import { NgxSpinnerModule } from 'ngx-spinner';
+import { FooterComponent } from './footer/footer.component';
 
 const appRoutes: Routes = [
 ];
@@ -50,6 +51,7 @@ const appRoutes: Routes = [
     LoginComponent,
     // BilletsComponent,
     LoginSocialComponent,
+    FooterComponent,
     MinuteSecondsPipe,
   ],
   imports: [

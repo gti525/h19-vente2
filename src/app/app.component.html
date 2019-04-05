@@ -1,7 +1,12 @@
-<app-header></app-header>
+<body class="d-flex flex-column" style="min-height: 100vh">
+    
+  <app-header></app-header>
 
-<main>
-  <router-outlet></router-outlet>
-</main>
- 
+  <main class="flex-fill">
+    <router-outlet></router-outlet>
+  </main>
+
+
+  <app-footer></app-footer>
+</body>
 <ngx-spinner></ngx-spinner>

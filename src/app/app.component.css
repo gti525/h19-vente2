@@ -1,0 +1,9 @@
+html,body{height:100%;}
+#wrap
+{
+    min-height: 100%;
+    height: auto !important;
+    height: 100%;
+    margin: 0 auto -100px; /* Negative indent footer by it's height */
+}
+#push,#footer{height:100px;}
