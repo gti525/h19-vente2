@@ -57,8 +57,8 @@ export class CheckoutRecapComponent implements OnInit {
 
     this.spinner.show();
     //commit transaction in our DB
-    var message = ""; 
-
+    var message = "";
+    
     this.checkoutPassService.commitTransaction()
       .then(res => {
         console.log("response from commit to passerelle : ", res);
@@ -72,37 +72,33 @@ export class CheckoutRecapComponent implements OnInit {
                   if (!("error" in data)) {
                     this.spinner.hide();
                     console.log("deleted cart", data);
-                    this.checkoutPassService.notifiyCheckoutConfirmationComponent(message);
+                    this.endTransaction(message)
                   } else {
-                    this.spinner.hide();
-                    this.checkoutPassService.notifiyCheckoutConfirmationComponent(message);
+                    this.endTransaction(message)
                     console.log("could not delete cart", data);
                   }
                 });
             }
             catch{
-              
-              this.spinner.hide();
-              this.checkoutPassService.notifiyCheckoutConfirmationComponent(message);
+
+              this.endTransaction(message)
               console.log("err biggy");
             }
           })
           .catch(err => {
             message += err;
-            this.spinner.hide();
-            this.checkoutPassService.notifiyCheckoutConfirmationComponent(message);
+            this.endTransaction(message)
             console.log("error from commit to our API: ", err);
           });
 
       })
       .catch(err => {
         message += err;
-        this.spinner.hide();
-        this.checkoutPassService.notifiyCheckoutConfirmationComponent(message);
+        this.endTransaction(message)
         console.log("error from commit to passerelle: ", err);
       });
 
-    this.router.navigate(["checkout-confirmation"]);
+    
   }
 
   postTicketToSocial() {
@@ -126,7 +122,7 @@ export class CheckoutRecapComponent implements OnInit {
               })
               .catch(err => {
                 message += err;
-                
+
                 console.log("Error in post ticket to social :", err.response);
                 return message;
               });
@@ -143,6 +139,12 @@ export class CheckoutRecapComponent implements OnInit {
     else {
       console.log("its not a saucial : ", this.checkoutPassService.getUserSocial());
     }
+  }
+
+  endTransaction(message) {
+    this.spinner.hide();
+    this.router.navigate(["checkout-confirmation"]);
+    this.checkoutPassService.notifiyCheckoutConfirmationComponent(message);
   }
 
 }
