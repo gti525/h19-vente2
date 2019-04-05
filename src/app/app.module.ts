@@ -32,6 +32,7 @@ import { MinuteSecondsPipe } from './header/minute-seconds.pipe';
 import { CreditCardDirectivesModule } from 'angular-cc-library';
 import { NgxSpinnerModule } from 'ngx-spinner';
 
+import { AgmCoreModule } from '@agm/core';
 
 const appRoutes : Routes = [
 ];
@@ -57,6 +58,9 @@ const appRoutes : Routes = [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
+    AgmCoreModule.forRoot({
+      apiKey: 'AIzaSyBoWUCG_RFrDO_XcC94aCdVx-v8npA5uoE'
+    }),
     ReactiveFormsModule,
     HttpClientModule,
     MatFormFieldModule, // or SharedModule that exports MatFormFieldModule,

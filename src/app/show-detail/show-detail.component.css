@@ -37,3 +37,7 @@
 .page-container{
     margin-top: 20px;
 }
+
+agm-map {
+    height: 300px;
+}

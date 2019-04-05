@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Event } from '../models/event';
 import { EventService } from '../event.service';
@@ -10,6 +10,9 @@ import { CartService } from '../cart.service';
   styleUrls: ['./show-detail.component.css']
 })
 export class ShowDetailComponent implements OnInit {
+
+  lat: number = 55.585901;
+  lng: number = -105.750596;
 
   event : Event;
   //https://angular-2-training-book.rangle.io/handout/routing/routeparams.html
