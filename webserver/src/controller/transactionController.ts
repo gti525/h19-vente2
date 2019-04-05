@@ -75,3 +75,12 @@ export async function addTransaction(request: Request, response: Response) {
     response.end();
     return;
 }
+
+export async function cancelTransaction(request: Request, response: Response) {
+    console.log(`POST /transactions/${request.params.confirmationNumber}/_cancel`);
+
+    response.status(501);
+    response.end();
+    return;
+
+}

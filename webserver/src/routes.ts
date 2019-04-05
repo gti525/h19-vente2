@@ -122,6 +122,11 @@ export const AppRoutes = [
         method: "post",
         action: transactionController.addTransaction
     },
+    {
+        path: "/transactions/:confirmationNumber/_cancel",
+        method: "post",
+        action: transactionController.cancelTransaction
+    },
     // ADMIN
     {
       path: "/admins/_create",
